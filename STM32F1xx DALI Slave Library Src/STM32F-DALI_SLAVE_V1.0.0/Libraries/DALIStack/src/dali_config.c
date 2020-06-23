@@ -16,8 +16,8 @@
   *
   *        http://www.st.com/software_license_agreement_liberty_v2
   *
-  * Unless required by applicable law or agreed to in writing, software 
-  * distributed under the License is distributed on an "AS IS" BASIS, 
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   * See the License for the specific language governing permissions and
   * limitations under the License.
@@ -39,30 +39,30 @@
 /*  ------------------------ Default DALI registers ------------------------ */
 const u8 DaliRegDefaults[] =
 {
-  //RAM regs
-  254,                        // DALIREG_ACTUAL_DIM_LEVEL      0
-  0xFF,                       // DALIREG_SEARCH_ADDRESS        1
-  0xFF,                       //
-  0xFF,                       //
-  0,                          // DALIREG_STATUS_INFORMATION    4
-  //RAM regs for DALI variables
-  254,                        // DALIREG_POWER_ON_LEVEL        5
-  254,                        // DALIREG_SYSTEM_FAILURE_LEVEL  6
-  PHYSICAL_MIN_LEVEL_ROM,     // DALIREG_MIN_LEVEL             7
-  254,                        // DALIREG_MAX_LEVEL             8
-  7,                          // DALIREG_FADE_RATE             9
-  0,                          // DALIREG_FADE_TIME            10
-  0,                          // DALIREG_SHORT_ADDRESS        11
-  0xFF,                       // DALIREG_RANDOM_ADDRESS       12
-  0xFF,                       // DALIREG_RANDOM_ADDRESS       13
-  0xFF,                       // DALIREG_RANDOM_ADDRESS       14
-  0,                          // DALIREG_GROUP_0_7            15
-  0,                          // DALIREG_GROUP_8_15           16
-  0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF, // DALIREG_SCENE                17-24
-  0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF, // DALIREG_SCENE                25-32
-  //ROM regs
-  DALI_VERSION_NUMBER_ROM,    // DALIREG_VERSION_NUMBER       33
-  PHYSICAL_MIN_LEVEL_ROM      // DALIREG_PHYS_MIN_LEVEL       34
+    //RAM regs
+    254,                        // DALIREG_ACTUAL_DIM_LEVEL      0
+    0xFF,                       // DALIREG_SEARCH_ADDRESS        1
+    0xFF,                       //
+    0xFF,                       //
+    0,                          // DALIREG_STATUS_INFORMATION    4
+    //RAM regs for DALI variables
+    254,                        // DALIREG_POWER_ON_LEVEL        5
+    254,                        // DALIREG_SYSTEM_FAILURE_LEVEL  6
+    PHYSICAL_MIN_LEVEL_ROM,     // DALIREG_MIN_LEVEL             7
+    254,                        // DALIREG_MAX_LEVEL             8
+    7,                          // DALIREG_FADE_RATE             9
+    0,                          // DALIREG_FADE_TIME            10
+    0,                          // DALIREG_SHORT_ADDRESS        11
+    0xFF,                       // DALIREG_RANDOM_ADDRESS       12
+    0xFF,                       // DALIREG_RANDOM_ADDRESS       13
+    0xFF,                       // DALIREG_RANDOM_ADDRESS       14
+    0,                          // DALIREG_GROUP_0_7            15
+    0,                          // DALIREG_GROUP_8_15           16
+    0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF, // DALIREG_SCENE                17-24
+    0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF, // DALIREG_SCENE                25-32
+    //ROM regs
+    DALI_VERSION_NUMBER_ROM,    // DALIREG_VERSION_NUMBER       33
+    PHYSICAL_MIN_LEVEL_ROM      // DALIREG_PHYS_MIN_LEVEL       34
 };
 
 
@@ -95,66 +95,69 @@ const u16 DALIP_ArcTable[]={
 */
 
 //logarithmic table for maximum set to 65535
-const u16 DALIP_ArcTable[]={
-  0,   66,   67,   69,   71,   73,   75,   77,   79,   82,   84,   86,   88,   91,   93,   96,
-  99,  101,  104,  107,  110,  113,  116,  119,  123,  126,  130,  133,  137,  141,  145,  149,
-  153,  157,  161,  166,  170,  175,  180,  185,  190,  195,  201,  206,  212,  218,  224,  230,
-  236,  243,  250,  257,  264,  271,  279,  286,  294,  302,  311,  319,  328,  337,  347,  356,
-  366,  376,  387,  397,  408,  420,  431,  443,  455,  468,  481,  494,  508,  522,  536,  551,
-  567,  582,  598,  615,  632,  649,  667,  686,  705,  724,  744,  765,  786,  808,  830,  853,
-  877,  901,  926,  952,  978, 1005, 1033, 1062, 1091, 1121, 1152, 1184, 1217, 1251, 1285, 1321,
-  1357, 1395, 1433, 1473, 1514, 1556, 1599, 1643, 1689, 1735, 1783, 1833, 1884, 1936, 1989, 2044,
-  2101, 2159, 2219, 2280, 2343, 2408, 2475, 2543, 2614, 2686, 2760, 2837, 2915, 2996, 3079, 3164,
-  3252, 3342, 3434, 3529, 3627, 3727, 3831, 3937, 4046, 4158, 4273, 4391, 4513, 4637, 4766, 4898,
-  5033, 5173, 5316, 5463, 5614, 5769, 5929, 6093, 6262, 6435, 6613, 6796, 6985, 7178, 7377, 7581,
-  7791, 8006, 8228, 8456, 8690, 8930, 9177, 9431, 9692, 9961,10236,10520,10811,11110,11418,11734,
-  12059,12392,12735,13088,13450,13822,14205,14598,15002,15418,15844,16283,16734,17197,17673,18162,
-  18665,19181,19712,20258,20819,21395,21987,22596,23221,23864,24524,25203,25901,26618,27354,28112,
-  28890,29689,30511,31356,32224,33115,34032,34974,35942,36937,37959,39010,40090,41200,42340,43512,
-  44716,45954,47226,48533,49877,51257,52676,54134,55632,57172,58755,60381,62052,63770,65535,65535
+const u16 DALIP_ArcTable[]=
+{
+    0,   66,   67,   69,   71,   73,   75,   77,   79,   82,   84,   86,   88,   91,   93,   96,
+    99,  101,  104,  107,  110,  113,  116,  119,  123,  126,  130,  133,  137,  141,  145,  149,
+    153,  157,  161,  166,  170,  175,  180,  185,  190,  195,  201,  206,  212,  218,  224,  230,
+    236,  243,  250,  257,  264,  271,  279,  286,  294,  302,  311,  319,  328,  337,  347,  356,
+    366,  376,  387,  397,  408,  420,  431,  443,  455,  468,  481,  494,  508,  522,  536,  551,
+    567,  582,  598,  615,  632,  649,  667,  686,  705,  724,  744,  765,  786,  808,  830,  853,
+    877,  901,  926,  952,  978, 1005, 1033, 1062, 1091, 1121, 1152, 1184, 1217, 1251, 1285, 1321,
+    1357, 1395, 1433, 1473, 1514, 1556, 1599, 1643, 1689, 1735, 1783, 1833, 1884, 1936, 1989, 2044,
+    2101, 2159, 2219, 2280, 2343, 2408, 2475, 2543, 2614, 2686, 2760, 2837, 2915, 2996, 3079, 3164,
+    3252, 3342, 3434, 3529, 3627, 3727, 3831, 3937, 4046, 4158, 4273, 4391, 4513, 4637, 4766, 4898,
+    5033, 5173, 5316, 5463, 5614, 5769, 5929, 6093, 6262, 6435, 6613, 6796, 6985, 7178, 7377, 7581,
+    7791, 8006, 8228, 8456, 8690, 8930, 9177, 9431, 9692, 9961,10236,10520,10811,11110,11418,11734,
+    12059,12392,12735,13088,13450,13822,14205,14598,15002,15418,15844,16283,16734,17197,17673,18162,
+    18665,19181,19712,20258,20819,21395,21987,22596,23221,23864,24524,25203,25901,26618,27354,28112,
+    28890,29689,30511,31356,32224,33115,34032,34974,35942,36937,37959,39010,40090,41200,42340,43512,
+    44716,45954,47226,48533,49877,51257,52676,54134,55632,57172,58755,60381,62052,63770,65535,65535
 };
 
 
 #endif
 
 /*  ------------------------ Fade time table ------------------------ */
-const u32 DALIP_FadeTimeTable[]={
-  0,
-  707,
-  1000,
-  1414,
-  2000,
-  2828,
-  4000,
-  5657,
-  8000,
-  11314,
-  16000,
-  22627,
-  32000,
-  45255,
-  64000,
-  90510
+const u32 DALIP_FadeTimeTable[]=
+{
+    0,
+    707,
+    1000,
+    1414,
+    2000,
+    2828,
+    4000,
+    5657,
+    8000,
+    11314,
+    16000,
+    22627,
+    32000,
+    45255,
+    64000,
+    90510
 };
 
 /*  ------------------------ Fade rate table ------------------------ */
-const u16 DALIP_FadeRateTable[]={       //ALALremark ms/step
-  0,
-  3,
-  4,
-  6,
-  8,
-  11,
-  16,
-  22,
-  32,
-  45,
-  63,
-  89,
-  126,
-  178,
-  252,
-  357
+const u16 DALIP_FadeRateTable[]=        //ALALremark ms/step
+{
+    0,
+    3,
+    4,
+    6,
+    8,
+    11,
+    16,
+    22,
+    32,
+    45,
+    63,
+    89,
+    126,
+    178,
+    252,
+    357
 };
 /* Extern variables ----------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/

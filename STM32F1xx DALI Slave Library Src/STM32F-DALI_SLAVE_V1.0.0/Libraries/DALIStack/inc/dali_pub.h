@@ -16,8 +16,8 @@
   *
   *        http://www.st.com/software_license_agreement_liberty_v2
   *
-  * Unless required by applicable law or agreed to in writing, software 
-  * distributed under the License is distributed on an "AS IS" BASIS, 
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   * See the License for the specific language governing permissions and
   * limitations under the License.
@@ -41,14 +41,14 @@ void DALIP_Init(TDPLightControlCallback LightControlFunction);
  * --------------------------------------------------------- *
  *************************************************************/
 /***********************************************
- * DALIP_LaunchTimer				           *
- * -User ms-Timer.							   *
+ * DALIP_LaunchTimer                           *
+ * -User ms-Timer.                             *
  * Param1: Number of times, the TimerCallback  *
  *         will be called. (e.g. pass 200 for  *
- *         a 200ms fade).					   *
- *         0xFF = infinite (runs until 		   *
+ *         a 200ms fade).                      *
+ *         0xFF = infinite (runs until         *
  *                       DoneTimer is called)  *
- *         									   *
+ *                                             *
  ***********************************************/
 void DALIP_LaunchTimer(u8);
 void DALIP_DoneTimer(void);
@@ -59,7 +59,7 @@ void DALIP_TimerCallback(void);
  * --------------------------------------------------------- *
  * use these Functions to write/read the specific DALI-Regs  *
  * Note: For Flag-Registers, pass 0 to clear the Bit and !=0 *
- *       to set it.											 *
+ *       to set it.                                          *
  *************************************************************/
 /*******************************************
  * DALI-Reg-Write-Functions                *
@@ -92,16 +92,16 @@ u8 DALIP_GetPhysMinLevel(void);
  * return-value of DALIP_EEPROM_Size. Accesses outside that  *
  * range will be ignored.                                    *
  * Note: The returned E²PROM-Size is the actual size minus   *
- *       a few Bytes that are used for saving the			 *
+ *       a few Bytes that are used for saving the            *
  *       DALI-Registers. There is maximum size of 256 bytes  *
- *       for the connected E²PROM. (Bigger ones work too,	 *
+ *       for the connected E²PROM. (Bigger ones work too,    *
  *       but only the lower 256 bytes can be accessed)       *
  * IMPORTANT: If a Page-Write exceeds the addressing range,  *
- *            the WHOLE Write Operation will be ignored!	 *
+ *            the WHOLE Write Operation will be ignored!     *
  *************************************************************/
 
 /***********************************************
- * DALIP_EEPROM_Size						   *
+ * DALIP_EEPROM_Size                           *
  * Return: Highest address that can be passed  *
  *         to an E²PROM-Access-Command         *
  ***********************************************/
@@ -124,13 +124,13 @@ u8 DALIP_Read_E2(u8);
 void DALIP_Write_E2(u8, u8);
 
 /***********************************************
- * DALIP_Write_E2_Buffer					   *
- * -Writes a sequence of Bytes (uses the	   *
+ * DALIP_Write_E2_Buffer                       *
+ * -Writes a sequence of Bytes (uses the       *
  *  page-write-operation of the E². -> faster) *
  * Param1: First Address to write to           *
  * Param2: Number of Bytes to be written       *
  * Param3: Pointer to the first byte of the    *
- *         array that containes the data	   *
+ *         array that containes the data       *
  ***********************************************/
 void DALIP_Write_E2_Buffer(u8, u8, u8*);
 

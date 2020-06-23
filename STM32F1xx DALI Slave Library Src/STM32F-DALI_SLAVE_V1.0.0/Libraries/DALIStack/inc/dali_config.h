@@ -16,8 +16,8 @@
   *
   *        http://www.st.com/software_license_agreement_liberty_v2
   *
-  * Unless required by applicable law or agreed to in writing, software 
-  * distributed under the License is distributed on an "AS IS" BASIS, 
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   * See the License for the specific language governing permissions and
   * limitations under the License.
@@ -48,8 +48,8 @@ extern volatile u8 Physically_Selected;
 #define INVERT_IN_DALI     0
 
 #define DALI_EXT_LINE              EXTI_Line0
-#define DALI_EXT_IRQn              EXTI0_IRQn              
-#define DALI_ITR_PORT_SOURCE       GPIO_PortSourceGPIOB 
+#define DALI_EXT_IRQn              EXTI0_IRQn
+#define DALI_ITR_PORT_SOURCE       GPIO_PortSourceGPIOB
 #define DALI_ITR_PORT_PIN_SOURCE   GPIO_PinSource0
 
 
@@ -83,22 +83,22 @@ extern volatile u8 Physically_Selected;
 
 /*  ------------------------ another device definitions ------------------------ */
 #define DEVICE_TYPE                    6    // LED module
-        /*
-        0          Fluorescent lamps IEC 62386-201
-        1          Self-contained emergency lighting IEC 62386-202
-        2          Discharge lamps (excluding fluorescent lamps) IEC 62386-203
-        3          Low voltage halogen lamps IEC 62386-204
-        4          Supply Voltage controller for incandescent lamps IEC 62386-205
-        5          Conversion from digital into D.C. voltage IEC 62386-206
-        6          LED modules IEC 62386-207
-        7          Switching function IEC 62386-208
-        8          Colour control IEC 62386-209
-        9          Sequencer IEC 62386-210
-        10         Optical control IEC 62386-211
-        11  - 127  Not yet defined
-        128 - 254  Reserved for control devices
-        255        Control gear supports more than one device type
-        */
+/*
+0          Fluorescent lamps IEC 62386-201
+1          Self-contained emergency lighting IEC 62386-202
+2          Discharge lamps (excluding fluorescent lamps) IEC 62386-203
+3          Low voltage halogen lamps IEC 62386-204
+4          Supply Voltage controller for incandescent lamps IEC 62386-205
+5          Conversion from digital into D.C. voltage IEC 62386-206
+6          LED modules IEC 62386-207
+7          Switching function IEC 62386-208
+8          Colour control IEC 62386-209
+9          Sequencer IEC 62386-210
+10         Optical control IEC 62386-211
+11  - 127  Not yet defined
+128 - 254  Reserved for control devices
+255        Control gear supports more than one device type
+*/
 
 
 #endif

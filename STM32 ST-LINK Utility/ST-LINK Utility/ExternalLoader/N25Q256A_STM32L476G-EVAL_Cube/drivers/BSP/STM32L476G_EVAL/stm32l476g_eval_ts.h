@@ -41,13 +41,13 @@
 #define __STM32L476G_EVAL_TS_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32l476g_eval.h"  
-/* Include IOExpander(STMPE811) component Driver */ 
-#include "../Components/stmpe811/stmpe811.h" 
+#include "stm32l476g_eval.h"
+/* Include IOExpander(STMPE811) component Driver */
+#include "../Components/stmpe811/stmpe811.h"
 
 /** @addtogroup BSP
   * @{
@@ -68,11 +68,11 @@
   */
 typedef struct
 {
-  uint16_t TouchDetected;
-  uint16_t x;
-  uint16_t y;
-  uint16_t z;
-}TS_StateTypeDef; 
+    uint16_t TouchDetected;
+    uint16_t x;
+    uint16_t y;
+    uint16_t z;
+} TS_StateTypeDef;
 /**
   * @}
   */
@@ -87,12 +87,12 @@ typedef struct
 #define TS_SWAP_Y                       0x02
 #define TS_SWAP_XY                      0x04
 
-typedef enum 
+typedef enum
 {
-  TS_OK       = 0x00,
-  TS_ERROR    = 0x01,
-  TS_TIMEOUT  = 0x02
-}TS_StatusTypeDef;
+    TS_OK       = 0x00,
+    TS_ERROR    = 0x01,
+    TS_TIMEOUT  = 0x02
+} TS_StatusTypeDef;
 /**
   * @}
   */
@@ -102,7 +102,7 @@ typedef enum
   */
 /**
   * @}
-  */ 
+  */
 
 /* Exported functions --------------------------------------------------------*/
 

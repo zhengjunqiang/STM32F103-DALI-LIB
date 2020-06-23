@@ -33,14 +33,14 @@
   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   *
   ******************************************************************************
-  */ 
+  */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __STM32L4xx_HAL_TIM_EX_H
 #define __STM32L4xx_HAL_TIM_EX_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
@@ -52,42 +52,43 @@
 
 /** @addtogroup TIMEx
   * @{
-  */ 
+  */
 
-/* Exported types ------------------------------------------------------------*/ 
+/* Exported types ------------------------------------------------------------*/
 /** @defgroup TIMEx_Exported_Types TIM Extended Exported Types
   * @{
   */
 
-/** 
-  * @brief  TIM Hall sensor Configuration Structure definition  
+/**
+  * @brief  TIM Hall sensor Configuration Structure definition
   */
 
 typedef struct
 {
-                                  
-  uint32_t IC1Polarity;         /*!< Specifies the active edge of the input signal.
-                                     This parameter can be a value of @ref TIM_Input_Capture_Polarity */
-                                                                   
-  uint32_t IC1Prescaler;        /*!< Specifies the Input Capture Prescaler.
-                                     This parameter can be a value of @ref TIM_Input_Capture_Prescaler */
-                                  
-  uint32_t IC1Filter;           /*!< Specifies the input capture filter.
-                                     This parameter can be a number between Min_Data = 0x0 and Max_Data = 0xF */  
 
-  uint32_t Commutation_Delay;   /*!< Specifies the pulse value to be loaded into the Capture Compare Register. 
-                                     This parameter can be a number between Min_Data = 0x0000 and Max_Data = 0xFFFF */                              
+    uint32_t IC1Polarity;         /*!< Specifies the active edge of the input signal.
+                                     This parameter can be a value of @ref TIM_Input_Capture_Polarity */
+
+    uint32_t IC1Prescaler;        /*!< Specifies the Input Capture Prescaler.
+                                     This parameter can be a value of @ref TIM_Input_Capture_Prescaler */
+
+    uint32_t IC1Filter;           /*!< Specifies the input capture filter.
+                                     This parameter can be a number between Min_Data = 0x0 and Max_Data = 0xF */
+
+    uint32_t Commutation_Delay;   /*!< Specifies the pulse value to be loaded into the Capture Compare Register.
+                                     This parameter can be a number between Min_Data = 0x0000 and Max_Data = 0xFFFF */
 } TIM_HallSensor_InitTypeDef;
 
-/** 
-  * @brief  TIM Break/Break2 input configuration   
+/**
+  * @brief  TIM Break/Break2 input configuration
   */
-typedef struct {
-  uint32_t Source;         /*!< Specifies the source of the timer break input.
+typedef struct
+{
+    uint32_t Source;         /*!< Specifies the source of the timer break input.
                                 This parameter can be a value of @ref TIMEx_Break_Input_Source */
-  uint32_t Enable;         /*!< Specifies whether or not the break input source is enabled.
+    uint32_t Enable;         /*!< Specifies whether or not the break input source is enabled.
                                 This parameter can be a value of @ref TIMEx_Break_Input_Source_Enable */
-  uint32_t Polarity;       /*!< Specifies the break input source polarity.
+    uint32_t Polarity;       /*!< Specifies the break input source polarity.
                                 This parameter can be a value of @ref TIMEx_Break_Input_Source_Polarity
                                 Not relevant when analog watchdog output of the DFSDM used as break input source */
 } TIMEx_BreakInputConfigTypeDef;
@@ -95,7 +96,7 @@ typedef struct {
 /**
   * @}
   */
-/* End of exported types -----------------------------------------------------*/ 
+/* End of exported types -----------------------------------------------------*/
 
 /* Exported constants --------------------------------------------------------*/
 /** @defgroup TIMEx_Exported_Constants TIM Extended Exported Constants
@@ -161,7 +162,7 @@ typedef struct {
 #define TIM_TIM17_TI1_MCO           (TIM17_OR1_TI1_RMP_1 | TIM17_OR1_TI1_RMP_0)           /* !< TIM17 TI1 is connected to MCO */
 /**
   * @}
-  */ 
+  */
 
 /** @defgroup TIMEx_Break_Input TIM  Extended Break input
   * @{
@@ -170,7 +171,7 @@ typedef struct {
 #define TIM_BREAKINPUT_BRK2    ((uint32_t)(0x00000002)) /* !< Timer break2 input */
 /**
   * @}
-  */ 
+  */
 
 /** @defgroup TIMEx_Break_Input_Source TIM  Extended Break input source
   * @{
@@ -181,7 +182,7 @@ typedef struct {
 #define TIM_BREAKINPUTSOURCE_DFSDM    ((uint32_t)(0x00000008)) /* !< The analog watchdog output of the DFSDM peripheral is connected to the break input */
 /**
   * @}
-  */ 
+  */
 
 /** @defgroup TIMEx_Break_Input_Source_Enable TIM Extended Break input source enabling
   * @{
@@ -190,7 +191,7 @@ typedef struct {
 #define TIM_BREAKINPUTSOURCE_ENABLE      ((uint32_t)(0x00000001)) /* !< Break input source is enabled */
 /**
   * @}
-  */ 
+  */
 
 /** @defgroup TIMEx_Break_Input_Source_Polarity TIM  Extended Break input polarity
   * @{
@@ -199,27 +200,27 @@ typedef struct {
 #define TIM_BREAKINPUTSOURCE_POLARITY_HIGH    ((uint32_t)(0x00000000)) /* !< Break input source is active_high */
 /**
   * @}
-  */ 
-   
+  */
+
 /**
   * @}
-  */ 
+  */
 /* End of exported constants -------------------------------------------------*/
 
 /* Exported macro ------------------------------------------------------------*/
 /** @defgroup TIMEx_Exported_Macros TIM Extended Exported Macros
   * @{
-  */  
+  */
 
 /**
   * @}
-  */ 
+  */
 /* End of exported macro -----------------------------------------------------*/
 
 /* Private macro -------------------------------------------------------------*/
 /** @defgroup TIMEx_Private_Macros TIM Extended Private Macros
   * @{
-  */  
+  */
 #define IS_TIM_REMAP(__REMAP__)    (((__REMAP__) <= (uint32_t)0x0001C01F))
 
 #define IS_TIM_BREAKINPUT(__BREAKINPUT__)  (((__BREAKINPUT__) == TIM_BREAKINPUT_BRK)  || \
@@ -237,7 +238,7 @@ typedef struct {
                                                          ((__POLARITY__) == TIM_BREAKINPUTSOURCE_POLARITY_HIGH))
 /**
   * @}
-  */ 
+  */
 /* End of private macro ------------------------------------------------------*/
 
 /* Exported functions --------------------------------------------------------*/
@@ -245,7 +246,7 @@ typedef struct {
   * @{
   */
 
-/** @addtogroup TIMEx_Exported_Functions_Group1 Extended Timer Hall Sensor functions 
+/** @addtogroup TIMEx_Exported_Functions_Group1 Extended Timer Hall Sensor functions
  *  @brief    Timer Hall Sensor functions
  * @{
  */
@@ -256,7 +257,7 @@ HAL_StatusTypeDef HAL_TIMEx_HallSensor_DeInit(TIM_HandleTypeDef *htim);
 void HAL_TIMEx_HallSensor_MspInit(TIM_HandleTypeDef *htim);
 void HAL_TIMEx_HallSensor_MspDeInit(TIM_HandleTypeDef *htim);
 
- /* Blocking mode: Polling */
+/* Blocking mode: Polling */
 HAL_StatusTypeDef HAL_TIMEx_HallSensor_Start(TIM_HandleTypeDef *htim);
 HAL_StatusTypeDef HAL_TIMEx_HallSensor_Stop(TIM_HandleTypeDef *htim);
 /* Non-Blocking mode: Interrupt */
@@ -342,7 +343,7 @@ HAL_StatusTypeDef HAL_TIMEx_RemapConfig(TIM_HandleTypeDef *htim, uint32_t Remap)
   * @}
   */
 
-/** @addtogroup TIMEx_Exported_Functions_Group6 Extended Callbacks functions 
+/** @addtogroup TIMEx_Exported_Functions_Group6 Extended Callbacks functions
   * @brief    Extended Callbacks functions
   * @{
   */
@@ -353,7 +354,7 @@ void HAL_TIMEx_BreakCallback(TIM_HandleTypeDef *htim);
   * @}
   */
 
-/** @addtogroup TIMEx_Exported_Functions_Group7 Extended Peripheral State functions 
+/** @addtogroup TIMEx_Exported_Functions_Group7 Extended Peripheral State functions
   * @brief    Extended Peripheral State functions
   * @{
   */
@@ -365,7 +366,7 @@ HAL_TIM_StateTypeDef HAL_TIMEx_HallSensor_GetState(TIM_HandleTypeDef *htim);
 
 /**
   * @}
-  */ 
+  */
 /* End of exported functions -------------------------------------------------*/
 
 /* Private functions----------------------------------------------------------*/
@@ -375,17 +376,17 @@ HAL_TIM_StateTypeDef HAL_TIMEx_HallSensor_GetState(TIM_HandleTypeDef *htim);
 void TIMEx_DMACommutationCplt(DMA_HandleTypeDef *hdma);
 /**
 * @}
-*/ 
+*/
 /* End of private functions --------------------------------------------------*/
 
 /**
   * @}
-  */ 
+  */
 
 /**
   * @}
   */
-  
+
 #ifdef __cplusplus
 }
 #endif

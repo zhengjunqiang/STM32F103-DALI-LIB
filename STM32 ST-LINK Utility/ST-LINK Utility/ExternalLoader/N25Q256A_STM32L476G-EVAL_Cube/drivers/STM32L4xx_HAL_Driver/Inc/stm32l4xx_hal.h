@@ -41,7 +41,7 @@
 #define __STM32L4xx_HAL_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
@@ -164,7 +164,7 @@
   */
 
 /** @brief  Fast-mode Plus driving capability on a specific GPIO
-  */  
+  */
 #define SYSCFG_FASTMODEPLUS_PB6        SYSCFG_CFGR1_I2C_PB6_FMP  /*!< Enable Fast-mode Plus on PB6 */
 #define SYSCFG_FASTMODEPLUS_PB7        SYSCFG_CFGR1_I2C_PB7_FMP  /*!< Enable Fast-mode Plus on PB7 */
 #define SYSCFG_FASTMODEPLUS_PB8        SYSCFG_CFGR1_I2C_PB8_FMP  /*!< Enable Fast-mode Plus on PB8 */
@@ -395,9 +395,9 @@
 #define __HAL_SYSCFG_CLEAR_FLAG()            SET_BIT(SYSCFG->CFGR2, SYSCFG_CFGR2_SPF)
 
 /** @brief  Fast-mode Plus driving capability enable/disable macros
-  * @param __FASTMODEPLUS__: This parameter can be a value of : 
+  * @param __FASTMODEPLUS__: This parameter can be a value of :
   *     @arg SYSCFG_FASTMODEPLUS_PB6: Fast-mode Plus driving capability activation on PB6
-  *     @arg SYSCFG_FASTMODEPLUS_PB7: Fast-mode Plus driving capability activation on PB7 
+  *     @arg SYSCFG_FASTMODEPLUS_PB7: Fast-mode Plus driving capability activation on PB7
   *     @arg SYSCFG_FASTMODEPLUS_PB8: Fast-mode Plus driving capability activation on PB8
   *     @arg SYSCFG_FASTMODEPLUS_PB9: Fast-mode Plus driving capability activation on PB9
   */

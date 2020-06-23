@@ -16,8 +16,8 @@
   *
   *        http://www.st.com/software_license_agreement_liberty_v2
   *
-  * Unless required by applicable law or agreed to in writing, software 
-  * distributed under the License is distributed on an "AS IS" BASIS, 
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   * See the License for the specific language governing permissions and
   * limitations under the License.
@@ -39,24 +39,24 @@ typedef void TDLightControlCallback(u16 lighvalue);
 
 /*---CONSTANTS---*/
 /* Constants for dali_state*/
-#define DALI_IDLE		0	/* DALI sender: Idle mode */
-#define DALI_SEND_START		1	/* DALI sender: send Start Condition */
-#define DALI_SEND_ADDRESS	2	/* DALI sender: Send Address Bits*/
-#define DALI_SEND_DATA		3	/* DALI sender: Send Data Bits */
-#define DALI_SEND_STOP		4	/* DALI sender: Send Stop Bits */
-#define DALI_SEND_SETTLING	5       /* DALI sender: Wait Settling Time */
-#define DALI_WAIT		6	/* Waiting for Answerframe */
+#define DALI_IDLE       0   /* DALI sender: Idle mode */
+#define DALI_SEND_START     1   /* DALI sender: send Start Condition */
+#define DALI_SEND_ADDRESS   2   /* DALI sender: Send Address Bits*/
+#define DALI_SEND_DATA      3   /* DALI sender: Send Data Bits */
+#define DALI_SEND_STOP      4   /* DALI sender: Send Stop Bits */
+#define DALI_SEND_SETTLING  5       /* DALI sender: Wait Settling Time */
+#define DALI_WAIT       6   /* Waiting for Answerframe */
 
 /* Constants for dali_receive_status */
-#define DALI_READY_TO_RECEIVE	0
-#define DALI_NEW_FRAME_RECEIVED	1
-#define DALI_RECEIVE_OVERFLOW	2
+#define DALI_READY_TO_RECEIVE   0
+#define DALI_NEW_FRAME_RECEIVED 1
+#define DALI_RECEIVE_OVERFLOW   2
 
 /* Constants for dali_error */
 #define DALI_NO_ERROR 0
 #define DALI_INTERFACE_FAILURE_ERROR 1
 
-#define DALI_REPETITION_WAIT 	120  /*Command repetition timeout (ms)*/
+#define DALI_REPETITION_WAIT    120  /*Command repetition timeout (ms)*/
 
 /** public functions **/
 void DALI_Init(TDLightControlCallback LightControlFunction);

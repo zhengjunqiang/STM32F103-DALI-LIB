@@ -17,15 +17,15 @@
   * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
   *
   * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>
-  ******************************************************************************  
-  */ 
+  ******************************************************************************
+  */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __STM32_EVAL_SPI_FLASH_H
 #define __STM32_EVAL_SPI_FLASH_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
@@ -36,32 +36,32 @@
 /** @addtogroup Utilities
   * @{
   */
-  
+
 /** @addtogroup STM32_EVAL
   * @{
-  */ 
+  */
 
 /** @addtogroup Common
   * @{
   */
-  
+
 /** @addtogroup STM32_EVAL_SPI_FLASH
   * @{
-  */  
+  */
 
 /** @defgroup STM32_EVAL_SPI_FLASH_Exported_Types
   * @{
-  */ 
+  */
 /**
   * @}
   */
-  
+
 /** @defgroup STM32_EVAL_SPI_FLASH_Exported_Constants
   * @{
   */
 /**
   * @brief  M25P SPI Flash supported commands
-  */  
+  */
 #define sFLASH_CMD_WRITE          0x02  /*!< Write to Memory instruction */
 #define sFLASH_CMD_WRSR           0x01  /*!< Write Status Register instruction */
 #define sFLASH_CMD_WREN           0x06  /*!< Write enable instruction */
@@ -78,11 +78,11 @@
 
 #define sFLASH_M25P128_ID         0x202018
 #define sFLASH_M25P64_ID          0x202017
-  
+
 /**
   * @}
-  */ 
-  
+  */
+
 /** @defgroup STM32_EVAL_SPI_FLASH_Exported_Macros
   * @{
   */
@@ -93,11 +93,11 @@
 /**
   * @brief  Deselect sFLASH: Chip Select pin high
   */
-#define sFLASH_CS_HIGH()      GPIO_SetBits(sFLASH_CS_GPIO_PORT, sFLASH_CS_PIN)   
+#define sFLASH_CS_HIGH()      GPIO_SetBits(sFLASH_CS_GPIO_PORT, sFLASH_CS_PIN)
 /**
   * @}
-  */ 
-  
+  */
+
 
 
 /** @defgroup STM32_EVAL_SPI_FLASH_Exported_Functions
@@ -144,10 +144,10 @@ void sFLASH_WaitForWriteEnd(void);
 
 /**
   * @}
-  */ 
+  */
 
 /**
   * @}
-  */  
+  */
 
 /******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/

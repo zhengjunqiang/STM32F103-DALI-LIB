@@ -16,8 +16,8 @@
   *
   *        http://www.st.com/software_license_agreement_liberty_v2
   *
-  * Unless required by applicable law or agreed to in writing, software 
-  * distributed under the License is distributed on an "AS IS" BASIS, 
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   * See the License for the specific language governing permissions and
   * limitations under the License.
@@ -34,13 +34,13 @@
 #include "usb_type.h"
 
 #if defined ( __CC_ARM   )
-  #define __packed        __packed                     /*!< packing keyword for ARM Compiler */
+#define __packed        __packed                     /*!< packing keyword for ARM Compiler */
 #elif defined ( __ICCARM__ )
-  #define __packed        __packed                     /*!< packing keyword for IAR Compiler */
+#define __packed        __packed                     /*!< packing keyword for IAR Compiler */
 #elif defined   (  __GNUC__  )
-  #define __packed        __attribute__ ((__packed__)) /*!< packing keyword for GNU Compiler */
+#define __packed        __attribute__ ((__packed__)) /*!< packing keyword for GNU Compiler */
 #elif defined   (  __TASKING__  )                      /*!< packing keyword for TASKING Compiler */
-  #define __packed   
+#define __packed
 #endif /* __CC_ARM */
 
 /*******************************************************************************
@@ -58,7 +58,7 @@
 #define DEV_EP_TX_STALL     0x0010
 #define DEV_EP_TX_NAK       0x0020
 #define DEV_EP_TX_VALID     0x0030
- 
+
 #define DEV_EP_RX_DIS       0x0000
 #define DEV_EP_RX_STALL     0x1000
 #define DEV_EP_RX_NAK       0x2000
@@ -120,27 +120,28 @@
 
 
 
-typedef enum {
+typedef enum
+{
 
-  USB_OTG_OK,
-  USB_OTG_FAIL
+    USB_OTG_OK,
+    USB_OTG_FAIL
 
 }
 USB_OTG_Status;
 
 typedef struct USB_OTG_ep
 {
-  uint8_t        num;
-  uint8_t        is_in;
-  uint32_t       tx_fifo_num;
-  uint32_t       type;
-  uint8_t        even_odd_frame;
-  uint32_t       maxpacket;
-  uint8_t        *xfer_buff;
-  uint32_t       xfer_len;
-  uint32_t       xfer_count;
+    uint8_t        num;
+    uint8_t        is_in;
+    uint32_t       tx_fifo_num;
+    uint32_t       type;
+    uint8_t        even_odd_frame;
+    uint32_t       maxpacket;
+    uint8_t        *xfer_buff;
+    uint32_t       xfer_len;
+    uint32_t       xfer_count;
 }
-USB_OTG_EP , *PUSB_OTG_EP;
+USB_OTG_EP, *PUSB_OTG_EP;
 
 /********************************************************************************
                                       MACRO'S
@@ -199,10 +200,10 @@ uint32_t        OTGD_FS_ReadDevAllInEPItr(void);
 uint32_t        OTGD_FS_GetEPStatus(USB_OTG_EP *ep);
 uint32_t        USBD_FS_IsDeviceMode(void);
 uint32_t        OTGD_FS_ReadCoreItr(void);
-USB_OTG_Status  OTGD_FS_WritePacket(uint8_t *src, 
-                                    uint8_t ep_num, 
+USB_OTG_Status  OTGD_FS_WritePacket(uint8_t *src,
+                                    uint8_t ep_num,
                                     uint16_t bytes);
-void*           OTGD_FS_ReadPacket(uint8_t *dest, 
+void*           OTGD_FS_ReadPacket(uint8_t *dest,
                                    uint16_t bytes);
 
 void            OTGD_FS_SetEPStatus(USB_OTG_EP *ep, uint32_t Status);

@@ -40,7 +40,7 @@
 #define __STM32L476G_EVAL_LCD_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
@@ -66,11 +66,11 @@
 
 typedef struct
 {
-  uint32_t TextColor;
-  uint32_t BackColor;
-  sFONT    *pFont; 
+    uint32_t TextColor;
+    uint32_t BackColor;
+    sFONT    *pFont;
 
-}LCD_DrawPropTypeDef;
+} LCD_DrawPropTypeDef;
 
 /**
   * @}
@@ -89,21 +89,21 @@ typedef struct
 
 typedef struct
 {
-  int16_t X;
-  int16_t Y;
+    int16_t X;
+    int16_t Y;
 
-}Point, * pPoint;
+} Point, * pPoint;
 
 /**
   * @brief  Line mode structures definition
   */
 typedef enum
 {
-  CENTER_MODE             = 0x01,    /*!< Center mode */
-  RIGHT_MODE              = 0x02,    /*!< Right mode  */
-  LEFT_MODE               = 0x03     /*!< Left mode   */
+    CENTER_MODE             = 0x01,    /*!< Center mode */
+    RIGHT_MODE              = 0x02,    /*!< Right mode  */
+    LEFT_MODE               = 0x03     /*!< Left mode   */
 
-}Line_ModeTypdef;
+} Line_ModeTypdef;
 
 /**
   * @brief  LCD color
@@ -149,7 +149,7 @@ typedef enum
 uint8_t  BSP_LCD_Init(void);
 uint32_t BSP_LCD_GetXSize(void);
 uint32_t BSP_LCD_GetYSize(void);
- 
+
 uint16_t BSP_LCD_GetTextColor(void);
 uint16_t BSP_LCD_GetBackColor(void);
 void     BSP_LCD_SetTextColor(__IO uint16_t Color);

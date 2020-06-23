@@ -16,8 +16,8 @@
   *
   *        http://www.st.com/software_license_agreement_liberty_v2
   *
-  * Unless required by applicable law or agreed to in writing, software 
-  * distributed under the License is distributed on an "AS IS" BASIS, 
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   * See the License for the specific language governing permissions and
   * limitations under the License.
@@ -40,16 +40,16 @@ void E2_WriteBurst(u16, u16, u16*);
 u16 E2_ReadMem(u16,u16*);
 
 /*---CONSTANTS---*/
-#define E2_PHYSICAL_SIZE	256
+#define E2_PHYSICAL_SIZE    256
 
 #endif
 
 /* Exported constants --------------------------------------------------------*/
 /* Define the STM32F10Xxx Flash page size depending on the used STM32 device */
 #if defined (STM32F10X_LD) || defined (STM32F10X_MD) || defined (STM32F10X_MD_VL)
-  #define PAGE_SIZE  (uint16_t)0x400  /* Page size = 1KByte */
+#define PAGE_SIZE  (uint16_t)0x400  /* Page size = 1KByte */
 #elif defined (STM32F10X_HD) || defined (STM32F10X_CL)
-  #define PAGE_SIZE  (uint16_t)0x800  /* Page size = 2KByte */
+#define PAGE_SIZE  (uint16_t)0x800  /* Page size = 2KByte */
 #endif
 
 /* EEPROM start address in Flash */

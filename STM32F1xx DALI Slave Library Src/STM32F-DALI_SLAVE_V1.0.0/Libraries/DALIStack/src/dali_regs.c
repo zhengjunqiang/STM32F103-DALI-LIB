@@ -16,8 +16,8 @@
   *
   *        http://www.st.com/software_license_agreement_liberty_v2
   *
-  * Unless required by applicable law or agreed to in writing, software 
-  * distributed under the License is distributed on an "AS IS" BASIS, 
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   * See the License for the specific language governing permissions and
   * limitations under the License.
@@ -55,8 +55,8 @@ extern const uint8_t DaliRegDefaults[];
 */
 void DALIR_Init(void)
 {
-  uint8_t i;
-  for (i = 0; i<5; i++) RAMRegs[i]=0;
+    uint8_t i;
+    for (i = 0; i<5; i++) RAMRegs[i]=0;
 }
 
 /**
@@ -69,8 +69,8 @@ void DALIR_Init(void)
 void DALIR_WriteEEPROMReg(uint8_t idx, uint8_t val)
 {
 
-  if (idx == DALIREG_SHORT_ADDRESS - DALIREG_EEPROM_START) short_addr = val;
-  E2_WriteMem((u16)eeprom_variable[idx],(u16)val);
+    if (idx == DALIREG_SHORT_ADDRESS - DALIREG_EEPROM_START) short_addr = val;
+    E2_WriteMem((u16)eeprom_variable[idx],(u16)val);
 }
 
 /**
@@ -79,10 +79,11 @@ void DALIR_WriteEEPROMReg(uint8_t idx, uint8_t val)
 * @retval None
 */
 uint8_t DALIR_ReadEEPROMReg(uint8_t idx)
-{ u16 data;
-if (idx == DALIREG_SHORT_ADDRESS - DALIREG_EEPROM_START) return short_addr;
-E2_ReadMem((u16)eeprom_variable[idx],&data);
-return (u8)data;
+{
+    u16 data;
+    if (idx == DALIREG_SHORT_ADDRESS - DALIREG_EEPROM_START) return short_addr;
+    E2_ReadMem((u16)eeprom_variable[idx],&data);
+    return (u8)data;
 }
 
 /**
@@ -92,10 +93,16 @@ return (u8)data;
 */
 uint8_t DALIR_ReadReg(uint8_t idx)
 {
-  if (!DALIR_IsValid(idx)) return 0;
-  if (DALIR_IsRAMReg(idx)) { return RAMRegs[idx - DALIREG_RAM_START];}
-  if (DALIR_IsROMReg(idx)) { return ROMRegs[idx - DALIREG_ROM_START];}
-  return DALIR_ReadEEPROMReg(idx - DALIREG_EEPROM_START);
+    if (!DALIR_IsValid(idx)) return 0;
+    if (DALIR_IsRAMReg(idx))
+    {
+        return RAMRegs[idx - DALIREG_RAM_START];
+    }
+    if (DALIR_IsROMReg(idx))
+    {
+        return ROMRegs[idx - DALIREG_ROM_START];
+    }
+    return DALIR_ReadEEPROMReg(idx - DALIREG_EEPROM_START);
 }
 
 /**
@@ -105,44 +112,45 @@ uint8_t DALIR_ReadReg(uint8_t idx)
 */
 void DALIR_WriteReg(uint8_t idx, uint8_t newval)
 {
-  uint8_t i;
-  i=newval;
-  if (!DALIR_IsValid(idx)) return;
-  if (DALIR_IsROMReg(idx)) return;
-  if (DALIR_IsRAMReg(idx))
-  {
-    RAMRegs[idx - DALIREG_RAM_START] = newval;
-  }
-  else
-  {
-    DALIR_WriteEEPROMReg(idx - DALIREG_EEPROM_START, newval);
-  }
-
-  if (DALIR_ReadStatusBit(DALIREG_STATUS_FADE_READY)==0)
-  {
-
-    DALIR_WriteStatusBit(DALIREG_STATUS_RESET_STATE,1);   /*set reset State*/
-
-    for (i=0; i<DALI_NUMBER_REGS; i++)
-    {           //to refresh "reset state" bit
-      switch (i)
-      {
-      case DALIREG_SHORT_ADDRESS:
-        break;
-      case DALIREG_STATUS_INFORMATION:
-        break;
-      case DALIREG_MIN_LEVEL:
-        if (DALIR_ReadReg(DALIREG_MIN_LEVEL)!= DALIR_ReadReg(DALIREG_PHYS_MIN_LEVEL))
-          DALIR_WriteStatusBit(DALIREG_STATUS_RESET_STATE,0); /*clear reset State*/;
-          break;
-      default:
-        if(DALIR_IsEEPROMReg(i) || DALIR_IsRAMReg(i))
-          if (DALIR_ReadReg(i) != DaliRegDefaults[i])
-            DALIR_WriteStatusBit(DALIREG_STATUS_RESET_STATE,0); /*clear reset State*/
-        break;
-      }
+    uint8_t i;
+    i=newval;
+    if (!DALIR_IsValid(idx)) return;
+    if (DALIR_IsROMReg(idx)) return;
+    if (DALIR_IsRAMReg(idx))
+    {
+        RAMRegs[idx - DALIREG_RAM_START] = newval;
     }
-  }
+    else
+    {
+        DALIR_WriteEEPROMReg(idx - DALIREG_EEPROM_START, newval);
+    }
+
+    if (DALIR_ReadStatusBit(DALIREG_STATUS_FADE_READY)==0)
+    {
+
+        DALIR_WriteStatusBit(DALIREG_STATUS_RESET_STATE,1);   /*set reset State*/
+
+        for (i=0; i<DALI_NUMBER_REGS; i++)
+        {
+            //to refresh "reset state" bit
+            switch (i)
+            {
+                case DALIREG_SHORT_ADDRESS:
+                    break;
+                case DALIREG_STATUS_INFORMATION:
+                    break;
+                case DALIREG_MIN_LEVEL:
+                    if (DALIR_ReadReg(DALIREG_MIN_LEVEL)!= DALIR_ReadReg(DALIREG_PHYS_MIN_LEVEL))
+                        DALIR_WriteStatusBit(DALIREG_STATUS_RESET_STATE,0); /*clear reset State*/;
+                    break;
+                default:
+                    if(DALIR_IsEEPROMReg(i) || DALIR_IsRAMReg(i))
+                        if (DALIR_ReadReg(i) != DaliRegDefaults[i])
+                            DALIR_WriteStatusBit(DALIREG_STATUS_RESET_STATE,0); /*clear reset State*/
+                    break;
+            }
+        }
+    }
 }
 
 /**
@@ -152,14 +160,14 @@ void DALIR_WriteReg(uint8_t idx, uint8_t newval)
 */
 void DALIR_WriteStatusBit(uint8_t bit_nbr,uint8_t val)
 {
-  if (val == 0)
-  {
-    ClrBit(RAMRegs[DALIREG_STATUS_INFORMATION - DALIREG_RAM_START],bit_nbr);
-  }
-  else
-  {
-    SetBit(RAMRegs[DALIREG_STATUS_INFORMATION - DALIREG_RAM_START],bit_nbr);
-  }
+    if (val == 0)
+    {
+        ClrBit(RAMRegs[DALIREG_STATUS_INFORMATION - DALIREG_RAM_START],bit_nbr);
+    }
+    else
+    {
+        SetBit(RAMRegs[DALIREG_STATUS_INFORMATION - DALIREG_RAM_START],bit_nbr);
+    }
 }
 
 /**
@@ -169,7 +177,7 @@ void DALIR_WriteStatusBit(uint8_t bit_nbr,uint8_t val)
 */
 uint8_t DALIR_ReadStatusBit(uint8_t bit_nbr)
 {
-  return ValBit(RAMRegs[DALIREG_STATUS_INFORMATION - DALIREG_RAM_START],bit_nbr);
+    return ValBit(RAMRegs[DALIREG_STATUS_INFORMATION - DALIREG_RAM_START],bit_nbr);
 }
 
 /**
@@ -179,33 +187,33 @@ uint8_t DALIR_ReadStatusBit(uint8_t bit_nbr)
 */
 void DALIR_ResetRegs(void)
 {
-  uint8_t i;
+    uint8_t i;
 
-  E2_WriteBurst(0,(u16)(DALIREG_EEPROM_END-DALIREG_EEPROM_START),(u16*)(&(DaliRegDefaults[DALIREG_EEPROM_START])));
-  E2_WriteMem((u16)eeprom_variable[(DALIREG_SHORT_ADDRESS - DALIREG_EEPROM_START)],(u16)short_addr);
-  for (i=0; i<DALI_NUMBER_REGS; i++)
-  {
-    switch (i)
+    E2_WriteBurst(0,(u16)(DALIREG_EEPROM_END-DALIREG_EEPROM_START),(u16*)(&(DaliRegDefaults[DALIREG_EEPROM_START])));
+    E2_WriteMem((u16)eeprom_variable[(DALIREG_SHORT_ADDRESS - DALIREG_EEPROM_START)],(u16)short_addr);
+    for (i=0; i<DALI_NUMBER_REGS; i++)
     {
-    case DALIREG_SHORT_ADDRESS:
-      break;
-    case DALIREG_STATUS_INFORMATION:
-      break;
-    case DALIREG_MIN_LEVEL:
-      DALIR_WriteReg(DALIREG_MIN_LEVEL,DALIR_ReadReg(DALIREG_PHYS_MIN_LEVEL));
-      break;
-    default:
-      if(DALIR_IsEEPROMReg(i) || DALIR_IsRAMReg(i))
-      {
-        DALIR_WriteReg(i,DaliRegDefaults[i]);
-      }
-      break;
+        switch (i)
+        {
+            case DALIREG_SHORT_ADDRESS:
+                break;
+            case DALIREG_STATUS_INFORMATION:
+                break;
+            case DALIREG_MIN_LEVEL:
+                DALIR_WriteReg(DALIREG_MIN_LEVEL,DALIR_ReadReg(DALIREG_PHYS_MIN_LEVEL));
+                break;
+            default:
+                if(DALIR_IsEEPROMReg(i) || DALIR_IsRAMReg(i))
+                {
+                    DALIR_WriteReg(i,DaliRegDefaults[i]);
+                }
+                break;
+        }
     }
-  }
-  i=DALIR_ReadReg(DALIREG_STATUS_INFORMATION);
-  i&=0x47;
-  DALIR_WriteReg(DALIREG_STATUS_INFORMATION, i);
-  DALIR_WriteStatusBit(DALIREG_STATUS_RESET_STATE,1); /*Set reset State*/
+    i=DALIR_ReadReg(DALIREG_STATUS_INFORMATION);
+    i&=0x47;
+    DALIR_WriteReg(DALIREG_STATUS_INFORMATION, i);
+    DALIR_WriteStatusBit(DALIREG_STATUS_RESET_STATE,1); /*Set reset State*/
 }
 
 /**
@@ -214,9 +222,10 @@ void DALIR_ResetRegs(void)
 * @retval None
 */
 void DALIR_LoadRegsFromE2(void)
-{   uint16_t data;
-E2_ReadMem((u16)eeprom_variable[(DALIREG_SHORT_ADDRESS - DALIREG_EEPROM_START)],&data);
-short_addr = (u8)data;
+{
+    uint16_t data;
+    E2_ReadMem((u16)eeprom_variable[(DALIREG_SHORT_ADDRESS - DALIREG_EEPROM_START)],&data);
+    short_addr = (u8)data;
 }
 
 /**
@@ -226,9 +235,9 @@ short_addr = (u8)data;
 */
 void DALIR_DeleteShort(void)
 {
-  short_addr = 0xFF;
-  E2_WriteMem((u16)eeprom_variable[DALIREG_SHORT_ADDRESS - DALIREG_EEPROM_START],(u16)0xFF);
-  DALIR_WriteStatusBit(DALIREG_STATUS_MISSING_SHORT,1);
+    short_addr = 0xFF;
+    E2_WriteMem((u16)eeprom_variable[DALIREG_SHORT_ADDRESS - DALIREG_EEPROM_START],(u16)0xFF);
+    DALIR_WriteStatusBit(DALIREG_STATUS_MISSING_SHORT,1);
 }
 /**
 * @}

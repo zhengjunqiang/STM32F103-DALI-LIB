@@ -18,7 +18,7 @@
   ==============================================================================
   [..]
    (#) Enable and configure the peripheral to be connected to the DMA Channel
-       (except for internal SRAM / FLASH memories: no initialization is 
+       (except for internal SRAM / FLASH memories: no initialization is
        necessary). Please refer to the Reference manual for connection between peripherals
        and DMA requests.
 
@@ -152,307 +152,307 @@ static void DMA_SetConfig(DMA_HandleTypeDef *hdma, uint32_t SrcAddress, uint32_t
   */
 HAL_StatusTypeDef HAL_DMA_Init(DMA_HandleTypeDef *hdma)
 {
-  uint32_t tmp = 0;
+    uint32_t tmp = 0;
 
-  /* Check the DMA handle allocation */
-  if(hdma == NULL)
-  {
-    return HAL_ERROR;
-  }
-
-  /* Check the parameters */
-  assert_param(IS_DMA_ALL_INSTANCE(hdma->Instance));
-  assert_param(IS_DMA_DIRECTION(hdma->Init.Direction));
-  assert_param(IS_DMA_PERIPHERAL_INC_STATE(hdma->Init.PeriphInc));
-  assert_param(IS_DMA_MEMORY_INC_STATE(hdma->Init.MemInc));
-  assert_param(IS_DMA_PERIPHERAL_DATA_SIZE(hdma->Init.PeriphDataAlignment));
-  assert_param(IS_DMA_MEMORY_DATA_SIZE(hdma->Init.MemDataAlignment));
-  assert_param(IS_DMA_MODE(hdma->Init.Mode));
-  assert_param(IS_DMA_PRIORITY(hdma->Init.Priority));
-  if(hdma->Init.Direction != DMA_MEMORY_TO_MEMORY)
-  {
-    assert_param(IS_DMA_ALL_REQUEST(hdma->Init.Request));
-  }
-  
-  if(hdma->State == HAL_DMA_STATE_RESET)
-  {  
-    /* Allocate lock resource and initialize it */
-    hdma->Lock = HAL_UNLOCKED;
-  }
-
-  /* Change DMA peripheral state */
-  hdma->State = HAL_DMA_STATE_BUSY;
-
-  /* Get the CR register value */
-  tmp = hdma->Instance->CCR;
-
-  /* Clear PL, MSIZE, PSIZE, MINC, PINC, CIRC, DIR bits */
-  tmp &= ((uint32_t)~(DMA_CCR_PL    | DMA_CCR_MSIZE  | DMA_CCR_PSIZE  | \
-                      DMA_CCR_MINC  | DMA_CCR_PINC   | DMA_CCR_CIRC   | \
-                      DMA_CCR_DIR));
-
-  /* Prepare the DMA Channel configuration */
-  tmp |=  hdma->Init.Direction        |
-          hdma->Init.PeriphInc           | hdma->Init.MemInc           |
-          hdma->Init.PeriphDataAlignment | hdma->Init.MemDataAlignment |
-          hdma->Init.Mode                | hdma->Init.Priority;
-
-  /* Write to DMA Channel CR register */
-  hdma->Instance->CCR = tmp;
-
-  /* Set request selection */
-  if(hdma->Init.Direction != DMA_MEMORY_TO_MEMORY)
-  {
-    /* Write to DMA channel selection register */
-    if (hdma->Instance == DMA1_Channel1)
+    /* Check the DMA handle allocation */
+    if(hdma == NULL)
     {
-      /*Reset request selection for DMA1 Channel1*/
-      DMA1_CSELR->CSELR &= ~DMA_CSELR_C1S;
-
-      /* Configure request selection for DMA1 Channel1 */
-      DMA1_CSELR->CSELR |= hdma->Init.Request;
+        return HAL_ERROR;
     }
-    else if (hdma->Instance == DMA1_Channel2)
+
+    /* Check the parameters */
+    assert_param(IS_DMA_ALL_INSTANCE(hdma->Instance));
+    assert_param(IS_DMA_DIRECTION(hdma->Init.Direction));
+    assert_param(IS_DMA_PERIPHERAL_INC_STATE(hdma->Init.PeriphInc));
+    assert_param(IS_DMA_MEMORY_INC_STATE(hdma->Init.MemInc));
+    assert_param(IS_DMA_PERIPHERAL_DATA_SIZE(hdma->Init.PeriphDataAlignment));
+    assert_param(IS_DMA_MEMORY_DATA_SIZE(hdma->Init.MemDataAlignment));
+    assert_param(IS_DMA_MODE(hdma->Init.Mode));
+    assert_param(IS_DMA_PRIORITY(hdma->Init.Priority));
+    if(hdma->Init.Direction != DMA_MEMORY_TO_MEMORY)
     {
-      /*Reset request selection for DMA1 Channel2*/
-      DMA1_CSELR->CSELR &= ~DMA_CSELR_C2S;
-
-      /* Configure request selection for DMA1 Channel2 */
-      DMA1_CSELR->CSELR |= (uint32_t)(hdma->Init.Request << 4);
+        assert_param(IS_DMA_ALL_REQUEST(hdma->Init.Request));
     }
-    else if (hdma->Instance == DMA1_Channel3)
+
+    if(hdma->State == HAL_DMA_STATE_RESET)
     {
-      /*Reset request selection for DMA1 Channel3*/
-      DMA1_CSELR->CSELR &= ~DMA_CSELR_C3S;
-
-      /* Configure request selection for DMA1 Channel3 */
-      DMA1_CSELR->CSELR |= (uint32_t) (hdma->Init.Request << 8);
+        /* Allocate lock resource and initialize it */
+        hdma->Lock = HAL_UNLOCKED;
     }
-    else if (hdma->Instance == DMA1_Channel4)
+
+    /* Change DMA peripheral state */
+    hdma->State = HAL_DMA_STATE_BUSY;
+
+    /* Get the CR register value */
+    tmp = hdma->Instance->CCR;
+
+    /* Clear PL, MSIZE, PSIZE, MINC, PINC, CIRC, DIR bits */
+    tmp &= ((uint32_t)~(DMA_CCR_PL    | DMA_CCR_MSIZE  | DMA_CCR_PSIZE  | \
+                        DMA_CCR_MINC  | DMA_CCR_PINC   | DMA_CCR_CIRC   | \
+                        DMA_CCR_DIR));
+
+    /* Prepare the DMA Channel configuration */
+    tmp |=  hdma->Init.Direction        |
+            hdma->Init.PeriphInc           | hdma->Init.MemInc           |
+            hdma->Init.PeriphDataAlignment | hdma->Init.MemDataAlignment |
+            hdma->Init.Mode                | hdma->Init.Priority;
+
+    /* Write to DMA Channel CR register */
+    hdma->Instance->CCR = tmp;
+
+    /* Set request selection */
+    if(hdma->Init.Direction != DMA_MEMORY_TO_MEMORY)
     {
-      /*Reset request selection for DMA1 Channel4*/
-      DMA1_CSELR->CSELR &= ~DMA_CSELR_C4S;
+        /* Write to DMA channel selection register */
+        if (hdma->Instance == DMA1_Channel1)
+        {
+            /*Reset request selection for DMA1 Channel1*/
+            DMA1_CSELR->CSELR &= ~DMA_CSELR_C1S;
 
-      /* Configure request selection for DMA1 Channel4 */
-      DMA1_CSELR->CSELR |= (uint32_t) (hdma->Init.Request << 12);
+            /* Configure request selection for DMA1 Channel1 */
+            DMA1_CSELR->CSELR |= hdma->Init.Request;
+        }
+        else if (hdma->Instance == DMA1_Channel2)
+        {
+            /*Reset request selection for DMA1 Channel2*/
+            DMA1_CSELR->CSELR &= ~DMA_CSELR_C2S;
+
+            /* Configure request selection for DMA1 Channel2 */
+            DMA1_CSELR->CSELR |= (uint32_t)(hdma->Init.Request << 4);
+        }
+        else if (hdma->Instance == DMA1_Channel3)
+        {
+            /*Reset request selection for DMA1 Channel3*/
+            DMA1_CSELR->CSELR &= ~DMA_CSELR_C3S;
+
+            /* Configure request selection for DMA1 Channel3 */
+            DMA1_CSELR->CSELR |= (uint32_t) (hdma->Init.Request << 8);
+        }
+        else if (hdma->Instance == DMA1_Channel4)
+        {
+            /*Reset request selection for DMA1 Channel4*/
+            DMA1_CSELR->CSELR &= ~DMA_CSELR_C4S;
+
+            /* Configure request selection for DMA1 Channel4 */
+            DMA1_CSELR->CSELR |= (uint32_t) (hdma->Init.Request << 12);
+        }
+        else if (hdma->Instance == DMA1_Channel5)
+        {
+            /*Reset request selection for DMA1 Channel5*/
+            DMA1_CSELR->CSELR &= ~DMA_CSELR_C5S;
+
+            /* Configure request selection for DMA1 Channel5 */
+            DMA1_CSELR->CSELR |= (uint32_t) (hdma->Init.Request << 16);
+        }
+        else if (hdma->Instance == DMA1_Channel6)
+        {
+            /*Reset request selection for DMA1 Channel6*/
+            DMA1_CSELR->CSELR &= ~DMA_CSELR_C6S;
+
+            /* Configure request selection for DMA1 Channel6 */
+            DMA1_CSELR->CSELR |= (uint32_t) (hdma->Init.Request << 20);
+        }
+        else if (hdma->Instance == DMA1_Channel7)
+        {
+            /*Reset request selection for DMA1 Channel7*/
+            DMA1_CSELR->CSELR &= ~DMA_CSELR_C7S;
+
+            /* Configure request selection for DMA1 Channel7 */
+            DMA1_CSELR->CSELR |= (uint32_t) (hdma->Init.Request << 24);
+        }
+        else if (hdma->Instance == DMA2_Channel1)
+        {
+            /*Reset request selection for DMA2 Channel1*/
+            DMA2_CSELR->CSELR &= ~DMA_CSELR_C1S;
+
+            /* Configure request selection for DMA2 Channel1 */
+            DMA2_CSELR->CSELR |= hdma->Init.Request;
+        }
+        else if (hdma->Instance == DMA2_Channel2)
+        {
+            /*Reset request selection for DMA2 Channel2*/
+            DMA2_CSELR->CSELR &= ~DMA_CSELR_C2S;
+
+            /* Configure request selection for DMA2 Channel2 */
+            DMA2_CSELR->CSELR |= (uint32_t)(hdma->Init.Request << 4);
+        }
+        else if (hdma->Instance == DMA2_Channel3)
+        {
+            /*Reset request selection for DMA2 Channel3*/
+            DMA2_CSELR->CSELR &= ~DMA_CSELR_C3S;
+
+            /* Configure request selection for DMA2 Channel3 */
+            DMA2_CSELR->CSELR |= (uint32_t) (hdma->Init.Request << 8);
+        }
+        else if (hdma->Instance == DMA2_Channel4)
+        {
+            /*Reset request selection for DMA2 Channel4*/
+            DMA2_CSELR->CSELR &= ~DMA_CSELR_C4S;
+
+            /* Configure request selection for DMA2 Channel4 */
+            DMA2_CSELR->CSELR |= (uint32_t) (hdma->Init.Request << 12);
+        }
+        else if (hdma->Instance == DMA2_Channel5)
+        {
+            /*Reset request selection for DMA2 Channel5*/
+            DMA2_CSELR->CSELR &= ~DMA_CSELR_C5S;
+
+            /* Configure request selection for DMA2 Channel5 */
+            DMA2_CSELR->CSELR |= (uint32_t) (hdma->Init.Request << 16);
+        }
+        else if (hdma->Instance == DMA2_Channel6)
+        {
+            /*Reset request selection for DMA2 Channel6*/
+            DMA2_CSELR->CSELR &= ~DMA_CSELR_C6S;
+
+            /* Configure request selection for DMA2 Channel6 */
+            DMA2_CSELR->CSELR |= (uint32_t) (hdma->Init.Request << 20);
+        }
+        else if (hdma->Instance == DMA2_Channel7)
+        {
+            /*Reset request selection for DMA2 Channel7*/
+            DMA2_CSELR->CSELR &= ~DMA_CSELR_C7S;
+
+            /* Configure request selection for DMA2 Channel7 */
+            DMA2_CSELR->CSELR |= (uint32_t) (hdma->Init.Request << 24);
+        }
     }
-    else if (hdma->Instance == DMA1_Channel5)
-    {
-      /*Reset request selection for DMA1 Channel5*/
-      DMA1_CSELR->CSELR &= ~DMA_CSELR_C5S;
 
-      /* Configure request selection for DMA1 Channel5 */
-      DMA1_CSELR->CSELR |= (uint32_t) (hdma->Init.Request << 16);
-    }
-    else if (hdma->Instance == DMA1_Channel6)
-    {
-      /*Reset request selection for DMA1 Channel6*/
-      DMA1_CSELR->CSELR &= ~DMA_CSELR_C6S;
+    /* Initialize the error code */
+    hdma->ErrorCode = HAL_DMA_ERROR_NONE;
 
-      /* Configure request selection for DMA1 Channel6 */
-      DMA1_CSELR->CSELR |= (uint32_t) (hdma->Init.Request << 20);
-    }
-    else if (hdma->Instance == DMA1_Channel7)
-    {
-      /*Reset request selection for DMA1 Channel7*/
-      DMA1_CSELR->CSELR &= ~DMA_CSELR_C7S;
+    /* Initialize the DMA state*/
+    hdma->State  = HAL_DMA_STATE_READY;
 
-      /* Configure request selection for DMA1 Channel7 */
-      DMA1_CSELR->CSELR |= (uint32_t) (hdma->Init.Request << 24);
-    }
-    else if (hdma->Instance == DMA2_Channel1)
-    {
-      /*Reset request selection for DMA2 Channel1*/
-      DMA2_CSELR->CSELR &= ~DMA_CSELR_C1S;
-
-      /* Configure request selection for DMA2 Channel1 */
-      DMA2_CSELR->CSELR |= hdma->Init.Request;
-    }
-    else if (hdma->Instance == DMA2_Channel2)
-    {
-      /*Reset request selection for DMA2 Channel2*/
-      DMA2_CSELR->CSELR &= ~DMA_CSELR_C2S;
-
-      /* Configure request selection for DMA2 Channel2 */
-      DMA2_CSELR->CSELR |= (uint32_t)(hdma->Init.Request << 4);
-    }
-    else if (hdma->Instance == DMA2_Channel3)
-    {
-      /*Reset request selection for DMA2 Channel3*/
-      DMA2_CSELR->CSELR &= ~DMA_CSELR_C3S;
-
-      /* Configure request selection for DMA2 Channel3 */
-      DMA2_CSELR->CSELR |= (uint32_t) (hdma->Init.Request << 8);
-    }
-    else if (hdma->Instance == DMA2_Channel4)
-    {
-      /*Reset request selection for DMA2 Channel4*/
-      DMA2_CSELR->CSELR &= ~DMA_CSELR_C4S;
-
-      /* Configure request selection for DMA2 Channel4 */
-      DMA2_CSELR->CSELR |= (uint32_t) (hdma->Init.Request << 12);
-    }
-    else if (hdma->Instance == DMA2_Channel5)
-    {
-      /*Reset request selection for DMA2 Channel5*/
-      DMA2_CSELR->CSELR &= ~DMA_CSELR_C5S;
-
-      /* Configure request selection for DMA2 Channel5 */
-      DMA2_CSELR->CSELR |= (uint32_t) (hdma->Init.Request << 16);
-    }
-    else if (hdma->Instance == DMA2_Channel6)
-    {
-      /*Reset request selection for DMA2 Channel6*/
-      DMA2_CSELR->CSELR &= ~DMA_CSELR_C6S;
-
-      /* Configure request selection for DMA2 Channel6 */
-      DMA2_CSELR->CSELR |= (uint32_t) (hdma->Init.Request << 20);
-    }
-    else if (hdma->Instance == DMA2_Channel7)
-    {
-      /*Reset request selection for DMA2 Channel7*/
-      DMA2_CSELR->CSELR &= ~DMA_CSELR_C7S;
-
-      /* Configure request selection for DMA2 Channel7 */
-      DMA2_CSELR->CSELR |= (uint32_t) (hdma->Init.Request << 24);
-    }
-  }
-
-  /* Initialize the error code */
-  hdma->ErrorCode = HAL_DMA_ERROR_NONE;
-
-  /* Initialize the DMA state*/
-  hdma->State  = HAL_DMA_STATE_READY;
-
-  return HAL_OK;
+    return HAL_OK;
 }
 
 /**
-  * @brief  DeInitialize the DMA peripheral 
+  * @brief  DeInitialize the DMA peripheral
   * @param  hdma: pointer to a DMA_HandleTypeDef structure that contains
   *               the configuration information for the specified DMA Channel.
   * @retval HAL status
   */
 HAL_StatusTypeDef HAL_DMA_DeInit(DMA_HandleTypeDef *hdma)
 {
-  /* Check the DMA handle allocation */
-  if(hdma == NULL)
-  {
-    return HAL_ERROR;
-  }
-  
-  /* Check the parameters */
-  assert_param(IS_DMA_ALL_INSTANCE(hdma->Instance));
+    /* Check the DMA handle allocation */
+    if(hdma == NULL)
+    {
+        return HAL_ERROR;
+    }
 
-  /* Check the DMA peripheral state */
-  if(hdma->State == HAL_DMA_STATE_BUSY)
-  {
-     return HAL_ERROR;
-  }
+    /* Check the parameters */
+    assert_param(IS_DMA_ALL_INSTANCE(hdma->Instance));
 
-  /* Disable the selected DMA Channelx */
-  __HAL_DMA_DISABLE(hdma);
+    /* Check the DMA peripheral state */
+    if(hdma->State == HAL_DMA_STATE_BUSY)
+    {
+        return HAL_ERROR;
+    }
 
-  /* Reset DMA Channel control register */
-  hdma->Instance->CCR  = 0;
+    /* Disable the selected DMA Channelx */
+    __HAL_DMA_DISABLE(hdma);
 
-  /* Reset DMA Channel Number of Data to Transfer register */
-  hdma->Instance->CNDTR = 0;
+    /* Reset DMA Channel control register */
+    hdma->Instance->CCR  = 0;
 
-  /* Reset DMA Channel peripheral address register */
-  hdma->Instance->CPAR  = 0;
+    /* Reset DMA Channel Number of Data to Transfer register */
+    hdma->Instance->CNDTR = 0;
 
-  /* Reset DMA Channel memory address register */
-  hdma->Instance->CMAR = 0;
+    /* Reset DMA Channel peripheral address register */
+    hdma->Instance->CPAR  = 0;
 
-  /* Clear all flags */
-  __HAL_DMA_CLEAR_FLAG(hdma, __HAL_DMA_GET_GI_FLAG_INDEX(hdma));
-  __HAL_DMA_CLEAR_FLAG(hdma, __HAL_DMA_GET_TC_FLAG_INDEX(hdma));
-  __HAL_DMA_CLEAR_FLAG(hdma, __HAL_DMA_GET_TE_FLAG_INDEX(hdma));
-  __HAL_DMA_CLEAR_FLAG(hdma, __HAL_DMA_GET_HT_FLAG_INDEX(hdma));
+    /* Reset DMA Channel memory address register */
+    hdma->Instance->CMAR = 0;
 
-  /* Reset DMA channel selection register */
-  if (hdma->Instance == DMA1_Channel1)
-  {
-    /*Reset DMA request*/
-    DMA1_CSELR->CSELR &= ~DMA_CSELR_C1S;
-  }
-  else if (hdma->Instance == DMA1_Channel2)
-  {
-    /*Reset DMA request*/
-    DMA1_CSELR->CSELR &= ~DMA_CSELR_C2S;
-  }
-  else if (hdma->Instance == DMA1_Channel3)
-  {
-    /*Reset DMA request*/
-    DMA1_CSELR->CSELR &= ~DMA_CSELR_C3S;
-  }
-  else if (hdma->Instance == DMA1_Channel4)
-  {
-    /*Reset DMA request*/
-    DMA1_CSELR->CSELR &= ~DMA_CSELR_C4S;
-  }
-  else if (hdma->Instance == DMA1_Channel5)
-  {
-    /*Reset DMA request*/
-    DMA1_CSELR->CSELR &= ~DMA_CSELR_C5S;
-  }
-  else if (hdma->Instance == DMA1_Channel6)
-  {
-    /*Reset DMA request*/
-    DMA1_CSELR->CSELR &= ~DMA_CSELR_C6S;
-  }
-  else if (hdma->Instance == DMA1_Channel7)
-  {
-    /*Reset DMA request*/
-    DMA1_CSELR->CSELR &= ~DMA_CSELR_C7S;
-  }
-  else if (hdma->Instance == DMA2_Channel1)
-  {
-    /*Reset DMA request*/
-    DMA2_CSELR->CSELR &= ~DMA_CSELR_C1S;
-  }
-  else if (hdma->Instance == DMA2_Channel2)
-  {
-    /*Reset DMA request*/
-    DMA2_CSELR->CSELR &= ~DMA_CSELR_C2S;
-  }
-  else if (hdma->Instance == DMA2_Channel3)
-  {
-    /*Reset DMA request*/
-    DMA2_CSELR->CSELR &= ~DMA_CSELR_C3S;
-  }
-  else if (hdma->Instance == DMA2_Channel4)
-  {
-    /*Reset DMA request*/
-    DMA2_CSELR->CSELR &= ~DMA_CSELR_C4S;
-  }
-  else if (hdma->Instance == DMA2_Channel5)
-  {
-    /*Reset DMA request*/
-    DMA2_CSELR->CSELR &= ~DMA_CSELR_C5S;
-  }
-  else if (hdma->Instance == DMA2_Channel6)
-  {
-    /*Reset DMA request*/
-    DMA2_CSELR->CSELR &= ~DMA_CSELR_C6S;
-  }
-  else if (hdma->Instance == DMA2_Channel7)
-  {
-    /*Reset DMA request*/
-    DMA2_CSELR->CSELR &= ~DMA_CSELR_C7S;
-  }
+    /* Clear all flags */
+    __HAL_DMA_CLEAR_FLAG(hdma, __HAL_DMA_GET_GI_FLAG_INDEX(hdma));
+    __HAL_DMA_CLEAR_FLAG(hdma, __HAL_DMA_GET_TC_FLAG_INDEX(hdma));
+    __HAL_DMA_CLEAR_FLAG(hdma, __HAL_DMA_GET_TE_FLAG_INDEX(hdma));
+    __HAL_DMA_CLEAR_FLAG(hdma, __HAL_DMA_GET_HT_FLAG_INDEX(hdma));
 
-  /* Initialize the error code */
-  hdma->ErrorCode = HAL_DMA_ERROR_NONE;
+    /* Reset DMA channel selection register */
+    if (hdma->Instance == DMA1_Channel1)
+    {
+        /*Reset DMA request*/
+        DMA1_CSELR->CSELR &= ~DMA_CSELR_C1S;
+    }
+    else if (hdma->Instance == DMA1_Channel2)
+    {
+        /*Reset DMA request*/
+        DMA1_CSELR->CSELR &= ~DMA_CSELR_C2S;
+    }
+    else if (hdma->Instance == DMA1_Channel3)
+    {
+        /*Reset DMA request*/
+        DMA1_CSELR->CSELR &= ~DMA_CSELR_C3S;
+    }
+    else if (hdma->Instance == DMA1_Channel4)
+    {
+        /*Reset DMA request*/
+        DMA1_CSELR->CSELR &= ~DMA_CSELR_C4S;
+    }
+    else if (hdma->Instance == DMA1_Channel5)
+    {
+        /*Reset DMA request*/
+        DMA1_CSELR->CSELR &= ~DMA_CSELR_C5S;
+    }
+    else if (hdma->Instance == DMA1_Channel6)
+    {
+        /*Reset DMA request*/
+        DMA1_CSELR->CSELR &= ~DMA_CSELR_C6S;
+    }
+    else if (hdma->Instance == DMA1_Channel7)
+    {
+        /*Reset DMA request*/
+        DMA1_CSELR->CSELR &= ~DMA_CSELR_C7S;
+    }
+    else if (hdma->Instance == DMA2_Channel1)
+    {
+        /*Reset DMA request*/
+        DMA2_CSELR->CSELR &= ~DMA_CSELR_C1S;
+    }
+    else if (hdma->Instance == DMA2_Channel2)
+    {
+        /*Reset DMA request*/
+        DMA2_CSELR->CSELR &= ~DMA_CSELR_C2S;
+    }
+    else if (hdma->Instance == DMA2_Channel3)
+    {
+        /*Reset DMA request*/
+        DMA2_CSELR->CSELR &= ~DMA_CSELR_C3S;
+    }
+    else if (hdma->Instance == DMA2_Channel4)
+    {
+        /*Reset DMA request*/
+        DMA2_CSELR->CSELR &= ~DMA_CSELR_C4S;
+    }
+    else if (hdma->Instance == DMA2_Channel5)
+    {
+        /*Reset DMA request*/
+        DMA2_CSELR->CSELR &= ~DMA_CSELR_C5S;
+    }
+    else if (hdma->Instance == DMA2_Channel6)
+    {
+        /*Reset DMA request*/
+        DMA2_CSELR->CSELR &= ~DMA_CSELR_C6S;
+    }
+    else if (hdma->Instance == DMA2_Channel7)
+    {
+        /*Reset DMA request*/
+        DMA2_CSELR->CSELR &= ~DMA_CSELR_C7S;
+    }
 
-  /* Initialize the DMA state */
-  hdma->State = HAL_DMA_STATE_RESET;
+    /* Initialize the error code */
+    hdma->ErrorCode = HAL_DMA_ERROR_NONE;
 
-  /* Release Lock */
-  __HAL_UNLOCK(hdma);
+    /* Initialize the DMA state */
+    hdma->State = HAL_DMA_STATE_RESET;
 
-  return HAL_OK;
+    /* Release Lock */
+    __HAL_UNLOCK(hdma);
+
+    return HAL_OK;
 }
 
 /**
@@ -489,25 +489,25 @@ HAL_StatusTypeDef HAL_DMA_DeInit(DMA_HandleTypeDef *hdma)
   */
 HAL_StatusTypeDef HAL_DMA_Start(DMA_HandleTypeDef *hdma, uint32_t SrcAddress, uint32_t DstAddress, uint32_t DataLength)
 {
-  /* Process locked */
-  __HAL_LOCK(hdma);
+    /* Process locked */
+    __HAL_LOCK(hdma);
 
-  /* Change DMA peripheral state */
-  hdma->State = HAL_DMA_STATE_BUSY;
+    /* Change DMA peripheral state */
+    hdma->State = HAL_DMA_STATE_BUSY;
 
-   /* Check the parameters */
-  assert_param(IS_DMA_BUFFER_SIZE(DataLength));
+    /* Check the parameters */
+    assert_param(IS_DMA_BUFFER_SIZE(DataLength));
 
-  /* Disable the peripheral */
-  __HAL_DMA_DISABLE(hdma);
+    /* Disable the peripheral */
+    __HAL_DMA_DISABLE(hdma);
 
-  /* Configure the source, destination address and the data length */
-  DMA_SetConfig(hdma, SrcAddress, DstAddress, DataLength);
+    /* Configure the source, destination address and the data length */
+    DMA_SetConfig(hdma, SrcAddress, DstAddress, DataLength);
 
-  /* Enable the Peripheral */
-  __HAL_DMA_ENABLE(hdma);
+    /* Enable the Peripheral */
+    __HAL_DMA_ENABLE(hdma);
 
-  return HAL_OK;
+    return HAL_OK;
 }
 
 /**
@@ -521,79 +521,79 @@ HAL_StatusTypeDef HAL_DMA_Start(DMA_HandleTypeDef *hdma, uint32_t SrcAddress, ui
   */
 HAL_StatusTypeDef HAL_DMA_Start_IT(DMA_HandleTypeDef *hdma, uint32_t SrcAddress, uint32_t DstAddress, uint32_t DataLength)
 {
-  /* Process locked */
-  __HAL_LOCK(hdma);
+    /* Process locked */
+    __HAL_LOCK(hdma);
 
-  /* Change DMA peripheral state */
-  hdma->State = HAL_DMA_STATE_BUSY;
+    /* Change DMA peripheral state */
+    hdma->State = HAL_DMA_STATE_BUSY;
 
-   /* Check the parameters */
-  assert_param(IS_DMA_BUFFER_SIZE(DataLength));
+    /* Check the parameters */
+    assert_param(IS_DMA_BUFFER_SIZE(DataLength));
 
-  /* Disable the peripheral */
-  __HAL_DMA_DISABLE(hdma);
+    /* Disable the peripheral */
+    __HAL_DMA_DISABLE(hdma);
 
-  /* Configure the source, destination address and the data length */
-  DMA_SetConfig(hdma, SrcAddress, DstAddress, DataLength);
+    /* Configure the source, destination address and the data length */
+    DMA_SetConfig(hdma, SrcAddress, DstAddress, DataLength);
 
-  /* Enable the transfer complete interrupt */
-  /* Enable the Half transfer complete interrupt */
-  /* Enable the transfer Error interrupt */
-  __HAL_DMA_ENABLE_IT(hdma, (DMA_IT_TC | DMA_IT_HT | DMA_IT_TE));
+    /* Enable the transfer complete interrupt */
+    /* Enable the Half transfer complete interrupt */
+    /* Enable the transfer Error interrupt */
+    __HAL_DMA_ENABLE_IT(hdma, (DMA_IT_TC | DMA_IT_HT | DMA_IT_TE));
 
-   /* Enable the Peripheral */
-  __HAL_DMA_ENABLE(hdma);
+    /* Enable the Peripheral */
+    __HAL_DMA_ENABLE(hdma);
 
-  return HAL_OK;
+    return HAL_OK;
 }
 
 /**
   * @brief  Aborts the DMA Transfer.
   * @param  hdma: pointer to a DMA_HandleTypeDef structure that contains
   *               the configuration information for the specified DMA Channel.
-  *                   
-  * @note  After disabling a DMA Channel, a check for wait until the DMA Channel is 
-  *        effectively disabled is added. If a Channel is disabled 
+  *
+  * @note  After disabling a DMA Channel, a check for wait until the DMA Channel is
+  *        effectively disabled is added. If a Channel is disabled
   *        while a data transfer is ongoing, the current data will be transferred
   *        and the Channel will be effectively disabled only after the transfer of
-  *        this single data is finished.  
+  *        this single data is finished.
   * @retval HAL status
   */
 HAL_StatusTypeDef HAL_DMA_Abort(DMA_HandleTypeDef *hdma)
 {
-  uint32_t tickstart = 0;
+    uint32_t tickstart = 0;
 
-  /* Disable the channel */
-  __HAL_DMA_DISABLE(hdma);
+    /* Disable the channel */
+    __HAL_DMA_DISABLE(hdma);
 
-  /* Get timeout */
-  tickstart = HAL_GetTick();
+    /* Get timeout */
+    tickstart = HAL_GetTick();
 
-  /* Check if the DMA Channel is effectively disabled */
-  while((hdma->Instance->CCR & DMA_CCR_EN) != 0)
-  {
-    /* Check for the Timeout */
-    if((HAL_GetTick() - tickstart) > HAL_TIMEOUT_DMA_ABORT)
+    /* Check if the DMA Channel is effectively disabled */
+    while((hdma->Instance->CCR & DMA_CCR_EN) != 0)
     {
-      /* Update error code */
-      hdma->ErrorCode |= HAL_DMA_ERROR_TIMEOUT;
+        /* Check for the Timeout */
+        if((HAL_GetTick() - tickstart) > HAL_TIMEOUT_DMA_ABORT)
+        {
+            /* Update error code */
+            hdma->ErrorCode |= HAL_DMA_ERROR_TIMEOUT;
 
-      /* Change the DMA state */
-      hdma->State = HAL_DMA_STATE_TIMEOUT;
+            /* Change the DMA state */
+            hdma->State = HAL_DMA_STATE_TIMEOUT;
 
-      /* Process Unlocked */
-      __HAL_UNLOCK(hdma);
+            /* Process Unlocked */
+            __HAL_UNLOCK(hdma);
 
-      return HAL_TIMEOUT;
+            return HAL_TIMEOUT;
+        }
     }
-  }
-  /* Change the DMA state */
-  hdma->State = HAL_DMA_STATE_READY;
-  
-  /* Process Unlocked */
-  __HAL_UNLOCK(hdma);
-  
-  return HAL_OK; 
+    /* Change the DMA state */
+    hdma->State = HAL_DMA_STATE_READY;
+
+    /* Process Unlocked */
+    __HAL_UNLOCK(hdma);
+
+    return HAL_OK;
 }
 
 /**
@@ -606,80 +606,80 @@ HAL_StatusTypeDef HAL_DMA_Abort(DMA_HandleTypeDef *hdma)
   */
 HAL_StatusTypeDef HAL_DMA_PollForTransfer(DMA_HandleTypeDef *hdma, uint32_t CompleteLevel, uint32_t Timeout)
 {
-  uint32_t temp;
-  uint32_t tickstart = 0;
+    uint32_t temp;
+    uint32_t tickstart = 0;
 
-  /* Get the level transfer complete flag */
-  if(CompleteLevel == HAL_DMA_FULL_TRANSFER)
-  {
-    /* Transfer Complete flag */
-    temp = __HAL_DMA_GET_TC_FLAG_INDEX(hdma);
-  }
-  else
-  {
-    /* Half Transfer Complete flag */
-    temp = __HAL_DMA_GET_HT_FLAG_INDEX(hdma);
-  }
-
-  /* Get timeout */
-  tickstart = HAL_GetTick();
-
-  while(__HAL_DMA_GET_FLAG(hdma, temp) == RESET)
-  {
-    if((__HAL_DMA_GET_FLAG(hdma, __HAL_DMA_GET_TE_FLAG_INDEX(hdma)) != RESET))
+    /* Get the level transfer complete flag */
+    if(CompleteLevel == HAL_DMA_FULL_TRANSFER)
     {
-      /* Clear the transfer error flags */
-      __HAL_DMA_CLEAR_FLAG(hdma, __HAL_DMA_GET_TE_FLAG_INDEX(hdma));
-
-      /* Change the DMA state */
-      hdma->State= HAL_DMA_STATE_ERROR;
-
-      /* Process Unlocked */
-      __HAL_UNLOCK(hdma);
-
-      return HAL_ERROR;
+        /* Transfer Complete flag */
+        temp = __HAL_DMA_GET_TC_FLAG_INDEX(hdma);
     }
-    /* Check for the Timeout */
-    if(Timeout != HAL_MAX_DELAY)
+    else
     {
-      if((Timeout == 0) || ((HAL_GetTick() - tickstart) > Timeout))
-      {
-        /* Update error code */
-        hdma->ErrorCode |= HAL_DMA_ERROR_TIMEOUT;
-
-        /* Change the DMA state */
-        hdma->State = HAL_DMA_STATE_TIMEOUT;
-
-        /* Process Unlocked */
-        __HAL_UNLOCK(hdma);
-
-        return HAL_TIMEOUT;
-      }
+        /* Half Transfer Complete flag */
+        temp = __HAL_DMA_GET_HT_FLAG_INDEX(hdma);
     }
-  }
 
-  if(CompleteLevel == HAL_DMA_FULL_TRANSFER)
-  {
-    /* Clear the transfer complete flag */
-    __HAL_DMA_CLEAR_FLAG(hdma, __HAL_DMA_GET_TC_FLAG_INDEX(hdma));
+    /* Get timeout */
+    tickstart = HAL_GetTick();
 
-    /* The selected Channelx EN bit is cleared (DMA is disabled and
-    all transfers are complete) */
-    hdma->State = HAL_DMA_STATE_READY;
+    while(__HAL_DMA_GET_FLAG(hdma, temp) == RESET)
+    {
+        if((__HAL_DMA_GET_FLAG(hdma, __HAL_DMA_GET_TE_FLAG_INDEX(hdma)) != RESET))
+        {
+            /* Clear the transfer error flags */
+            __HAL_DMA_CLEAR_FLAG(hdma, __HAL_DMA_GET_TE_FLAG_INDEX(hdma));
 
-  }
-  else
-  {
-    /* Clear the half transfer complete flag */
-    __HAL_DMA_CLEAR_FLAG(hdma, __HAL_DMA_GET_HT_FLAG_INDEX(hdma));
+            /* Change the DMA state */
+            hdma->State= HAL_DMA_STATE_ERROR;
 
-    hdma->State = HAL_DMA_STATE_READY_HALF;
-  }
-  
-  /* Process unlocked */
-  __HAL_UNLOCK(hdma);  
+            /* Process Unlocked */
+            __HAL_UNLOCK(hdma);
 
-  return HAL_OK;
+            return HAL_ERROR;
+        }
+        /* Check for the Timeout */
+        if(Timeout != HAL_MAX_DELAY)
+        {
+            if((Timeout == 0) || ((HAL_GetTick() - tickstart) > Timeout))
+            {
+                /* Update error code */
+                hdma->ErrorCode |= HAL_DMA_ERROR_TIMEOUT;
+
+                /* Change the DMA state */
+                hdma->State = HAL_DMA_STATE_TIMEOUT;
+
+                /* Process Unlocked */
+                __HAL_UNLOCK(hdma);
+
+                return HAL_TIMEOUT;
+            }
+        }
+    }
+
+    if(CompleteLevel == HAL_DMA_FULL_TRANSFER)
+    {
+        /* Clear the transfer complete flag */
+        __HAL_DMA_CLEAR_FLAG(hdma, __HAL_DMA_GET_TC_FLAG_INDEX(hdma));
+
+        /* The selected Channelx EN bit is cleared (DMA is disabled and
+        all transfers are complete) */
+        hdma->State = HAL_DMA_STATE_READY;
+
+    }
+    else
+    {
+        /* Clear the half transfer complete flag */
+        __HAL_DMA_CLEAR_FLAG(hdma, __HAL_DMA_GET_HT_FLAG_INDEX(hdma));
+
+        hdma->State = HAL_DMA_STATE_READY_HALF;
+    }
+
+    /* Process unlocked */
+    __HAL_UNLOCK(hdma);
+
+    return HAL_OK;
 }
 
 /**
@@ -690,88 +690,88 @@ HAL_StatusTypeDef HAL_DMA_PollForTransfer(DMA_HandleTypeDef *hdma, uint32_t Comp
   */
 void HAL_DMA_IRQHandler(DMA_HandleTypeDef *hdma)
 {
-  /* Transfer Error Interrupt management ***************************************/
-  if(__HAL_DMA_GET_FLAG(hdma, __HAL_DMA_GET_TE_FLAG_INDEX(hdma)) != RESET)
-  {
-    if(__HAL_DMA_GET_IT_SOURCE(hdma, DMA_IT_TE) != RESET)
+    /* Transfer Error Interrupt management ***************************************/
+    if(__HAL_DMA_GET_FLAG(hdma, __HAL_DMA_GET_TE_FLAG_INDEX(hdma)) != RESET)
     {
-      /* Disable the transfer error interrupt */
-      __HAL_DMA_DISABLE_IT(hdma, DMA_IT_TE);
+        if(__HAL_DMA_GET_IT_SOURCE(hdma, DMA_IT_TE) != RESET)
+        {
+            /* Disable the transfer error interrupt */
+            __HAL_DMA_DISABLE_IT(hdma, DMA_IT_TE);
 
-      /* Clear the transfer error flag */
-      __HAL_DMA_CLEAR_FLAG(hdma, __HAL_DMA_GET_TE_FLAG_INDEX(hdma));
+            /* Clear the transfer error flag */
+            __HAL_DMA_CLEAR_FLAG(hdma, __HAL_DMA_GET_TE_FLAG_INDEX(hdma));
 
-      /* Update error code */
-      hdma->ErrorCode |= HAL_DMA_ERROR_TE;
+            /* Update error code */
+            hdma->ErrorCode |= HAL_DMA_ERROR_TE;
 
-      /* Change the DMA state */
-      hdma->State = HAL_DMA_STATE_ERROR;
+            /* Change the DMA state */
+            hdma->State = HAL_DMA_STATE_ERROR;
 
-      /* Process Unlocked */
-      __HAL_UNLOCK(hdma);
+            /* Process Unlocked */
+            __HAL_UNLOCK(hdma);
 
-      if (hdma->XferErrorCallback != NULL)
-      {
-        /* Transfer error callback */
-        hdma->XferErrorCallback(hdma);
-      }
+            if (hdma->XferErrorCallback != NULL)
+            {
+                /* Transfer error callback */
+                hdma->XferErrorCallback(hdma);
+            }
+        }
     }
-  }
 
-  /* Half Transfer Complete Interrupt management ******************************/
-  if(__HAL_DMA_GET_FLAG(hdma, __HAL_DMA_GET_HT_FLAG_INDEX(hdma)) != RESET)
-  {
-    if(__HAL_DMA_GET_IT_SOURCE(hdma, DMA_IT_HT) != RESET)
+    /* Half Transfer Complete Interrupt management ******************************/
+    if(__HAL_DMA_GET_FLAG(hdma, __HAL_DMA_GET_HT_FLAG_INDEX(hdma)) != RESET)
     {
-      /* Disable the half transfer interrupt if the DMA mode is not CIRCULAR */
-      if((hdma->Instance->CCR & DMA_CCR_CIRC) == 0)
-      {
-        /* Disable the half transfer interrupt */
-        __HAL_DMA_DISABLE_IT(hdma, DMA_IT_HT);
-      }
-      /* Clear the half transfer complete flag */
-      __HAL_DMA_CLEAR_FLAG(hdma, __HAL_DMA_GET_HT_FLAG_INDEX(hdma));
+        if(__HAL_DMA_GET_IT_SOURCE(hdma, DMA_IT_HT) != RESET)
+        {
+            /* Disable the half transfer interrupt if the DMA mode is not CIRCULAR */
+            if((hdma->Instance->CCR & DMA_CCR_CIRC) == 0)
+            {
+                /* Disable the half transfer interrupt */
+                __HAL_DMA_DISABLE_IT(hdma, DMA_IT_HT);
+            }
+            /* Clear the half transfer complete flag */
+            __HAL_DMA_CLEAR_FLAG(hdma, __HAL_DMA_GET_HT_FLAG_INDEX(hdma));
 
-      /* Change DMA peripheral state */
-      hdma->State = HAL_DMA_STATE_READY_HALF;
+            /* Change DMA peripheral state */
+            hdma->State = HAL_DMA_STATE_READY_HALF;
 
-      if(hdma->XferHalfCpltCallback != NULL)
-      {
-        /* Half transfer callback */
-        hdma->XferHalfCpltCallback(hdma);
-      }
+            if(hdma->XferHalfCpltCallback != NULL)
+            {
+                /* Half transfer callback */
+                hdma->XferHalfCpltCallback(hdma);
+            }
+        }
     }
-  }
 
-  /* Transfer Complete Interrupt management ***********************************/
-  if(__HAL_DMA_GET_FLAG(hdma, __HAL_DMA_GET_TC_FLAG_INDEX(hdma)) != RESET)
-  {
-    if(__HAL_DMA_GET_IT_SOURCE(hdma, DMA_IT_TC) != RESET)
+    /* Transfer Complete Interrupt management ***********************************/
+    if(__HAL_DMA_GET_FLAG(hdma, __HAL_DMA_GET_TC_FLAG_INDEX(hdma)) != RESET)
     {
-      if((hdma->Instance->CCR & DMA_CCR_CIRC) == 0)
-      {
-        /* Disable the transfer complete interrupt */
-        __HAL_DMA_DISABLE_IT(hdma, DMA_IT_TC);
-      }
-      /* Clear the transfer complete flag */
-      __HAL_DMA_CLEAR_FLAG(hdma, __HAL_DMA_GET_TC_FLAG_INDEX(hdma));
+        if(__HAL_DMA_GET_IT_SOURCE(hdma, DMA_IT_TC) != RESET)
+        {
+            if((hdma->Instance->CCR & DMA_CCR_CIRC) == 0)
+            {
+                /* Disable the transfer complete interrupt */
+                __HAL_DMA_DISABLE_IT(hdma, DMA_IT_TC);
+            }
+            /* Clear the transfer complete flag */
+            __HAL_DMA_CLEAR_FLAG(hdma, __HAL_DMA_GET_TC_FLAG_INDEX(hdma));
 
-      /* Update error code */
-      hdma->ErrorCode |= HAL_DMA_ERROR_NONE;
+            /* Update error code */
+            hdma->ErrorCode |= HAL_DMA_ERROR_NONE;
 
-      /* Change the DMA state */
-      hdma->State = HAL_DMA_STATE_READY;
+            /* Change the DMA state */
+            hdma->State = HAL_DMA_STATE_READY;
 
-      /* Process Unlocked */
-      __HAL_UNLOCK(hdma);
+            /* Process Unlocked */
+            __HAL_UNLOCK(hdma);
 
-      if(hdma->XferCpltCallback != NULL)
-      {
-        /* Transfer complete callback */
-        hdma->XferCpltCallback(hdma);
-      }
+            if(hdma->XferCpltCallback != NULL)
+            {
+                /* Transfer complete callback */
+                hdma->XferCpltCallback(hdma);
+            }
+        }
     }
-  }
 }
 
 /**
@@ -784,7 +784,7 @@ void HAL_DMA_IRQHandler(DMA_HandleTypeDef *hdma)
 @verbatim
  ===============================================================================
             ##### Peripheral State and Errors functions #####
- ===============================================================================  
+ ===============================================================================
     [..]
     This subsection provides functions allowing to
       (+) Check the DMA state
@@ -802,8 +802,8 @@ void HAL_DMA_IRQHandler(DMA_HandleTypeDef *hdma)
   */
 HAL_DMA_StateTypeDef HAL_DMA_GetState(DMA_HandleTypeDef *hdma)
 {
-  /* Return DMA handle state */
-  return hdma->State;
+    /* Return DMA handle state */
+    return hdma->State;
 }
 
 /**
@@ -814,7 +814,7 @@ HAL_DMA_StateTypeDef HAL_DMA_GetState(DMA_HandleTypeDef *hdma)
   */
 uint32_t HAL_DMA_GetError(DMA_HandleTypeDef *hdma)
 {
-  return hdma->ErrorCode;
+    return hdma->ErrorCode;
 }
 
 /**
@@ -840,27 +840,27 @@ uint32_t HAL_DMA_GetError(DMA_HandleTypeDef *hdma)
   */
 static void DMA_SetConfig(DMA_HandleTypeDef *hdma, uint32_t SrcAddress, uint32_t DstAddress, uint32_t DataLength)
 {
-  /* Configure DMA Channel data length */
-  hdma->Instance->CNDTR = DataLength;
+    /* Configure DMA Channel data length */
+    hdma->Instance->CNDTR = DataLength;
 
-  /* Peripheral to Memory */
-  if((hdma->Init.Direction) == DMA_MEMORY_TO_PERIPH)
-  {
-    /* Configure DMA Channel destination address */
-    hdma->Instance->CPAR = DstAddress;
+    /* Peripheral to Memory */
+    if((hdma->Init.Direction) == DMA_MEMORY_TO_PERIPH)
+    {
+        /* Configure DMA Channel destination address */
+        hdma->Instance->CPAR = DstAddress;
 
-    /* Configure DMA Channel source address */
-    hdma->Instance->CMAR = SrcAddress;
-  }
-  /* Memory to Peripheral */
-  else
-  {
-    /* Configure DMA Channel source address */
-    hdma->Instance->CPAR = SrcAddress;
+        /* Configure DMA Channel source address */
+        hdma->Instance->CMAR = SrcAddress;
+    }
+    /* Memory to Peripheral */
+    else
+    {
+        /* Configure DMA Channel source address */
+        hdma->Instance->CPAR = SrcAddress;
 
-    /* Configure DMA Channel destination address */
-    hdma->Instance->CMAR = DstAddress;
-  }
+        /* Configure DMA Channel destination address */
+        hdma->Instance->CMAR = DstAddress;
+    }
 }
 
 /**

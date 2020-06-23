@@ -16,8 +16,8 @@
   *
   *        http://www.st.com/software_license_agreement_liberty_v2
   *
-  * Unless required by applicable law or agreed to in writing, software 
-  * distributed under the License is distributed on an "AS IS" BASIS, 
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   * See the License for the specific language governing permissions and
   * limitations under the License.
@@ -87,21 +87,21 @@ TErrorCallback *ErrorCallback = ErrorFnc;
 void receive_data()
 {
 
-  // null variables
-  address = 0;
-  dataByte = 0;
-  bit_count = 0;
-  tick_count = 0;
-  former_val = TRUE;
+    // null variables
+    address = 0;
+    dataByte = 0;
+    bit_count = 0;
+    tick_count = 0;
+    former_val = TRUE;
 
-  // setup flag
-  flag = RECEIVING_DATA;
-  // disable external interrupt on DALI in port
-  EXTI_InitStructure.EXTI_Line = EXTI_Line0;
-  EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
-  EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling;
-  EXTI_InitStructure.EXTI_LineCmd = DISABLE;
-  EXTI_Init(&EXTI_InitStructure);
+    // setup flag
+    flag = RECEIVING_DATA;
+    // disable external interrupt on DALI in port
+    EXTI_InitStructure.EXTI_Line = EXTI_Line0;
+    EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
+    EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling;
+    EXTI_InitStructure.EXTI_LineCmd = DISABLE;
+    EXTI_Init(&EXTI_InitStructure);
 }
 
 /**
@@ -109,21 +109,23 @@ void receive_data()
 * @param  None
 * @retval bool status
 */
-bool get_DALIIN(void) {
-  if (DALIIN_invert)
-  {
-    if(GPIO_ReadInputDataBit(DALIIN_port, DALIIN_pin))
-      return FALSE;
+bool get_DALIIN(void)
+{
+	// DALIIN_invert 初始化0
+    if (DALIIN_invert)
+    {
+        if(GPIO_ReadInputDataBit(DALIIN_port, DALIIN_pin))
+            return FALSE;
+        else
+            return TRUE;
+    }
     else
-      return TRUE;
-  }
-  else
-  {
-    if(GPIO_ReadInputDataBit(DALIIN_port, DALIIN_pin))
-      return TRUE;
-    else
-      return FALSE;
-  }
+    {
+        if(GPIO_ReadInputDataBit(DALIIN_port, DALIIN_pin))
+            return TRUE;
+        else
+            return FALSE;
+    }
 }
 
 /**
@@ -133,101 +135,103 @@ bool get_DALIIN(void) {
 */
 void receive_tick(void)
 {
-  // Because of the structure of current amplifier, input has
-  // to be negated
-  actual_val = get_DALIIN();
-  tick_count++;
+    // Because of the structure of current amplifier, input has
+    // to be negated
+    actual_val = get_DALIIN();
+    tick_count++;
 
-  // edge detected
-  if(actual_val != former_val)
-  {
-    switch(bit_count)
-    {
-    case 0:
-      if (tick_count > 2)
-      {
-        tick_count = 0;
-        bit_count  = 1; // start bit
-      }
-      break;
-    case 17:      // 1st stop bit
-      if(tick_count > 6) // stop bit error, no edge should exist
-        flag = ERR;
-      break;
-    default:      // other bits
-      if(tick_count > 6)
-      {
-        if(bit_count < 9) // store bit in address byte
+    // edge detected
+    if(actual_val != former_val)
+	{
+        switch(bit_count)
         {
-          address |= (actual_val << (8-bit_count));
+            case 0:
+                if (tick_count > 2)
+                {
+                    tick_count = 0;
+                    bit_count  = 1; // start bit
+                }
+                break;
+            case 17:      // 1st stop bit
+                if(tick_count > 6) // stop bit error, no edge should exist
+                    flag = ERR;
+                break;
+            default:      // other bits
+                if(tick_count > 6)
+                {
+                    if(bit_count < 9) // store bit in address byte
+                    {
+                        address |= (actual_val << (8-bit_count));
+                    }
+                    else             // store bit in data byte
+                    {
+                        dataByte |= (actual_val << (16-bit_count));
+                    }
+                    bit_count++;
+                    tick_count = 0;
+                }
+                break;
         }
-        else             // store bit in data byte
-        {
-          dataByte |= (actual_val << (16-bit_count));
-        }
-        bit_count++;
-        tick_count = 0;
-      }
-      break;
     }
-  }else // voltage level stable
-  {
-    switch(bit_count)
+    else  // voltage level stable
     {
-    case 0:
-      if(tick_count==8)  // too long start bit
-        flag = ERR;
-      break;
-    case 17:
-      // First stop bit
-      if (tick_count==8)
-      {
-        if (actual_val==0) // wrong level of stop bit
+        switch(bit_count)
         {
-          flag = ERR;
-        }
-        else
-        {
-          bit_count++;
-          tick_count = 0;
-        }
-      }
-      break;
-    case 18:
-      // Second stop bit
-      if (tick_count==8)
-      {
-        flag = NO_ACTION;
+            case 0:
+                if(tick_count==8)  // too long start bit
+                    flag = ERR;
+                break;
+            case 17:
+                // First stop bit
+                if (tick_count==8)
+                {
+                    if (actual_val==0) // wrong level of stop bit
+                    {
+                        flag = ERR;
+                    }
+                    else
+                    {
+                        bit_count++;
+                        tick_count = 0;
+                    }
+                }
+                break;
+            case 18:
+                // Second stop bit
+                if (tick_count==8)
+				{
+                    flag = NO_ACTION;
 
+                    //enable EXTI
+                    EXTI_InitStructure.EXTI_Line = EXTI_Line0;
+                    EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
+                    EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling;
+                    EXTI_InitStructure.EXTI_LineCmd = ENABLE;
+                    EXTI_Init(&EXTI_InitStructure);
+
+                    DataReceivedCallback(address,dataByte);
+                }
+                break;
+            default: // normal bits
+                if(tick_count == 10)
+                {
+                    // too long delay before edge
+                    flag = ERR;
+                }
+                break;
+        }
+    }
+    former_val = actual_val;
+    if(flag==ERR)
+    {
+        flag = NO_ACTION;
         //enable EXTI
         EXTI_InitStructure.EXTI_Line = EXTI_Line0;
         EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
         EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling;
         EXTI_InitStructure.EXTI_LineCmd = ENABLE;
         EXTI_Init(&EXTI_InitStructure);
-
-        DataReceivedCallback(address,dataByte);
-      }
-      break;
-    default: // normal bits
-      if(tick_count==10)
-      { // too long delay before edge
-        flag = ERR;
-      }
-      break;
     }
-  }
-  former_val = actual_val;
-  if(flag==ERR)
-  {
-    flag = NO_ACTION;
-    //enable EXTI
-    EXTI_InitStructure.EXTI_Line = EXTI_Line0;
-    EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
-    EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling;
-    EXTI_InitStructure.EXTI_LineCmd = ENABLE;
-    EXTI_Init(&EXTI_InitStructure);
-  }
 }
 
 /***********************************************************/
@@ -248,51 +252,51 @@ void receive_tick(void)
 void init_DALI(GPIO_TypeDef* port_out, u16 pin_out, u8 invert_out, GPIO_TypeDef* port_in, u16 pin_in, u8 invert_in,
                TDataReceivedCallback DataReceivedFunction, TErrorCallback ErrorFunction, TRTC_1ms_Callback RTC_1ms_Function)
 {
-  DALIOUT_port = port_out;
-  DALIOUT_pin = pin_out;
-  DALIOUT_invert = invert_out;
+    DALIOUT_port = port_out;
+    DALIOUT_pin = pin_out;
+    DALIOUT_invert = invert_out;
 
-  DALIIN_port = port_in;
-  DALIIN_pin = pin_in;
-  DALIIN_invert = invert_in;
+    DALIIN_port = port_in;
+    DALIIN_pin = pin_in;
+    DALIIN_invert = invert_in;
 
-  DataReceivedCallback = DataReceivedFunction;
-  RTC_1ms_Callback = RTC_1ms_Function;
-  ErrorCallback = ErrorFunction;
+    DataReceivedCallback = DataReceivedFunction;
+    RTC_1ms_Callback = RTC_1ms_Function;
+    ErrorCallback = ErrorFunction;
 
-  /* Pin for data output */
-  GPIO_InitStructure.GPIO_Pin =  DALIOUT_pin;
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-  GPIO_Init(DALIOUT_port, &GPIO_InitStructure);
+    /* Pin for data output */
+    GPIO_InitStructure.GPIO_Pin =  DALIOUT_pin;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_Init(DALIOUT_port, &GPIO_InitStructure);
 
-  GPIO_WriteBit(DALIOUT_port, DALIOUT_pin, Bit_SET);
+    GPIO_WriteBit(DALIOUT_port, DALIOUT_pin, Bit_SET);
 
-  /* Pin for data input */
-  GPIO_InitStructure.GPIO_Pin = DALIIN_pin;
-  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
-  GPIO_Init(DALIIN_port, &GPIO_InitStructure);
+    /* Pin for data input */
+    GPIO_InitStructure.GPIO_Pin = DALIIN_pin;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
+    GPIO_Init(DALIIN_port, &GPIO_InitStructure);
 
-  NVIC_InitStructure.NVIC_IRQChannel = EXTI0_IRQn;
-  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 2;
-  NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
-  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-  NVIC_Init(&NVIC_InitStructure);
+    NVIC_InitStructure.NVIC_IRQChannel = EXTI0_IRQn;
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 2;
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
+    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+    NVIC_Init(&NVIC_InitStructure);
 
-  EXTI_InitStructure.EXTI_Line = EXTI_Line0;
-  EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
-  EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising;
-  EXTI_InitStructure.EXTI_LineCmd = ENABLE;
-  EXTI_Init(&EXTI_InitStructure);
+    EXTI_InitStructure.EXTI_Line = EXTI_Line0;
+    EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
+    EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising;
+    EXTI_InitStructure.EXTI_LineCmd = ENABLE;
+    EXTI_Init(&EXTI_InitStructure);
 
-  //set status flaf
-  flag = NO_ACTION;
+    //set status flaf
+    flag = NO_ACTION;
 
-  //reset 500ms interface failure counter
-  InterfaceFailureCounter = 0;
+    //reset 500ms interface failure counter
+    InterfaceFailureCounter = 0;
 
-  return;
+    return;
 }
 
 /**
@@ -302,7 +306,7 @@ void init_DALI(GPIO_TypeDef* port_out, u16 pin_out, u8 invert_out, GPIO_TypeDef*
 */
 u8 get_flag(void)
 {
-  return flag;
+    return flag;
 }
 
 /**
@@ -312,7 +316,7 @@ u8 get_flag(void)
 */
 u8 get_timer_count(void)
 {
-  return (RandomTimingCnt);
+    return (RandomTimingCnt);
 }
 
 /*************** S E N D * P R O C E D U R E S *************/
@@ -325,37 +329,37 @@ u8 get_timer_count(void)
 */
 void set_DALIOUT(bool pin_value)
 {
-  if (DALIOUT_invert)
-  {
-    if(pin_value)
-      DALIOUT_port->ODR &= ~DALIOUT_pin;
+    if (DALIOUT_invert)
+    {
+        if(pin_value)
+            DALIOUT_port->ODR &= ~DALIOUT_pin;
+        else
+            DALIOUT_port->ODR |= DALIOUT_pin;
+    }
     else
-      DALIOUT_port->ODR |= DALIOUT_pin;
-  }
-  else
-  {
-    if(pin_value)
-      DALIOUT_port->ODR |= DALIOUT_pin;
-    else
-      DALIOUT_port->ODR &= ~DALIOUT_pin;
-  }
+    {
+        if(pin_value)
+            DALIOUT_port->ODR |= DALIOUT_pin;
+        else
+            DALIOUT_port->ODR &= ~DALIOUT_pin;
+    }
 }
 
 void DataReceived(u8 address, u8 dataByte)
 {
-  // Data has been received from master device
-  // Received data were stored in bytes address (1st byte)
-  // and dataByte (2nd byte)
+    // Data has been received from master device
+    // Received data were stored in bytes address (1st byte)
+    // and dataByte (2nd byte)
 }
 
 void RTC1msFnc(void)
 {
-  //here is called routines every 1ms
+    //here is called routines every 1ms
 }
 
 void ErrorFnc(u8 code_val)
 {
-  //here is error management
+    //here is error management
 }
 
 /**
@@ -365,20 +369,20 @@ void ErrorFnc(u8 code_val)
 */
 bool get_DALIOUT(void)
 {
-  if (DALIOUT_invert)
-  {
-    if(DALIOUT_port->IDR & DALIOUT_pin)
-      return FALSE;
+    if (DALIOUT_invert)
+    {
+        if(DALIOUT_port->IDR & DALIOUT_pin)
+            return FALSE;
+        else
+            return TRUE;
+    }
     else
-      return TRUE;
-  }
-  else
-  {
-    if(DALIOUT_port->IDR & DALIOUT_pin)
-      return TRUE;
-    else
-      return FALSE;
-  }
+    {
+        if(DALIOUT_port->IDR & DALIOUT_pin)
+            return TRUE;
+        else
+            return FALSE;
+    }
 }
 
 /**
@@ -389,18 +393,18 @@ bool get_DALIOUT(void)
 // Send answer to the controller device
 void send_data(u8 byteToSend)
 {
-  answer = byteToSend;
-  bit_count = 0;
-  tick_count = 0;
+    answer = byteToSend;
+    bit_count = 0;
+    tick_count = 0;
 
-  // disable external interrupt - no incoming data now
-  EXTI_InitStructure.EXTI_Line = EXTI_Line0;
-  EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
-  EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising;
-  EXTI_InitStructure.EXTI_LineCmd = DISABLE;
-  EXTI_Init(&EXTI_InitStructure);
+    // disable external interrupt - no incoming data now
+    EXTI_InitStructure.EXTI_Line = EXTI_Line0;
+    EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
+    EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising;
+    EXTI_InitStructure.EXTI_LineCmd = DISABLE;
+    EXTI_Init(&EXTI_InitStructure);
 
-  flag = SENDING_DATA;
+    flag = SENDING_DATA;
 }
 
 /**
@@ -410,74 +414,77 @@ void send_data(u8 byteToSend)
 */
 void send_tick(void)
 {
-  //access to the routine just every 4 ticks = every half bit
-  if((tick_count & 0x03)==0)
-  {
-    if(tick_count < 96)
+    //access to the routine just every 4 ticks = every half bit
+    if((tick_count & 0x03)==0)
     {
-      // settling time between forward and backward frame
-      if(tick_count < 24)
-      {
-        tick_count++;
-        return;
-      }
+        if(tick_count < 96)
+        {
+            // settling time between forward and backward frame
+            if(tick_count < 24)
+            {
+                tick_count++;
+                return;
+            }
 
-      // start of the start bit
-      if(tick_count == 24)
-      {
-        set_DALIOUT(FALSE);
-        tick_count++;
-        return;
-      }
+            // start of the start bit
+            if(tick_count == 24)
+            {
+                set_DALIOUT(FALSE);
+                tick_count++;
+                return;
+            }
 
-      // edge of the start bit
-      // 28 ticks = 28/9600 = 2,92ms = delay between forward and backward message frame
-      if(tick_count == 28)
-      {
-        set_DALIOUT(TRUE);
-        tick_count++;
-        return;
-      }
+            // edge of the start bit
+            // 28 ticks = 28/9600 = 2,92ms = delay between forward and backward message frame
+            if(tick_count == 28)
+            {
+                set_DALIOUT(TRUE);
+                tick_count++;
+                return;
+            }
 
-      // bit value (edge) selection
-      bit_value = (bool)( (answer >> (7-bit_count)) & 0x01);
+            // bit value (edge) selection
+            bit_value = (bool)( (answer >> (7-bit_count)) & 0x01);
 
-      // Every half bit -> Manchester coding
-      if( !( (tick_count-24) & 0x0007) )
-      { // div by 8
-        if(get_DALIOUT() == bit_value ) // former value of bit = new value of bit
-          set_DALIOUT((bool)(1-bit_value));
-      }
+            // Every half bit -> Manchester coding
+            if( !( (tick_count-24) & 0x0007) )
+            {
+                // div by 8
+                if(get_DALIOUT() == bit_value ) // former value of bit = new value of bit
+                    set_DALIOUT((bool)(1-bit_value));
+            }
 
-      // Generate edge for actual bit
-      if( !( (tick_count - 28) & 0x0007) )
-      {
-        set_DALIOUT(bit_value);
-        bit_count++;
-      }
-    }else
-    { // end of data byte, start of stop bits
-      if(tick_count == 96)
-      {
-        set_DALIOUT(TRUE); // start of stop bit
-      }
+            // Generate edge for actual bit
+            if( !( (tick_count - 28) & 0x0007) )
+            {
+                set_DALIOUT(bit_value);
+                bit_count++;
+            }
+        }
+        else
+        {
+            // end of data byte, start of stop bits
+            if(tick_count == 96)
+            {
+                set_DALIOUT(TRUE); // start of stop bit
+            }
 
-      // end of stop bits, no settling time
-      if(tick_count == 112)
-      {
-        flag = NO_ACTION;
-        //enable EXTI
-        EXTI_InitStructure.EXTI_Line = EXTI_Line0;
-        EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
-        EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling;
-        EXTI_InitStructure.EXTI_LineCmd = ENABLE;
-        EXTI_Init(&EXTI_InitStructure);
-      }
+            // end of stop bits, no settling time
+            if(tick_count == 112)
+            {
+                flag = NO_ACTION;
+                //enable EXTI
+                EXTI_InitStructure.EXTI_Line = EXTI_Line0;
+                EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
+                EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling;
+                EXTI_InitStructure.EXTI_LineCmd = ENABLE;
+                EXTI_Init(&EXTI_InitStructure);
+            }
+        }
     }
-  }
-  tick_count++;
+    tick_count++;
 
-  return;
+    return;
 }
 
 /**
@@ -487,18 +494,18 @@ void send_tick(void)
 */
 void check_interface_failure(void)
 {
-  if (get_DALIIN())
-  {
-    InterfaceFailureCounter = 0;
-    return;
-  }
+    if (get_DALIIN())
+    {
+        InterfaceFailureCounter = 0;
+        return;
+    }
 
-  InterfaceFailureCounter++;
-  if (InterfaceFailureCounter > ((1000l * 500)/US_PER_TICK) )  //check 500ms timeout
-  {
-    ErrorCallback(1);
-    InterfaceFailureCounter = 0;
-  }
+    InterfaceFailureCounter++;
+    if (InterfaceFailureCounter > ((1000l * 500)/US_PER_TICK) )  //check 500ms timeout
+    {
+        ErrorCallback(1);
+        InterfaceFailureCounter = 0;
+    }
 }
 
 /**

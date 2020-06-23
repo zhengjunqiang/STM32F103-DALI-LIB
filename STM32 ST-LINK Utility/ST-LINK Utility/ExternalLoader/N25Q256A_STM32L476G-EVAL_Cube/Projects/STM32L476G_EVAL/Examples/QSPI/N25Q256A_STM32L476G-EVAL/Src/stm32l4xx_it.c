@@ -1,4 +1,4 @@
-/** 
+/**
   ******************************************************************************
   * @file    QSPI/QSPI_ExecuteInPlace/Src/stm32l4xx_it.c
   * @author  MCD Application Team
@@ -78,10 +78,10 @@ void NMI_Handler(void)
   */
 void HardFault_Handler(void)
 {
-  /* Go to infinite loop when Hard Fault exception occurs */
-  while (1)
-  {
-  }
+    /* Go to infinite loop when Hard Fault exception occurs */
+    while (1)
+    {
+    }
 }
 
 /**
@@ -91,10 +91,10 @@ void HardFault_Handler(void)
   */
 void MemManage_Handler(void)
 {
-  /* Go to infinite loop when Memory Manage exception occurs */
-  while (1)
-  {
-  }
+    /* Go to infinite loop when Memory Manage exception occurs */
+    while (1)
+    {
+    }
 }
 
 /**
@@ -103,11 +103,11 @@ void MemManage_Handler(void)
   * @retval None
   */
 void BusFault_Handler(void)
-{      
-  /* Go to infinite loop when Bus Fault exception occurs */
-  while (1)
-  {
-  }
+{
+    /* Go to infinite loop when Bus Fault exception occurs */
+    while (1)
+    {
+    }
 }
 
 /**
@@ -117,10 +117,10 @@ void BusFault_Handler(void)
   */
 void UsageFault_Handler(void)
 {
-  /* Go to infinite loop when Usage Fault exception occurs */
-  while (1)
-  {
-  }
+    /* Go to infinite loop when Usage Fault exception occurs */
+    while (1)
+    {
+    }
 }
 
 /**
@@ -157,7 +157,7 @@ void PendSV_Handler(void)
   */
 void SysTick_Handler(void)
 {
-  HAL_IncTick();
+    HAL_IncTick();
 }
 
 /******************************************************************************/
@@ -174,7 +174,7 @@ void SysTick_Handler(void)
   */
 void QUADSPI_IRQHandler(void)
 {
-  HAL_QSPI_IRQHandler(&QSPIHandle);
+    HAL_QSPI_IRQHandler(&QSPIHandle);
 }
 
 /**
@@ -184,7 +184,7 @@ void QUADSPI_IRQHandler(void)
   */
 void QSPI_DMA_IRQ_HANDLER(void)
 {
-  HAL_DMA_IRQHandler(QSPIHandle.hdma);
+    HAL_DMA_IRQHandler(QSPIHandle.hdma);
 }
 
 

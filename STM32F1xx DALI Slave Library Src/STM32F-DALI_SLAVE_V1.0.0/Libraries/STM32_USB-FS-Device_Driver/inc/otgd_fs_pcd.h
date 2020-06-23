@@ -16,8 +16,8 @@
   *
   *        http://www.st.com/software_license_agreement_liberty_v2
   *
-  * Unless required by applicable law or agreed to in writing, software 
-  * distributed under the License is distributed on an "AS IS" BASIS, 
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   * See the License for the specific language governing permissions and
   * limitations under the License.
@@ -45,35 +45,36 @@
 /********************************************************************************
                               ENUMERATION TYPE
 ********************************************************************************/
-enum usb_device_speed {
-  USB_SPEED_UNKNOWN = 0,
-  USB_SPEED_LOW, USB_SPEED_FULL,
-  USB_SPEED_HIGH
+enum usb_device_speed
+{
+    USB_SPEED_UNKNOWN = 0,
+    USB_SPEED_LOW, USB_SPEED_FULL,
+    USB_SPEED_HIGH
 };
 /********************************************************************************
                               Data structure type
 ********************************************************************************/
 typedef struct usb_ep_descriptor
 {
-  uint8_t  bLength;
-  uint8_t  bDescriptorType;
-  uint8_t  bEndpointAddress;
-  uint8_t  bmAttributes;
-  uint16_t wMaxPacketSize;
-  uint8_t  bInterval;
+    uint8_t  bLength;
+    uint8_t  bDescriptorType;
+    uint8_t  bEndpointAddress;
+    uint8_t  bmAttributes;
+    uint16_t wMaxPacketSize;
+    uint8_t  bInterval;
 }
-EP_DESCRIPTOR , *PEP_DESCRIPTOR;
+EP_DESCRIPTOR, *PEP_DESCRIPTOR;
 /********************************************************************************
                      USBF LAYER UNION AND STRUCTURES
 ********************************************************************************/
 typedef struct USB_OTG_USBF
 {
 
-  USB_OTG_EP ep0;
-  USB_OTG_EP in_ep[ NUM_TX_FIFOS - 1];
-  USB_OTG_EP out_ep[ NUM_TX_FIFOS - 1];
+    USB_OTG_EP ep0;
+    USB_OTG_EP in_ep[ NUM_TX_FIFOS - 1];
+    USB_OTG_EP out_ep[ NUM_TX_FIFOS - 1];
 }
-USB_OTG_PCD_DEV , *USB_OTG_PCD_PDEV;
+USB_OTG_PCD_DEV, *USB_OTG_PCD_PDEV;
 /********************************************************************************
                      EXPORTED FUNCTION FROM THE USB_OTG LAYER
 ********************************************************************************/
@@ -83,11 +84,11 @@ void        PCD_DevDisconnect (void);
 void        PCD_EP_SetAddress (uint8_t address);
 uint32_t    PCD_EP_Open(EP_DESCRIPTOR *epdesc);
 uint32_t    PCD_EP_Close  ( uint8_t  ep_addr);
-uint32_t    PCD_EP_Read  ( uint8_t  ep_addr, 
-                           uint8_t  *pbuf, 
+uint32_t    PCD_EP_Read  ( uint8_t  ep_addr,
+                           uint8_t  *pbuf,
                            uint32_t   buf_len);
-uint32_t    PCD_EP_Write ( uint8_t  ep_addr, 
-                           uint8_t  *pbuf, 
+uint32_t    PCD_EP_Write ( uint8_t  ep_addr,
+                           uint8_t  *pbuf,
                            uint32_t   buf_len);
 uint32_t    PCD_EP_Stall (uint8_t   epnum);
 uint32_t    PCD_EP_ClrStall (uint8_t epnum);

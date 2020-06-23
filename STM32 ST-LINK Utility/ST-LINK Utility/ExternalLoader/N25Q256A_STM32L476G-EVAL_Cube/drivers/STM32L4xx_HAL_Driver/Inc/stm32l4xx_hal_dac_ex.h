@@ -40,12 +40,12 @@
 #define __STM32L4xx_HAL_DAC_EX_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32l4xx_hal_def.h"
-           
+
 /** @addtogroup STM32L4xx_HAL_Driver
   * @{
   */
@@ -55,17 +55,17 @@
   */
 
 /* Exported types ------------------------------------------------------------*/
-   
-/** 
-  * @brief  HAL State structures definition  
-  */ 
+
+/**
+  * @brief  HAL State structures definition
+  */
 
 /* Exported constants --------------------------------------------------------*/
 
 /** @defgroup DACEx_Exported_Constants DACEx Exported Constants
   * @{
-  */ 
-    
+  */
+
 /** @defgroup DACEx_lfsrunmask_triangleamplitude DACEx lfsrunmask triangleamplitude
   * @{
   */
@@ -96,7 +96,7 @@
 
 /**
   * @}
-  */       
+  */
 
 /**
   * @}
@@ -119,7 +119,7 @@
                                  ((TRIGGER) == DAC_TRIGGER_T7_TRGO) || \
                                  ((TRIGGER) == DAC_TRIGGER_T8_TRGO) || \
                                  ((TRIGGER) == DAC_TRIGGER_EXT_IT9) || \
-                                 ((TRIGGER) == DAC_TRIGGER_SOFTWARE))      
+                                 ((TRIGGER) == DAC_TRIGGER_SOFTWARE))
 
 #define IS_DAC_SAMPLETIME(TIME) ((TIME) <= 0x0000003FF)
 
@@ -170,7 +170,7 @@
   * @}
   */
 
-/* Exported functions --------------------------------------------------------*/  
+/* Exported functions --------------------------------------------------------*/
 /* Extended features functions ***********************************************/
 
 /** @addtogroup DACEx_Exported_Functions
@@ -179,9 +179,9 @@
 
 /** @addtogroup DACEx_Exported_Functions_Group2
  * @{
- */    
+ */
 /* IO operation functions *****************************************************/
-  
+
 HAL_StatusTypeDef HAL_DACEx_TriangleWaveGenerate(DAC_HandleTypeDef* hdac, uint32_t Channel, uint32_t Amplitude);
 HAL_StatusTypeDef HAL_DACEx_NoiseWaveGenerate(DAC_HandleTypeDef* hdac, uint32_t Channel, uint32_t Amplitude);
 HAL_StatusTypeDef HAL_DACEx_DualSetValue(DAC_HandleTypeDef* hdac, uint32_t Alignment, uint32_t Data1, uint32_t Data2);
@@ -200,12 +200,12 @@ HAL_StatusTypeDef HAL_DACEx_SetUserTrimming (DAC_HandleTypeDef* hdac, DAC_Channe
 
 /** @addtogroup DACEx_Exported_Functions_Group3
   * @{
-  */ 
+  */
 /* Peripheral Control functions ***********************************************/
 
 uint32_t HAL_DACEx_DualGetValue(DAC_HandleTypeDef* hdac);
 uint32_t HAL_DACEx_GetTrimOffset (DAC_HandleTypeDef *hdac, uint32_t Channel);
-   
+
 /**
   * @}
   */
@@ -238,7 +238,7 @@ void DAC_DMAHalfConvCpltCh2(DMA_HandleTypeDef *hdma);
 
 #ifdef __cplusplus
 }
-#endif   
+#endif
 
 #endif /*__STM32L4xx_HAL_DAC_EX_H */
 

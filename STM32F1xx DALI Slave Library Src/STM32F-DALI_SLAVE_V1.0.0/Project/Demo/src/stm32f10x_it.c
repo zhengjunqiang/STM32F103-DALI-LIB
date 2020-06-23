@@ -68,10 +68,10 @@ void NMI_Handler(void)
 */
 void HardFault_Handler(void)
 {
-  /* Go to infinite loop when Hard Fault exception occurs */
-  while (1)
-  {
-  }
+    /* Go to infinite loop when Hard Fault exception occurs */
+    while (1)
+    {
+    }
 }
 
 /**
@@ -81,10 +81,10 @@ void HardFault_Handler(void)
 */
 void MemManage_Handler(void)
 {
-  /* Go to infinite loop when Memory Manage exception occurs */
-  while (1)
-  {
-  }
+    /* Go to infinite loop when Memory Manage exception occurs */
+    while (1)
+    {
+    }
 }
 
 /**
@@ -94,10 +94,10 @@ void MemManage_Handler(void)
 */
 void BusFault_Handler(void)
 {
-  /* Go to infinite loop when Bus Fault exception occurs */
-  while (1)
-  {
-  }
+    /* Go to infinite loop when Bus Fault exception occurs */
+    while (1)
+    {
+    }
 }
 
 /**
@@ -107,10 +107,10 @@ void BusFault_Handler(void)
 */
 void UsageFault_Handler(void)
 {
-  /* Go to infinite loop when Usage Fault exception occurs */
-  while (1)
-  {
-  }
+    /* Go to infinite loop when Usage Fault exception occurs */
+    while (1)
+    {
+    }
 }
 
 /**
@@ -147,26 +147,29 @@ void PendSV_Handler(void)
 */
 void SysTick_Handler(void)
 {
-  /* Decrement the TimingDelay variable */
-  Decrement_TimingDelay();
-  oneMScounter += US_PER_TICK;
-  if (oneMScounter >= US_PER_MS)
-  {
-    oneMScounter -= US_PER_MS;
-    RTC_1ms_Callback();
-  }
-  if(get_flag()==RECEIVING_DATA)
-  {
-    receive_tick();
-  }
-  else if(get_flag()==SENDING_DATA)
-  {
-    send_tick();
-  }
-  if(get_flag()==NO_ACTION)
-  {
-    check_interface_failure(); //check idle voltage on bus
-  }
+    /* Decrement the TimingDelay variable */
+    Decrement_TimingDelay();
+	
+    oneMScounter += US_PER_TICK;
+    if (oneMScounter >= US_PER_MS)
+    {
+        oneMScounter -= US_PER_MS;
+        RTC_1ms_Callback();
+    }
+	
+    if(get_flag()==RECEIVING_DATA)
+    {
+        receive_tick();
+    }
+    else if(get_flag()==SENDING_DATA)
+    {
+        send_tick();
+    }
+	
+    if(get_flag()==NO_ACTION)
+    {
+        check_interface_failure(); //check idle voltage on bus
+    }
 }
 
 /**
@@ -195,12 +198,12 @@ void EXTI4_IRQHandler(void)
 */
 void EXTI0_IRQHandler(void)
 {
-  if(EXTI_GetITStatus(EXTI_Line0) != RESET)
-  {
-    receive_data();
-    /* Clear the EXTI Line 3 */
-    EXTI_ClearITPendingBit(EXTI_Line0);
-  }
+    if(EXTI_GetITStatus(EXTI_Line0) != RESET)
+    {
+        receive_data();
+        /* Clear the EXTI Line 3 */
+        EXTI_ClearITPendingBit(EXTI_Line0);
+    }
 }
 /**
 * @brief  This function handles External lines 9 to 5 interrupt request.
@@ -219,8 +222,8 @@ void EXTI9_5_IRQHandler(void)
 */
 void TIM1_UP_IRQHandler(void)
 {
-  /* Clear the TIM1 Update pending bit */
-  TIM_ClearITPendingBit(TIM1, TIM_IT_Update);
+    /* Clear the TIM1 Update pending bit */
+    TIM_ClearITPendingBit(TIM1, TIM_IT_Update);
 }
 /**
 * @brief  This function handles SPI2 global interrupt request.
@@ -247,12 +250,12 @@ void USART3_IRQHandler(void)
 */
 void EXTI15_10_IRQHandler(void)
 {
-  if(EXTI_GetITStatus(EXTI_Line15) != RESET)
-  {
+    if(EXTI_GetITStatus(EXTI_Line15) != RESET)
+    {
 
-    /* Clear the EXTI Line 15 */
-    EXTI_ClearITPendingBit(EXTI_Line15);
-  }
+        /* Clear the EXTI Line 15 */
+        EXTI_ClearITPendingBit(EXTI_Line15);
+    }
 
 }
 /**

@@ -41,7 +41,7 @@
 #define __STM32L476G_EVAL_QSPI_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
@@ -60,8 +60,8 @@
   * @{
   */
 
-  
-/* Exported constants --------------------------------------------------------*/ 
+
+/* Exported constants --------------------------------------------------------*/
 /** @defgroup STM32L476G_EVAL_QSPI_Exported_Constants Exported Constants
   * @{
   */
@@ -81,12 +81,13 @@
   * @{
   */
 /* QSPI Info */
-typedef struct {
-  uint32_t FlashSize;          /*!< Size of the flash */
-  uint32_t EraseSectorSize;    /*!< Size of sectors for the erase operation */
-  uint32_t EraseSectorsNumber; /*!< Number of sectors for the erase operation */
-  uint32_t ProgPageSize;       /*!< Size of pages for the program operation */
-  uint32_t ProgPagesNumber;    /*!< Number of pages for the program operation */
+typedef struct
+{
+    uint32_t FlashSize;          /*!< Size of the flash */
+    uint32_t EraseSectorSize;    /*!< Size of sectors for the erase operation */
+    uint32_t EraseSectorsNumber; /*!< Number of sectors for the erase operation */
+    uint32_t ProgPageSize;       /*!< Size of pages for the program operation */
+    uint32_t ProgPagesNumber;    /*!< Number of pages for the program operation */
 } QSPI_Info;
 
 /**

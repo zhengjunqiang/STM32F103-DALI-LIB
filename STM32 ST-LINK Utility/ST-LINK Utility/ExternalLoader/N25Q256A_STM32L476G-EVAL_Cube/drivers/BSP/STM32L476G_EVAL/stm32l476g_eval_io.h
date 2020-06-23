@@ -41,7 +41,7 @@
 #define __STM32L476G_EVAL_IO_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
@@ -66,13 +66,13 @@
 /** @defgroup STM32L476G_EVAL_IO_Exported_Types Exported Types
   * @{
   */
-typedef enum 
+typedef enum
 {
-  IO_OK       = 0x00,
-  IO_ERROR    = 0x01,
-  IO_TIMEOUT  = 0x02
+    IO_OK       = 0x00,
+    IO_ERROR    = 0x01,
+    IO_TIMEOUT  = 0x02
 
-}IO_StatusTypeDef;
+} IO_StatusTypeDef;
 
 /**
   * @}

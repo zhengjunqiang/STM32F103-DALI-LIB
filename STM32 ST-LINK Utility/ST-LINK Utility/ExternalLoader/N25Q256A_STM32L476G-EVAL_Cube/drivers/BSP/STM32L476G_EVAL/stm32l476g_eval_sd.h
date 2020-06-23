@@ -40,7 +40,7 @@
 #define __STM32L476G_EVAL_SD_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
@@ -64,14 +64,14 @@
   * @{
   */
 
-/** 
-  * @brief SD Card information structure 
+/**
+  * @brief SD Card information structure
   */
 #define SD_CardInfo HAL_SD_CardInfoTypedef
-   
-/** 
-  * @brief  SD status structure definition  
-  */     
+
+/**
+  * @brief  SD status structure definition
+  */
 #define MSD_OK         0x00
 #define MSD_ERROR      0x01
 
@@ -79,25 +79,25 @@
   * @}
   */
 
-/* Exported constants --------------------------------------------------------*/  
+/* Exported constants --------------------------------------------------------*/
 
 /** @defgroup STM32L476G_EVAL_SD_Exported_Constants  Exported Constants
   * @{
-  */ 
+  */
 #define SD_DETECT_PIN                    GPIO_PIN_8
 #define SD_DETECT_GPIO_PORT              GPIOA
 #define __SD_DETECT_GPIO_CLK_ENABLE()    __HAL_RCC_GPIOA_CLK_ENABLE()
 #define SD_DETECT_IRQn                   EXTI9_5_IRQn
-   
+
 #define SD_DATATIMEOUT           ((uint32_t)100000000)
-    
+
 #define SD_PRESENT               ((uint8_t)0x01)
 #define SD_NOT_PRESENT           ((uint8_t)0x00)
-   
+
 /* DMA definitions for SD DMA transfer */
 #define __DMAx_TxRx_CLK_ENABLE            __HAL_RCC_DMA2_CLK_ENABLE
-#define SD_DMAx_Tx_STREAM                 DMA2_Channel4  
-#define SD_DMAx_Rx_STREAM                 DMA2_Channel4  
+#define SD_DMAx_Tx_STREAM                 DMA2_Channel4
+#define SD_DMAx_Rx_STREAM                 DMA2_Channel4
 #define SD_DMAx_Tx_IRQn                   DMA2_Channel4_IRQn
 #define SD_DMAx_Rx_IRQn                   DMA2_Channel4_IRQn
 #define SD_DMAx_Tx_IRQHandler             DMA2_Channel4_IRQHandler

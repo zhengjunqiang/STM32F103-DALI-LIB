@@ -16,8 +16,8 @@
   *
   *        http://www.st.com/software_license_agreement_liberty_v2
   *
-  * Unless required by applicable law or agreed to in writing, software 
-  * distributed under the License is distributed on an "AS IS" BASIS, 
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   * See the License for the specific language governing permissions and
   * limitations under the License.
@@ -56,9 +56,9 @@ u8 toggle=0;
 */
 void Timer_Lite_Init(void)
 {
-  PowerOnTimerActive = 600; //600 ms timeout after power up
-  UserTimerActive = 0;
-  DAPCTimerActive = 0;
+    PowerOnTimerActive = 600; //600 ms timeout after power up
+    UserTimerActive = 0;
+    DAPCTimerActive = 0;
 }
 
 /**
@@ -68,7 +68,7 @@ void Timer_Lite_Init(void)
 */
 void PowerOnTimerReset(void)
 {
-  PowerOnTimerActive = 0;
+    PowerOnTimerActive = 0;
 }
 
 /**
@@ -78,9 +78,9 @@ void PowerOnTimerReset(void)
 */
 void RTC_LaunchBigTimer(u8 mins)
 {
-  bigtimertics = 60000; /* 60000*1ms=1mn*/
-  bigtimermins = mins-1; /* Timer is launched for (mins-1)*1mn (basically 15mn, see DALI specifications)*/
-  RealTimeClock_BigTimer = 1;
+    bigtimertics = 60000; /* 60000*1ms=1mn*/
+    bigtimermins = mins-1; /* Timer is launched for (mins-1)*1mn (basically 15mn, see DALI specifications)*/
+    RealTimeClock_BigTimer = 1;
 }
 
 /**
@@ -90,7 +90,7 @@ void RTC_LaunchBigTimer(u8 mins)
 */
 void RTC_LaunchTimer(u16 timer_value)
 {
-  RealTimeClock_TimerCountDown=timer_value;
+    RealTimeClock_TimerCountDown=timer_value;
 }
 
 /**
@@ -100,7 +100,7 @@ void RTC_LaunchTimer(u16 timer_value)
 */
 void RTC_LaunchUserTimer(u8 TimerCount)
 {
-  UserTimerActive=TimerCount;
+    UserTimerActive=TimerCount;
 }
 
 /**
@@ -110,7 +110,7 @@ void RTC_LaunchUserTimer(u8 TimerCount)
 */
 void RTC_DoneUserTimer(void)
 {
-  UserTimerActive=0;
+    UserTimerActive=0;
 }
 
 /**
@@ -120,7 +120,7 @@ void RTC_DoneUserTimer(void)
 */
 void RTC_LaunchDAPCTimer(void)
 {
-  DAPCTimerActive=200;
+    DAPCTimerActive=200;
 }
 
 /**
@@ -130,7 +130,7 @@ void RTC_LaunchDAPCTimer(void)
 */
 void RTC_DoneDAPCTimer(void)
 {
-  DAPCTimerActive=0;
+    DAPCTimerActive=0;
 }
 
 /**
@@ -140,47 +140,47 @@ void RTC_DoneDAPCTimer(void)
 */
 u8 Process_Lite_timer_IT(void)
 {
-  if(toggle==0)
-  {
-    GPIO_SetBits(GPIOA, GPIO_Pin_0);
-    toggle=1;
-  }
-  else
-  {
-    GPIO_ResetBits(GPIOA, GPIO_Pin_0);
-    toggle=0;
-  }
-
-
-  if (UserTimerActive)
-  {
-
-
-    if (UserTimerActive!=0xFF) UserTimerActive--;
-    DALIP_TimerCallback();
-    if (UserTimerActive==0)
-      DALIP_SetFadeReadyFlag(0); /* fade is ready */
-  }
-  if (PowerOnTimerActive)
-  {
-    PowerOnTimerActive--;
-    if (!PowerOnTimerActive)
+    if(toggle==0)
     {
-      DALIC_PowerOn();
+        GPIO_SetBits(GPIOA, GPIO_Pin_0);
+        toggle=1;
     }
-  }
-
-  if (DAPCTimerActive)
-  {
-    DAPCTimerActive--;
-    if (!DAPCTimerActive)
+    else
     {
-      DALIP_Stop_DAPC_Sequence();
+        GPIO_ResetBits(GPIOA, GPIO_Pin_0);
+        toggle=0;
     }
-  }
 
-  lite_timer_IT_state=0;
-  return (UserTimerActive + PowerOnTimerActive + DAPCTimerActive);
+
+    if (UserTimerActive)
+    {
+
+
+        if (UserTimerActive!=0xFF) UserTimerActive--;
+        DALIP_TimerCallback();
+        if (UserTimerActive==0)
+            DALIP_SetFadeReadyFlag(0); /* fade is ready */
+    }
+    if (PowerOnTimerActive)
+    {
+        PowerOnTimerActive--;
+        if (!PowerOnTimerActive)
+        {
+            DALIC_PowerOn();
+        }
+    }
+
+    if (DAPCTimerActive)
+    {
+        DAPCTimerActive--;
+        if (!DAPCTimerActive)
+        {
+            DALIP_Stop_DAPC_Sequence();
+        }
+    }
+
+    lite_timer_IT_state=0;
+    return (UserTimerActive + PowerOnTimerActive + DAPCTimerActive);
 }
 
 
@@ -191,27 +191,27 @@ u8 Process_Lite_timer_IT(void)
 */
 void Lite_timer_Interrupt(void)
 {
-  if (bigtimertics)
-  {
-    bigtimertics--;
-  }
-  else
-  {
-    if (bigtimermins)
+    if (bigtimertics)
     {
-      bigtimermins--;
-      bigtimertics = 60000;  /* 60000*1ms=1mn*/
+        bigtimertics--;
     }
     else
     {
-      RealTimeClock_BigTimer = 0;
+        if (bigtimermins)
+        {
+            bigtimermins--;
+            bigtimertics = 60000;  /* 60000*1ms=1mn*/
+        }
+        else
+        {
+            RealTimeClock_BigTimer = 0;
+        }
     }
-  }
-  if (RealTimeClock_TimerCountDown)
-  {
-    RealTimeClock_TimerCountDown--;
-  }
-  lite_timer_IT_state=1;
+    if (RealTimeClock_TimerCountDown)
+    {
+        RealTimeClock_TimerCountDown--;
+    }
+    lite_timer_IT_state=1;
 }
 
 

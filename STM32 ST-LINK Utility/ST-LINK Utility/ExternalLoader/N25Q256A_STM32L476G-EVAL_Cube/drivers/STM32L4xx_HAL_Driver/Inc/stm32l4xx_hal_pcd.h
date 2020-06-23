@@ -33,88 +33,88 @@
   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   *
   ******************************************************************************
-  */ 
+  */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __STM32L4xx_HAL_PCD_H
 #define __STM32L4xx_HAL_PCD_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 #if defined(STM32L475xx) || defined(STM32L476xx) || defined(STM32L485xx) || defined(STM32L486xx)
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32l4xx_ll_usb.h"
-   
+
 /** @addtogroup STM32L4xx_HAL_Driver
   * @{
   */
 
 /** @addtogroup PCD
   * @{
-  */ 
+  */
 
-/* Exported types ------------------------------------------------------------*/ 
+/* Exported types ------------------------------------------------------------*/
 /** @defgroup PCD_Exported_Types PCD Exported Types
   * @{
   */
 
-   /** 
-  * @brief  PCD State structure definition  
-  */  
-typedef enum 
+/**
+* @brief  PCD State structure definition
+*/
+typedef enum
 {
-  HAL_PCD_STATE_RESET   = 0x00,
-  HAL_PCD_STATE_READY   = 0x01,
-  HAL_PCD_STATE_ERROR   = 0x02,
-  HAL_PCD_STATE_BUSY    = 0x03,
-  HAL_PCD_STATE_TIMEOUT = 0x04
+    HAL_PCD_STATE_RESET   = 0x00,
+    HAL_PCD_STATE_READY   = 0x01,
+    HAL_PCD_STATE_ERROR   = 0x02,
+    HAL_PCD_STATE_BUSY    = 0x03,
+    HAL_PCD_STATE_TIMEOUT = 0x04
 } PCD_StateTypeDef;
 
 /* Device LPM suspend state */
-typedef enum  
+typedef enum
 {
-  LPM_L0 = 0x00, /* on */
-  LPM_L1 = 0x01, /* LPM L1 sleep */
-  LPM_L2 = 0x02, /* suspend */
-  LPM_L3 = 0x03, /* off */
-}PCD_LPM_StateTypeDef;
+    LPM_L0 = 0x00, /* on */
+    LPM_L1 = 0x01, /* LPM L1 sleep */
+    LPM_L2 = 0x02, /* suspend */
+    LPM_L3 = 0x03, /* off */
+} PCD_LPM_StateTypeDef;
 
 typedef USB_OTG_GlobalTypeDef  PCD_TypeDef;
 typedef USB_OTG_CfgTypeDef     PCD_InitTypeDef;
-typedef USB_OTG_EPTypeDef      PCD_EPTypeDef ;                          
+typedef USB_OTG_EPTypeDef      PCD_EPTypeDef ;
 
-/** 
-  * @brief  PCD Handle Structure definition  
-  */ 
+/**
+  * @brief  PCD Handle Structure definition
+  */
 typedef struct
 {
-  PCD_TypeDef             *Instance;   /*!< Register base address              */ 
-  PCD_InitTypeDef         Init;        /*!< PCD required parameters            */
-  PCD_EPTypeDef           IN_ep[15];    /*!< IN endpoint parameters             */
-  PCD_EPTypeDef           OUT_ep[15];   /*!< OUT endpoint parameters            */ 
-  HAL_LockTypeDef         Lock;        /*!< PCD peripheral status              */
-  __IO PCD_StateTypeDef   State;       /*!< PCD communication state            */
-  uint32_t                Setup[12];   /*!< Setup packet buffer                */
-  PCD_LPM_StateTypeDef    LPM_State;    /*!< LPM State                          */
-  uint32_t                BESL;
-  
-  
-  uint32_t lpm_active;                  /*!< Enable or disable the Link Power Management .                                  
+    PCD_TypeDef             *Instance;   /*!< Register base address              */
+    PCD_InitTypeDef         Init;        /*!< PCD required parameters            */
+    PCD_EPTypeDef           IN_ep[15];    /*!< IN endpoint parameters             */
+    PCD_EPTypeDef           OUT_ep[15];   /*!< OUT endpoint parameters            */
+    HAL_LockTypeDef         Lock;        /*!< PCD peripheral status              */
+    __IO PCD_StateTypeDef   State;       /*!< PCD communication state            */
+    uint32_t                Setup[12];   /*!< Setup packet buffer                */
+    PCD_LPM_StateTypeDef    LPM_State;    /*!< LPM State                          */
+    uint32_t                BESL;
+
+
+    uint32_t lpm_active;                  /*!< Enable or disable the Link Power Management .
                                         This parameter can be set to ENABLE or DISABLE                      */
 
-  uint32_t battery_charging_active;     /*!< Enable or disable Battery charging.                                  
+    uint32_t battery_charging_active;     /*!< Enable or disable Battery charging.
                                         This parameter can be set to ENABLE or DISABLE                      */
-  void                    *pData;      /*!< Pointer to upper stack Handler     */    
-  
+    void                    *pData;      /*!< Pointer to upper stack Handler     */
+
 } PCD_HandleTypeDef;
 
 /**
   * @}
   */
-  
+
 /* Exported constants --------------------------------------------------------*/
 /** @defgroup PCD_Exported_Constants PCD Exported Constants
   * @{
@@ -127,7 +127,7 @@ typedef struct
 /**
   * @}
   */
-  
+
 /** @defgroup PCD_PHY_Module PCD PHY Module
   * @{
   */
@@ -140,7 +140,7 @@ typedef struct
   * @{
   */
 #ifndef USBD_FS_TRDT_VALUE
- #define USBD_FS_TRDT_VALUE           5
+#define USBD_FS_TRDT_VALUE           5
 #endif /* USBD_FS_TRDT_VALUE */
 /**
   * @}
@@ -148,8 +148,8 @@ typedef struct
 
 /**
   * @}
-  */ 
-  
+  */
+
 /* Exported macros -----------------------------------------------------------*/
 /** @defgroup PCD_Exported_Macros PCD Exported Macros
  *  @brief macros to handle interrupts and specific clock configurations
@@ -157,7 +157,7 @@ typedef struct
  */
 #define __HAL_PCD_ENABLE(__HANDLE__)                       USB_EnableGlobalInt ((__HANDLE__)->Instance)
 #define __HAL_PCD_DISABLE(__HANDLE__)                      USB_DisableGlobalInt ((__HANDLE__)->Instance)
-   
+
 #define __HAL_PCD_GET_FLAG(__HANDLE__, __INTERRUPT__)      ((USB_ReadInterrupts((__HANDLE__)->Instance) & (__INTERRUPT__)) == (__INTERRUPT__))
 #define __HAL_PCD_CLEAR_FLAG(__HANDLE__, __INTERRUPT__)    (((__HANDLE__)->Instance->GINTSTS) &=  (__INTERRUPT__))
 #define __HAL_PCD_IS_INVALID_INTERRUPT(__HANDLE__)         (USB_ReadInterrupts((__HANDLE__)->Instance) == 0)
@@ -167,16 +167,16 @@ typedef struct
                                                           ~(USB_OTG_PCGCCTL_STOPCLK)
 
 #define __HAL_PCD_GATE_PHYCLOCK(__HANDLE__)               *(__IO uint32_t *)((uint32_t)((__HANDLE__)->Instance) + USB_OTG_PCGCCTL_BASE) |= USB_OTG_PCGCCTL_STOPCLK
-                                                      
+
 #define __HAL_PCD_IS_PHY_SUSPENDED(__HANDLE__)            ((*(__IO uint32_t *)((uint32_t)((__HANDLE__)->Instance) + USB_OTG_PCGCCTL_BASE))&0x10)
-                                                         
-#define USB_OTG_FS_WAKEUP_EXTI_RISING_EDGE                ((uint32_t)0x08) 
-#define USB_OTG_FS_WAKEUP_EXTI_FALLING_EDGE               ((uint32_t)0x0C) 
-#define USB_OTG_FS_WAKEUP_EXTI_RISING_FALLING_EDGE        ((uint32_t)0x10) 
+
+#define USB_OTG_FS_WAKEUP_EXTI_RISING_EDGE                ((uint32_t)0x08)
+#define USB_OTG_FS_WAKEUP_EXTI_FALLING_EDGE               ((uint32_t)0x0C)
+#define USB_OTG_FS_WAKEUP_EXTI_RISING_FALLING_EDGE        ((uint32_t)0x10)
 
 #define USB_OTG_FS_WAKEUP_EXTI_LINE                       ((uint32_t)0x00020000)  /*!< External interrupt line 17 Connected to the USB FS EXTI Line */
 
-                                                      
+
 #define __HAL_USB_OTG_FS_WAKEUP_EXTI_ENABLE_IT()    EXTI->IMR1 |= USB_OTG_FS_WAKEUP_EXTI_LINE
 #define __HAL_USB_OTG_FS_WAKEUP_EXTI_DISABLE_IT()   EXTI->IMR1 &= ~(USB_OTG_FS_WAKEUP_EXTI_LINE)
 #define __HAL_USB_OTG_FS_WAKEUP_EXTI_GET_FLAG()     EXTI->PR1 & (USB_OTG_FS_WAKEUP_EXTI_LINE)
@@ -192,9 +192,9 @@ typedef struct
 #define __HAL_USB_OTG_FS_WAKEUP_EXTI_ENABLE_RISING_FALLING_EDGE()  EXTI->RTSR1 &= ~(USB_OTG_FS_WAKEUP_EXTI_LINE);\
                                                                    EXTI->FTSR1 &= ~(USB_OTG_FS_WAKEUP_EXTI_LINE);\
                                                                    EXTI->RTSR1 |= USB_OTG_FS_WAKEUP_EXTI_LINE;\
-                                                                   EXTI->FTSR1 |= USB_OTG_FS_WAKEUP_EXTI_LINE 
-                                                         
-#define __HAL_USB_OTG_FS_WAKEUP_EXTI_GENERATE_SWIT()   (EXTI->SWIER1 |= USB_OTG_FS_WAKEUP_EXTI_LINE)                                                          
+                                                                   EXTI->FTSR1 |= USB_OTG_FS_WAKEUP_EXTI_LINE
+
+#define __HAL_USB_OTG_FS_WAKEUP_EXTI_GENERATE_SWIT()   (EXTI->SWIER1 |= USB_OTG_FS_WAKEUP_EXTI_LINE)
 
 /**
   * @}
@@ -224,7 +224,7 @@ void HAL_PCD_MspDeInit(PCD_HandleTypeDef *hpcd);
 /** @addtogroup PCD_Exported_Functions_Group2 Input and Output operation functions
   * @{
   */
- /* Non-Blocking mode: Interrupt */
+/* Non-Blocking mode: Interrupt */
 HAL_StatusTypeDef HAL_PCD_Start(PCD_HandleTypeDef *hpcd);
 HAL_StatusTypeDef HAL_PCD_Stop(PCD_HandleTypeDef *hpcd);
 void HAL_PCD_IRQHandler(PCD_HandleTypeDef *hpcd);
@@ -276,7 +276,7 @@ PCD_StateTypeDef HAL_PCD_GetState(PCD_HandleTypeDef *hpcd);
 
 /**
   * @}
-  */ 
+  */
 
 /* Private macros ------------------------------------------------------------*/
 /** @defgroup PCD_Private_Macros PCD Private Macros
@@ -289,7 +289,7 @@ PCD_StateTypeDef HAL_PCD_GetState(PCD_HandleTypeDef *hpcd);
 
 /**
   * @}
-  */ 
+  */
 
 /**
   * @}

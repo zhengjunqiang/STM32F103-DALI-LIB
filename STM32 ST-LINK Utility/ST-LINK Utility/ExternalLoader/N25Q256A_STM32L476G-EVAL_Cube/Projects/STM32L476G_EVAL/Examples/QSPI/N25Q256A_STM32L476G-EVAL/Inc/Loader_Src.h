@@ -181,7 +181,7 @@ extern uint32_t _qspi_init_length;
 
 
 #ifdef __ICCARM__                //IAR
-#define KeepInCompilation __root 
+#define KeepInCompilation __root
 #elif __CC_ARM                   //MDK-ARM
 #define KeepInCompilation __attribute__((used))
 #elseif TASKING                  //TrueStudio
@@ -192,12 +192,12 @@ extern uint32_t _qspi_init_length;
 /* Private function prototypes -----------------------------------------------*/
 int Init (void);
 KeepInCompilation int Write (uint32_t Address, uint32_t Size, uint8_t* buffer);
-KeepInCompilation int SectorErase (uint32_t EraseStartAddress ,uint32_t EraseEndAddress);
+KeepInCompilation int SectorErase (uint32_t EraseStartAddress,uint32_t EraseEndAddress);
 KeepInCompilation uint64_t Verify (uint32_t MemoryAddr, uint32_t RAMBufferAddr, uint32_t Size, uint32_t missalignement);
 void SystemClock_Config(void);
 void QSPI_WriteEnable(QSPI_HandleTypeDef *hqspi);
 HAL_StatusTypeDef QSPI_WaitFlagStateUntilTimeout(QSPI_HandleTypeDef *hqspi, uint32_t Flag, FlagStatus State, uint32_t Timeout);
-void QSPI_WritePage(uint32_t Address, uint32_t Size , uint8_t* buffer);
+void QSPI_WritePage(uint32_t Address, uint32_t Size, uint8_t* buffer);
 int QUADSPI_EraseSector(uint32_t address);
 void ResetMemory(QSPI_HandleTypeDef *hqspi);
 void QUADSPI_SendData8(uint8_t Data);

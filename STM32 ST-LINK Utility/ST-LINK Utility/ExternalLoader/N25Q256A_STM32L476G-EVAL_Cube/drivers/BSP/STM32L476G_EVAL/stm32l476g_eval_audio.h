@@ -41,7 +41,7 @@
 #define __STM32L476G_EVAL_AUDIO_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
@@ -67,7 +67,7 @@
 
 /**
   * @}
-  */ 
+  */
 
 /** @defgroup STM32L476G_EVAL_AUDIO_Exported_Constants Exported Constants
   * @{
@@ -83,7 +83,7 @@
 /**
   * @}
   */
- 
+
 /** @defgroup BSP_Audio_Sample_Rate BSP Audio Sample Rate
   * @{
   */
@@ -104,21 +104,21 @@
 /** @defgroup CODEC_AudioFrame_SLOT_TDMMode Codex Audio frame slot in TDM mode
   * @brief In W8994 codec the Audio frame contains 4 slots : TDM Mode
   * TDM format :
-  * +------------------|------------------|--------------------|-------------------+ 
+  * +------------------|------------------|--------------------|-------------------+
   * | CODEC_SLOT0 Left | CODEC_SLOT1 Left | CODEC_SLOT0 Right  | CODEC_SLOT1 Right |
   * +------------------------------------------------------------------------------+
   * @{
   */
 /* To have 2 separate audio stream in Both headphone and speaker the 4 slot must be activated */
 #define CODEC_AUDIOFRAME_SLOT_0123                   SAI_SLOTACTIVE_0 | SAI_SLOTACTIVE_1 | SAI_SLOTACTIVE_2 | SAI_SLOTACTIVE_3
-/* To have an audio stream in headphone only SAI Slot 0 and Slot 2 must be activated */ 
-#define CODEC_AUDIOFRAME_SLOT_02                     SAI_SLOTACTIVE_0 | SAI_SLOTACTIVE_2 
-/* To have an audio stream in speaker only SAI Slot 1 and Slot 3 must be activated */ 
+/* To have an audio stream in headphone only SAI Slot 0 and Slot 2 must be activated */
+#define CODEC_AUDIOFRAME_SLOT_02                     SAI_SLOTACTIVE_0 | SAI_SLOTACTIVE_2
+/* To have an audio stream in speaker only SAI Slot 1 and Slot 3 must be activated */
 #define CODEC_AUDIOFRAME_SLOT_13                     SAI_SLOTACTIVE_1 | SAI_SLOTACTIVE_3
 /**
   * @}
   */
-  
+
 /* SAI peripheral configuration defines */
 #define AUDIO_SAIx                            SAI1_Block_B
 #define AUDIO_SAIx_CLK_ENABLE()               __HAL_RCC_SAI1_CLK_ENABLE()
@@ -142,11 +142,11 @@
 #define AUDIO_SAIx_DMAx_PERIPH_DATA_SIZE     DMA_PDATAALIGN_HALFWORD
 #define AUDIO_SAIx_DMAx_MEM_DATA_SIZE        DMA_MDATAALIGN_HALFWORD
 #define DMA_MAX_SZE                          (uint32_t)0xFFFF
-   
+
 #define AUDIO_SAIx_DMAx_IRQHandler           DMA2_Channel2_IRQHandler
 
 /* Select the interrupt preemption priority for the DMA interrupt */
-#define AUDIO_OUT_IRQ_PREPRIO           5   /* Select the preemption priority level(0 is the highest) */   
+#define AUDIO_OUT_IRQ_PREPRIO           5   /* Select the preemption priority level(0 is the highest) */
 
 /*------------------------------------------------------------------------------
                         AUDIO IN CONFIGURATION
@@ -171,10 +171,10 @@
 #define AUDIO_DFSDMx_DMAx_RIGHT_IRQ                     DMA1_Channel5_IRQn
 #define AUDIO_DFSDMx_DMAx_PERIPH_DATA_SIZE              DMA_PDATAALIGN_WORD
 #define AUDIO_DFSDMx_DMAx_MEM_DATA_SIZE                 DMA_MDATAALIGN_WORD
-   
+
 #define AUDIO_DFSDM_DMAx_LEFT_IRQHandler                DMA1_Channel4_IRQHandler
 #define AUDIO_DFSDM_DMAx_RIGHT_IRQHandler               DMA1_Channel5_IRQHandler
-  
+
 /* Select the interrupt preemption priority and subpriority for the IT/DMA interrupt */
 #define AUDIO_IN_IRQ_PREPRIO                6   /* Select the preemption priority level(0 is the highest) */
 
@@ -184,7 +184,7 @@
 
 #define AUDIODATA_SIZE                      2   /* 16-bits audio data size */
 
-/* Audio status definition */     
+/* Audio status definition */
 #define AUDIO_OK                            0
 #define AUDIO_ERROR                         1
 #define AUDIO_TIMEOUT                       2
@@ -197,7 +197,7 @@
 
 /* PCM buffer input size in word */
 #define INTERNAL_BUFF_SIZE                  256
-   
+
 /*------------------------------------------------------------------------------
                     OPTIONAL Configuration defines parameters
 ------------------------------------------------------------------------------*/
@@ -208,15 +208,15 @@
 /**
   * @}
   */
- 
+
 /** @defgroup STM32L476G_EVAL_AUDIO_Exported_Variables Exported Variables
   * @{
   */
 extern __IO uint16_t AudioInVolume;
- /**
-  * @}
-  */
-   
+/**
+ * @}
+ */
+
 /** @defgroup STM32L476G_EVAL_AUDIO_Exported_Macros Exported Macros
   * @{
   */

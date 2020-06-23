@@ -4,92 +4,92 @@
   * @author  MCD Application Team
   * @version V1.0.0
   * @date    26-June-2015
-  * @brief   COMP HAL module driver.  
-  *          This file provides firmware functions to manage the following 
+  * @brief   COMP HAL module driver.
+  *          This file provides firmware functions to manage the following
   *          functionalities of the COMP peripheral:
   *           + Initialization and de-initialization functions
   *           + Start/Stop operation functions in polling mode.
   *           + Start/Stop operation functions in interrupt mode.
   *           + Peripheral Control functions
   *           + Peripheral State functions
-  *         
+  *
   @verbatim
 ================================================================================
           ##### COMP Peripheral features #####
 ================================================================================
-           
-  [..]       
+
+  [..]
       The STM32L4xx device family integrates two analog comparators COMP1 and COMP2:
       (#) The non inverting input and inverting input can be set to GPIO pins
           as shown in Table 1. COMP Inputs below.
-  
-      (#) The COMP output is not configurable by the HAL COMP as on STM32F3 and STM32F0 
+
+      (#) The COMP output is not configurable by the HAL COMP as on STM32F3 and STM32F0
           series: redirection to TIMER peripheral is to set with HAL TIM input remapping functions.
-  
+
       (#) The COMP output level is available using HAL_COMP_GetOutputLevel()
           and can be set on GPIO pins. Refer to Table 2. COMP Outputs below.
-  
+
       (#) The comparators COMP1 and COMP2 can be combined in window mode.
-  
+
       (#) The comparators COMP1 and COMP2 have interrupt capability with wake-up
           from Sleep and Stop modes (through the EXTI controller):
           (++) COMP1 is internally connected to EXTI Line 21
           (++) COMP2 is internally connected to EXTI Line 22
 
-          From the corresponding IRQ handler, the right interrupt source can be retrieved with the 
+          From the corresponding IRQ handler, the right interrupt source can be retrieved with the
           macros __HAL_COMP_COMP1_EXTI_GET_FLAG() and __HAL_COMP_COMP2_EXTI_GET_FLAG().
 
 
 [..] Table 1. COMP Inputs for the STM32L4xx devices
- (+)  +--------------------------------------------------+     
- (+)  |                 |                | COMP1 | COMP2 | 
+ (+)  +--------------------------------------------------+
+ (+)  |                 |                | COMP1 | COMP2 |
  (+)  |-----------------|----------------|---------------|
- (+)  |                 | 1/4 VREFINT    |  OK   |  OK   |  
+ (+)  |                 | 1/4 VREFINT    |  OK   |  OK   |
  (+)  |                 | 1/2 VREFINT    |  OK   |  OK   |
  (+)  |                 | 3/4 VREFINT    |  OK   |  OK   |
- (+)  | Inverting Input | VREFINT        |  OK   |  OK   | 
- (+)  |                 | DAC1 OUT       |  OK   |  OK   |  
- (+)  |                 | DAC2 OUT       |  OK   |  OK   |  
- (+)  |                 | IO1            |  PB1  |  PB3  |  
- (+)  |                 | IO2            |  PC4  |  PB7  |  
+ (+)  | Inverting Input | VREFINT        |  OK   |  OK   |
+ (+)  |                 | DAC1 OUT       |  OK   |  OK   |
+ (+)  |                 | DAC2 OUT       |  OK   |  OK   |
+ (+)  |                 | IO1            |  PB1  |  PB3  |
+ (+)  |                 | IO2            |  PC4  |  PB7  |
  (+)  |-----------------|----------------|-------|-------|
- (+)  |  Non Inverting  | IO1            |  PC5  |  PB4  |  
+ (+)  |  Non Inverting  | IO1            |  PC5  |  PB4  |
  (+)  |    Input        | IO2            |  PB2  |  PB6  |
- (+)  +--------------------------------------------------+  
-  
+ (+)  +--------------------------------------------------+
+
  [..] Table 2. COMP Outputs for the STM32L4xx devices
- (+)   +------------------------------------+     
- (+)   |       COMP1      |      COMP2      | 
+ (+)   +------------------------------------+
+ (+)   |       COMP1      |      COMP2      |
  (+)   |------------------|-----------------|
- (+)   |      PB0 (AF)    |     PB5 (AF)    | 
- (+)   |      PB10 (AF)   |     PB11 (AF)   | 
+ (+)   |      PB0 (AF)    |     PB5 (AF)    |
+ (+)   |      PB10 (AF)   |     PB11 (AF)   |
  (+)   |------------------|-----------------|
- (+)   |  Embedded TIMERS | Embedded TIMERS | 
- (+)   |  (cf. HAL TIM)   | (cf. HAL TIM)   | 
+ (+)   |  Embedded TIMERS | Embedded TIMERS |
+ (+)   |  (cf. HAL TIM)   | (cf. HAL TIM)   |
  (+)   +------------------------------------+
 
-    
+
             ##### How to use this driver #####
 ================================================================================
   [..]
       This driver provides functions to configure and program the Comparators of all STM32L4xx devices.
 
       To use the comparator, perform the following steps:
-  
+
       (#)  Initialize the COMP low level resources by implementing the HAL_COMP_MspInit():
       (++) Configure the inverting and non-inverting comparator inputs in analog mode using HAL_GPIO_Init().
-      (++) Configure the comparator output in alternate function mode using HAL_GPIO_Init() to map the comparator 
+      (++) Configure the comparator output in alternate function mode using HAL_GPIO_Init() to map the comparator
            output to the GPIO pin.
-      (++) If required enable the COMP interrupt by configuring and enabling EXTI line in Interrupt mode and 
+      (++) If required enable the COMP interrupt by configuring and enabling EXTI line in Interrupt mode and
            selecting the desired sensitivity level using HAL_GPIO_Init() function. After that enable the comparator
            interrupt vector using HAL_NVIC_EnableIRQ() function.
-  
+
       (#) Configure the comparator using HAL_COMP_Init() function:
       (++) Select the inverting input (input minus)
       (++) Select the non-inverting input (input plus)
       (++) Select the hysteresis
       (++) Select the blanking source
-      (++) Select the output polarity  
+      (++) Select the output polarity
       (++) Select the power mode
       (++) Select the window mode
 
@@ -97,22 +97,22 @@
           to enable the comparator(s).
 
       (#) On-the-fly reconfiguration of comparator(s) may be done by calling again HAL_COMP_Init(
-          function with new input parameter values; HAL_COMP_MspInit() function shall be adapted 
+          function with new input parameter values; HAL_COMP_MspInit() function shall be adapted
           to support multi configurations.
 
       (#) Enable the comparator using HAL_COMP_Start() or HAL_COMP_Start_IT() functions.
-    
+
       (#) Use HAL_COMP_TriggerCallback() and/or HAL_COMP_GetOutputLevel() functions
           to manage comparator outputs (events and output level).
 
-      (#) Disable the comparator using HAL_COMP_Stop() or HAL_COMP_Stop_IT() 
+      (#) Disable the comparator using HAL_COMP_Stop() or HAL_COMP_Stop_IT()
           function.
 
       (#) De-initialize the comparator using HAL_COMP_DeInit() function.
 
       (#) For safety purposes comparator(s) can be locked using HAL_COMP_Lock() function.
           Only a MCU reset can reset that protection.
-      
+
   @endverbatim
   ******************************************************************************
   * @attention
@@ -141,7 +141,7 @@
   * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   *
-  ******************************************************************************  
+  ******************************************************************************
   */
 
 /* Includes ------------------------------------------------------------------*/
@@ -163,10 +163,10 @@
 /** @addtogroup COMP_Private_Constants
   * @{
   */
-/* CSR register reset value */ 
+/* CSR register reset value */
 #define COMP_CSR_RESET_VALUE               ((uint32_t)0x00000000)
 
-/* CSR register Mask: all fields except read-only, lock and enable bits */ 
+/* CSR register Mask: all fields except read-only, lock and enable bits */
 #define COMP_CSR_UPDATE_PARAMETERS_MASK    (COMP_CSR_PWRMODE  | COMP_CSR_INMSEL   | COMP_CSR_INPSEL  | \
                                             COMP_CSR_WINMODE  | COMP_CSR_POLARITY | COMP_CSR_HYST    | \
                                             COMP_CSR_BLANKING | COMP_CSR_BRGEN    | COMP_CSR_SCALEN)
@@ -189,14 +189,14 @@
   * @{
   */
 
-/** @defgroup COMP_Exported_Functions_Group1 Initialization/de-initialization functions 
- *  @brief    Initialization and de-initialization functions. 
+/** @defgroup COMP_Exported_Functions_Group1 Initialization/de-initialization functions
+ *  @brief    Initialization and de-initialization functions.
  *
-@verbatim    
+@verbatim
  ===============================================================================
               ##### Initialization and de-initialization functions #####
  ===============================================================================
-    [..]  This section provides functions to initialize and de-initialize comparators 
+    [..]  This section provides functions to initialize and de-initialize comparators
 
 @endverbatim
   * @{
@@ -212,79 +212,79 @@
   */
 HAL_StatusTypeDef HAL_COMP_Init(COMP_HandleTypeDef *hcomp)
 {
-  uint32_t          tmpcsr = 0;
-  HAL_StatusTypeDef status = HAL_OK;
-  
-  /* Check the COMP handle allocation and lock status */
-  if((hcomp == NULL) || ((hcomp->State & COMP_STATE_BIT_LOCK) != RESET))
-  {
-    status = HAL_ERROR;
-  }
-  else
-  {
-    /* Check the parameter */
-    assert_param(IS_COMP_ALL_INSTANCE(hcomp->Instance));
-    assert_param(IS_COMP_INVERTINGINPUT(hcomp->Init.InvertingInput));
-    assert_param(IS_COMP_NONINVERTINGINPUT(hcomp->Init.NonInvertingInput));
-    assert_param(IS_COMP_OUTPUTPOL(hcomp->Init.OutputPol));
-    assert_param(IS_COMP_MODE(hcomp->Init.Mode));
-    assert_param(IS_COMP_HYSTERESIS(hcomp->Init.Hysteresis));
-    assert_param(IS_COMP_BLANKINGSRCE(hcomp->Init.BlankingSrce)); 
-    assert_param(IS_COMP_BLANKINGSRCE_INSTANCE(hcomp->Instance, hcomp->Init.BlankingSrce)); 
-    
-    if(hcomp->Init.WindowMode != COMP_WINDOWMODE_DISABLE)
+    uint32_t          tmpcsr = 0;
+    HAL_StatusTypeDef status = HAL_OK;
+
+    /* Check the COMP handle allocation and lock status */
+    if((hcomp == NULL) || ((hcomp->State & COMP_STATE_BIT_LOCK) != RESET))
     {
-      assert_param(IS_COMP_WINDOWMODE_INSTANCE(hcomp->Instance));
-      assert_param(IS_COMP_WINDOWMODE(hcomp->Init.WindowMode));
+        status = HAL_ERROR;
+    }
+    else
+    {
+        /* Check the parameter */
+        assert_param(IS_COMP_ALL_INSTANCE(hcomp->Instance));
+        assert_param(IS_COMP_INVERTINGINPUT(hcomp->Init.InvertingInput));
+        assert_param(IS_COMP_NONINVERTINGINPUT(hcomp->Init.NonInvertingInput));
+        assert_param(IS_COMP_OUTPUTPOL(hcomp->Init.OutputPol));
+        assert_param(IS_COMP_MODE(hcomp->Init.Mode));
+        assert_param(IS_COMP_HYSTERESIS(hcomp->Init.Hysteresis));
+        assert_param(IS_COMP_BLANKINGSRCE(hcomp->Init.BlankingSrce));
+        assert_param(IS_COMP_BLANKINGSRCE_INSTANCE(hcomp->Instance, hcomp->Init.BlankingSrce));
+
+        if(hcomp->Init.WindowMode != COMP_WINDOWMODE_DISABLE)
+        {
+            assert_param(IS_COMP_WINDOWMODE_INSTANCE(hcomp->Instance));
+            assert_param(IS_COMP_WINDOWMODE(hcomp->Init.WindowMode));
+        }
+
+        /* Init SYSCFG and the low level hardware to access comparators */
+        __HAL_RCC_SYSCFG_CLK_ENABLE();
+        /* Init the low level hardware : SYSCFG to access comparators */
+        HAL_COMP_MspInit(hcomp);
+
+        if(hcomp->State == HAL_COMP_STATE_RESET)
+        {
+            /* Allocate lock resource and initialize it */
+            hcomp->Lock = HAL_UNLOCKED;
+        }
+
+        /* Change COMP peripheral state */
+        hcomp->State = HAL_COMP_STATE_BUSY;
+
+        /* Set COMP parameters */
+        /*     Set INMSEL bits according to hcomp->Init.InvertingInput value       */
+        /*     Set INPSEL bits according to hcomp->Init.NonInvertingInput value    */
+        /*     Set BLANKING bits according to hcomp->Init.BlankingSrce value       */
+        /*     Set HYST bits according to hcomp->Init.Hysteresis value             */
+        /*     Set POLARITY bit according to hcomp->Init.OutputPol value           */
+        /*     Set POWERMODE bits according to hcomp->Init.Mode value              */
+        /*     Set WINMODE bit according to hcomp->Init.WindowMode value           */
+        tmpcsr = hcomp->Init.InvertingInput    |  \
+                 hcomp->Init.NonInvertingInput |  \
+                 hcomp->Init.BlankingSrce      |  \
+                 hcomp->Init.Hysteresis        |  \
+                 hcomp->Init.OutputPol         |  \
+                 hcomp->Init.Mode              |  \
+                 hcomp->Init.WindowMode;
+
+        /* Check VREFINT use for NonInvertingInput */
+        if((hcomp->Init.InvertingInput == COMP_INVERTINGINPUT_VREFINT)    ||
+           (hcomp->Init.InvertingInput == COMP_INVERTINGINPUT_1_4VREFINT) ||
+           (hcomp->Init.InvertingInput == COMP_INVERTINGINPUT_1_2VREFINT) ||
+           (hcomp->Init.InvertingInput == COMP_INVERTINGINPUT_3_4VREFINT))
+        {
+            /* Enable voltage & bandgap scaler */
+            tmpcsr |= (COMP_CSR_BRGEN | COMP_CSR_SCALEN);
+        }
+
+        MODIFY_REG(hcomp->Instance->CSR, COMP_CSR_UPDATE_PARAMETERS_MASK, tmpcsr);
+
+        /* Initialize the COMP state*/
+        hcomp->State = HAL_COMP_STATE_READY;
     }
 
-    /* Init SYSCFG and the low level hardware to access comparators */
-    __HAL_RCC_SYSCFG_CLK_ENABLE();
-    /* Init the low level hardware : SYSCFG to access comparators */
-    HAL_COMP_MspInit(hcomp);
-    
-    if(hcomp->State == HAL_COMP_STATE_RESET)
-    {
-      /* Allocate lock resource and initialize it */
-      hcomp->Lock = HAL_UNLOCKED;
-    }
-
-    /* Change COMP peripheral state */
-    hcomp->State = HAL_COMP_STATE_BUSY;
-
-    /* Set COMP parameters */
-    /*     Set INMSEL bits according to hcomp->Init.InvertingInput value       */
-    /*     Set INPSEL bits according to hcomp->Init.NonInvertingInput value    */
-    /*     Set BLANKING bits according to hcomp->Init.BlankingSrce value       */
-    /*     Set HYST bits according to hcomp->Init.Hysteresis value             */
-    /*     Set POLARITY bit according to hcomp->Init.OutputPol value           */
-    /*     Set POWERMODE bits according to hcomp->Init.Mode value              */
-    /*     Set WINMODE bit according to hcomp->Init.WindowMode value           */
-    tmpcsr = hcomp->Init.InvertingInput    |  \
-             hcomp->Init.NonInvertingInput |  \
-             hcomp->Init.BlankingSrce      |  \
-             hcomp->Init.Hysteresis        |  \
-             hcomp->Init.OutputPol         |  \
-             hcomp->Init.Mode              |  \
-             hcomp->Init.WindowMode;
-    
-    /* Check VREFINT use for NonInvertingInput */
-    if((hcomp->Init.InvertingInput == COMP_INVERTINGINPUT_VREFINT)    ||
-       (hcomp->Init.InvertingInput == COMP_INVERTINGINPUT_1_4VREFINT) ||
-       (hcomp->Init.InvertingInput == COMP_INVERTINGINPUT_1_2VREFINT) ||
-       (hcomp->Init.InvertingInput == COMP_INVERTINGINPUT_3_4VREFINT))
-    {
-      /* Enable voltage & bandgap scaler */
-      tmpcsr |= (COMP_CSR_BRGEN | COMP_CSR_SCALEN);
-    }
-    
-    MODIFY_REG(hcomp->Instance->CSR, COMP_CSR_UPDATE_PARAMETERS_MASK, tmpcsr);
-
-    /* Initialize the COMP state*/
-    hcomp->State = HAL_COMP_STATE_READY;
-  }
-  
-  return status;
+    return status;
 }
 
 /**
@@ -296,31 +296,31 @@ HAL_StatusTypeDef HAL_COMP_Init(COMP_HandleTypeDef *hcomp)
   */
 HAL_StatusTypeDef HAL_COMP_DeInit(COMP_HandleTypeDef *hcomp)
 {
-  HAL_StatusTypeDef status = HAL_OK;
+    HAL_StatusTypeDef status = HAL_OK;
 
-  /* Check the COMP handle allocation and lock status */
-  if((hcomp == NULL) || ((hcomp->State & COMP_STATE_BIT_LOCK) != RESET))
-  {
-    status = HAL_ERROR;
-  }
-  else
-  {
-    /* Check the parameter */
-    assert_param(IS_COMP_ALL_INSTANCE(hcomp->Instance));
+    /* Check the COMP handle allocation and lock status */
+    if((hcomp == NULL) || ((hcomp->State & COMP_STATE_BIT_LOCK) != RESET))
+    {
+        status = HAL_ERROR;
+    }
+    else
+    {
+        /* Check the parameter */
+        assert_param(IS_COMP_ALL_INSTANCE(hcomp->Instance));
 
-    /* Set COMP_CSR register to reset value */
-    WRITE_REG(hcomp->Instance->CSR, COMP_CSR_RESET_VALUE);
+        /* Set COMP_CSR register to reset value */
+        WRITE_REG(hcomp->Instance->CSR, COMP_CSR_RESET_VALUE);
 
-    /* DeInit the low level hardware: SYSCFG, GPIO, CLOCK and NVIC */
-    HAL_COMP_MspDeInit(hcomp);
+        /* DeInit the low level hardware: SYSCFG, GPIO, CLOCK and NVIC */
+        HAL_COMP_MspDeInit(hcomp);
 
-    hcomp->State = HAL_COMP_STATE_RESET;
-    
-    /* Release Lock */
-    __HAL_UNLOCK(hcomp);
-  }
-  
-  return status;
+        hcomp->State = HAL_COMP_STATE_RESET;
+
+        /* Release Lock */
+        __HAL_UNLOCK(hcomp);
+    }
+
+    return status;
 }
 
 /**
@@ -330,9 +330,9 @@ HAL_StatusTypeDef HAL_COMP_DeInit(COMP_HandleTypeDef *hcomp)
   */
 __weak void HAL_COMP_MspInit(COMP_HandleTypeDef *hcomp)
 {
-  /* NOTE : This function should not be modified, when the callback is needed,
-            the HAL_COMP_MspInit could be implemented in the user file
-   */
+    /* NOTE : This function should not be modified, when the callback is needed,
+              the HAL_COMP_MspInit could be implemented in the user file
+     */
 }
 
 /**
@@ -342,22 +342,22 @@ __weak void HAL_COMP_MspInit(COMP_HandleTypeDef *hcomp)
   */
 __weak void HAL_COMP_MspDeInit(COMP_HandleTypeDef *hcomp)
 {
-  /* NOTE : This function should not be modified, when the callback is needed,
-            the HAL_COMP_MspDeInit could be implemented in the user file
-   */
+    /* NOTE : This function should not be modified, when the callback is needed,
+              the HAL_COMP_MspDeInit could be implemented in the user file
+     */
 }
 
 /**
   * @}
   */
 
-/** @defgroup COMP_Exported_Functions_Group2 Start-Stop operation functions 
- *  @brief   Start-Stop operation functions. 
+/** @defgroup COMP_Exported_Functions_Group2 Start-Stop operation functions
+ *  @brief   Start-Stop operation functions.
  *
-@verbatim   
+@verbatim
  ===============================================================================
                       ##### COMP Start Stop operation functions #####
- ===============================================================================  
+ ===============================================================================
     [..]  This section provides functions allowing to:
       (+) Start a Comparator without interrupt.
       (+) Stop a Comparator without interrupt.
@@ -374,60 +374,60 @@ __weak void HAL_COMP_MspDeInit(COMP_HandleTypeDef *hcomp)
   * @retval HAL status
   */
 HAL_StatusTypeDef HAL_COMP_Start(COMP_HandleTypeDef *hcomp)
-{ 
-  HAL_StatusTypeDef status = HAL_OK;
-  uint32_t extiline = 0;
-  
-  /* Check the COMP handle allocation and lock status */
-  if((hcomp == NULL) || ((hcomp->State & COMP_STATE_BIT_LOCK) != RESET))
-  {
-    status = HAL_ERROR;
-  }
-  else
-  {
-    /* Check the parameter */
-    assert_param(IS_COMP_ALL_INSTANCE(hcomp->Instance));
+{
+    HAL_StatusTypeDef status = HAL_OK;
+    uint32_t extiline = 0;
 
-    if(hcomp->State == HAL_COMP_STATE_READY)
+    /* Check the COMP handle allocation and lock status */
+    if((hcomp == NULL) || ((hcomp->State & COMP_STATE_BIT_LOCK) != RESET))
     {
-      /* Get the EXTI Line output configuration */
-      extiline = COMP_GET_EXTI_LINE(hcomp->Instance);
-
-      /* Configure the event trigger rising edge */
-      if((hcomp->Init.TriggerMode & COMP_TRIGGERMODE_EVENT_RISING) != RESET)
-      {
-        SET_BIT(EXTI->RTSR1, extiline);
-      }
-      else
-      {
-        CLEAR_BIT(EXTI->RTSR1, extiline);
-      }
-    
-      /* Configure the trigger falling edge */
-      if((hcomp->Init.TriggerMode & COMP_TRIGGERMODE_EVENT_FALLING) != RESET)
-      {
-        SET_BIT(EXTI->FTSR1, extiline);
-      }
-      else
-      {
-        CLEAR_BIT(EXTI->FTSR1, extiline);
-      }
-      
-      /* Clear COMP EXTI pending bit */
-      WRITE_REG(EXTI->PR1, extiline);
-
-      /* Enable the selected comparator */
-      SET_BIT(hcomp->Instance->CSR, COMP_CSR_EN);
-
-      hcomp->State = HAL_COMP_STATE_BUSY;      
+        status = HAL_ERROR;
     }
     else
     {
-      status = HAL_ERROR;
-    }
-  }
+        /* Check the parameter */
+        assert_param(IS_COMP_ALL_INSTANCE(hcomp->Instance));
 
-  return status;
+        if(hcomp->State == HAL_COMP_STATE_READY)
+        {
+            /* Get the EXTI Line output configuration */
+            extiline = COMP_GET_EXTI_LINE(hcomp->Instance);
+
+            /* Configure the event trigger rising edge */
+            if((hcomp->Init.TriggerMode & COMP_TRIGGERMODE_EVENT_RISING) != RESET)
+            {
+                SET_BIT(EXTI->RTSR1, extiline);
+            }
+            else
+            {
+                CLEAR_BIT(EXTI->RTSR1, extiline);
+            }
+
+            /* Configure the trigger falling edge */
+            if((hcomp->Init.TriggerMode & COMP_TRIGGERMODE_EVENT_FALLING) != RESET)
+            {
+                SET_BIT(EXTI->FTSR1, extiline);
+            }
+            else
+            {
+                CLEAR_BIT(EXTI->FTSR1, extiline);
+            }
+
+            /* Clear COMP EXTI pending bit */
+            WRITE_REG(EXTI->PR1, extiline);
+
+            /* Enable the selected comparator */
+            SET_BIT(hcomp->Instance->CSR, COMP_CSR_EN);
+
+            hcomp->State = HAL_COMP_STATE_BUSY;
+        }
+        else
+        {
+            status = HAL_ERROR;
+        }
+    }
+
+    return status;
 }
 
 /**
@@ -436,33 +436,33 @@ HAL_StatusTypeDef HAL_COMP_Start(COMP_HandleTypeDef *hcomp)
   * @retval HAL status
   */
 HAL_StatusTypeDef HAL_COMP_Stop(COMP_HandleTypeDef *hcomp)
-{ 
-  HAL_StatusTypeDef status = HAL_OK;
-  
-  /* Check the COMP handle allocation and lock status */
-  if((hcomp == NULL) || ((hcomp->State & COMP_STATE_BIT_LOCK) != RESET))
-  {
-    status = HAL_ERROR;
-  }
-  else
-  {
-    /* Check the parameter */
-    assert_param(IS_COMP_ALL_INSTANCE(hcomp->Instance));
+{
+    HAL_StatusTypeDef status = HAL_OK;
 
-    if(hcomp->State == HAL_COMP_STATE_BUSY)
+    /* Check the COMP handle allocation and lock status */
+    if((hcomp == NULL) || ((hcomp->State & COMP_STATE_BIT_LOCK) != RESET))
     {
-      /* Disable the selected comparator */
-      CLEAR_BIT(hcomp->Instance->CSR, COMP_CSR_EN);
-
-      hcomp->State = HAL_COMP_STATE_READY;
+        status = HAL_ERROR;
     }
     else
     {
-      status = HAL_ERROR;
+        /* Check the parameter */
+        assert_param(IS_COMP_ALL_INSTANCE(hcomp->Instance));
+
+        if(hcomp->State == HAL_COMP_STATE_BUSY)
+        {
+            /* Disable the selected comparator */
+            CLEAR_BIT(hcomp->Instance->CSR, COMP_CSR_EN);
+
+            hcomp->State = HAL_COMP_STATE_READY;
+        }
+        else
+        {
+            status = HAL_ERROR;
+        }
     }
-  }
-  
-  return status;
+
+    return status;
 }
 
 /**
@@ -471,63 +471,63 @@ HAL_StatusTypeDef HAL_COMP_Stop(COMP_HandleTypeDef *hcomp)
   * @retval HAL status.
   */
 HAL_StatusTypeDef HAL_COMP_Start_IT(COMP_HandleTypeDef *hcomp)
-{ 
-  HAL_StatusTypeDef status = HAL_OK;
-  uint32_t extiline = 0;
-  
-  /* Check the COMP handle allocation and lock status */
-  if((hcomp == NULL) || ((hcomp->State & COMP_STATE_BIT_LOCK) != RESET))
-  {
-    status = HAL_ERROR;
-  }
-  else
-  {
-    /* Check the parameter */
-    assert_param(IS_COMP_ALL_INSTANCE(hcomp->Instance));
+{
+    HAL_StatusTypeDef status = HAL_OK;
+    uint32_t extiline = 0;
 
-    if(hcomp->State == HAL_COMP_STATE_READY)
+    /* Check the COMP handle allocation and lock status */
+    if((hcomp == NULL) || ((hcomp->State & COMP_STATE_BIT_LOCK) != RESET))
     {
-      /* Get the EXTI Line output configuration */
-      extiline = COMP_GET_EXTI_LINE(hcomp->Instance);
-
-      /* Configure the trigger rising edge */
-      if((hcomp->Init.TriggerMode & COMP_TRIGGERMODE_IT_RISING) != RESET)
-      {
-        SET_BIT(EXTI->RTSR1, extiline);
-      }
-      else
-      {
-        CLEAR_BIT(EXTI->RTSR1, extiline);
-      }
-    
-      /* Configure the trigger falling edge */
-      if((hcomp->Init.TriggerMode & COMP_TRIGGERMODE_IT_FALLING) != RESET)
-      {
-        SET_BIT(EXTI->FTSR1, extiline);
-      }
-      else
-      {
-        CLEAR_BIT(EXTI->FTSR1, extiline);
-      }
-    
-      /* Clear COMP EXTI pending bit */
-      WRITE_REG(EXTI->PR1, extiline);
-
-      /* Enable the selected comparator */
-      SET_BIT(hcomp->Instance->CSR, COMP_CSR_EN);
-
-      /* Enable EXTI interrupt mode */
-      SET_BIT(EXTI->IMR1, extiline);
-
-      hcomp->State = HAL_COMP_STATE_BUSY;      
+        status = HAL_ERROR;
     }
     else
     {
-      status = HAL_ERROR;
-    }
-  }
+        /* Check the parameter */
+        assert_param(IS_COMP_ALL_INSTANCE(hcomp->Instance));
 
-  return status;
+        if(hcomp->State == HAL_COMP_STATE_READY)
+        {
+            /* Get the EXTI Line output configuration */
+            extiline = COMP_GET_EXTI_LINE(hcomp->Instance);
+
+            /* Configure the trigger rising edge */
+            if((hcomp->Init.TriggerMode & COMP_TRIGGERMODE_IT_RISING) != RESET)
+            {
+                SET_BIT(EXTI->RTSR1, extiline);
+            }
+            else
+            {
+                CLEAR_BIT(EXTI->RTSR1, extiline);
+            }
+
+            /* Configure the trigger falling edge */
+            if((hcomp->Init.TriggerMode & COMP_TRIGGERMODE_IT_FALLING) != RESET)
+            {
+                SET_BIT(EXTI->FTSR1, extiline);
+            }
+            else
+            {
+                CLEAR_BIT(EXTI->FTSR1, extiline);
+            }
+
+            /* Clear COMP EXTI pending bit */
+            WRITE_REG(EXTI->PR1, extiline);
+
+            /* Enable the selected comparator */
+            SET_BIT(hcomp->Instance->CSR, COMP_CSR_EN);
+
+            /* Enable EXTI interrupt mode */
+            SET_BIT(EXTI->IMR1, extiline);
+
+            hcomp->State = HAL_COMP_STATE_BUSY;
+        }
+        else
+        {
+            status = HAL_ERROR;
+        }
+    }
+
+    return status;
 }
 
 /**
@@ -536,15 +536,15 @@ HAL_StatusTypeDef HAL_COMP_Start_IT(COMP_HandleTypeDef *hcomp)
   * @retval HAL status
   */
 HAL_StatusTypeDef HAL_COMP_Stop_IT(COMP_HandleTypeDef *hcomp)
-{  
-  HAL_StatusTypeDef status = HAL_OK;
-  
-  /* Disable the EXTI Line interrupt mode */
-  CLEAR_BIT(EXTI->IMR1, COMP_GET_EXTI_LINE(hcomp->Instance));
+{
+    HAL_StatusTypeDef status = HAL_OK;
 
-  status = HAL_COMP_Stop(hcomp);
-  
-  return status;
+    /* Disable the EXTI Line interrupt mode */
+    CLEAR_BIT(EXTI->IMR1, COMP_GET_EXTI_LINE(hcomp->Instance));
+
+    status = HAL_COMP_Stop(hcomp);
+
+    return status;
 }
 
 /**
@@ -554,84 +554,84 @@ HAL_StatusTypeDef HAL_COMP_Stop_IT(COMP_HandleTypeDef *hcomp)
   */
 void HAL_COMP_IRQHandler(COMP_HandleTypeDef *hcomp)
 {
-  uint32_t extiline = COMP_GET_EXTI_LINE(hcomp->Instance);
-  
-  /* Check COMP EXTI flag */
-  if(READ_BIT(EXTI->PR1, extiline) != RESET)
-  {    
-    /* Clear COMP EXTI pending bit */
-    WRITE_REG(EXTI->PR1, extiline);
-  
-    /* COMP trigger user callback */
-    HAL_COMP_TriggerCallback(hcomp);
-  }
+    uint32_t extiline = COMP_GET_EXTI_LINE(hcomp->Instance);
+
+    /* Check COMP EXTI flag */
+    if(READ_BIT(EXTI->PR1, extiline) != RESET)
+    {
+        /* Clear COMP EXTI pending bit */
+        WRITE_REG(EXTI->PR1, extiline);
+
+        /* COMP trigger user callback */
+        HAL_COMP_TriggerCallback(hcomp);
+    }
 }
 
 /**
   * @}
   */
 
-/** @defgroup COMP_Exported_Functions_Group3 Peripheral Control functions 
+/** @defgroup COMP_Exported_Functions_Group3 Peripheral Control functions
  *  @brief   Management functions.
  *
-@verbatim   
+@verbatim
  ===============================================================================
                       ##### Peripheral Control functions #####
- ===============================================================================  
+ ===============================================================================
     [..]
-    This subsection provides a set of functions allowing to control the comparators. 
+    This subsection provides a set of functions allowing to control the comparators.
 
 @endverbatim
   * @{
   */
 
 /**
-  * @brief  Lock the selected comparator configuration. 
+  * @brief  Lock the selected comparator configuration.
   * @note   A system reset is required to unlock the comparator configuration.
   * @param  hcomp: COMP handle
   * @retval HAL status
   */
 HAL_StatusTypeDef HAL_COMP_Lock(COMP_HandleTypeDef *hcomp)
 {
-  HAL_StatusTypeDef status = HAL_OK;
+    HAL_StatusTypeDef status = HAL_OK;
 
-  /* Check the COMP handle allocation and lock status */
-  if((hcomp == NULL) || ((hcomp->State & COMP_STATE_BIT_LOCK) != RESET))
-  {
-    status = HAL_ERROR;
-  }
-  else
-  {
-    /* Check the parameter */
-    assert_param(IS_COMP_ALL_INSTANCE(hcomp->Instance));
-
-    /* Set lock flag on state */
-    switch(hcomp->State)
+    /* Check the COMP handle allocation and lock status */
+    if((hcomp == NULL) || ((hcomp->State & COMP_STATE_BIT_LOCK) != RESET))
     {
-    case HAL_COMP_STATE_BUSY:
-      hcomp->State = HAL_COMP_STATE_BUSY_LOCKED;
-      break;
-    case HAL_COMP_STATE_READY:
-      hcomp->State = HAL_COMP_STATE_READY_LOCKED;
-      break;
-    default:
-      /* unexpected state */
-      status = HAL_ERROR;
-      break;
+        status = HAL_ERROR;
     }
-  }
-  
-  if(status == HAL_OK)
-  {
-    /* Set the lock bit corresponding to selected comparator */
-    __HAL_COMP_LOCK(hcomp);
-  }
-  
-  return status; 
+    else
+    {
+        /* Check the parameter */
+        assert_param(IS_COMP_ALL_INSTANCE(hcomp->Instance));
+
+        /* Set lock flag on state */
+        switch(hcomp->State)
+        {
+            case HAL_COMP_STATE_BUSY:
+                hcomp->State = HAL_COMP_STATE_BUSY_LOCKED;
+                break;
+            case HAL_COMP_STATE_READY:
+                hcomp->State = HAL_COMP_STATE_READY_LOCKED;
+                break;
+            default:
+                /* unexpected state */
+                status = HAL_ERROR;
+                break;
+        }
+    }
+
+    if(status == HAL_OK)
+    {
+        /* Set the lock bit corresponding to selected comparator */
+        __HAL_COMP_LOCK(hcomp);
+    }
+
+    return status;
 }
 
 /**
-  * @brief  Return the output level (high or low) of the selected comparator. 
+  * @brief  Return the output level (high or low) of the selected comparator.
   *         The output level depends on the selected polarity.
   *         If the polarity is not inverted:
   *           - Comparator output is low when the non-inverting input is at a lower
@@ -645,14 +645,14 @@ HAL_StatusTypeDef HAL_COMP_Lock(COMP_HandleTypeDef *hcomp)
   *             voltage than the inverting input
   * @param  hcomp: COMP handle
   * @retval Returns the selected comparator output level: COMP_OUTPUTLEVEL_LOW or COMP_OUTPUTLEVEL_HIGH.
-  *       
+  *
   */
 uint32_t HAL_COMP_GetOutputLevel(COMP_HandleTypeDef *hcomp)
 {
-  /* Check the parameter */
-  assert_param(IS_COMP_ALL_INSTANCE(hcomp->Instance));
-  
-  return((uint32_t)(hcomp->Instance->CSR & COMP_OUTPUTLEVEL_HIGH));
+    /* Check the parameter */
+    assert_param(IS_COMP_ALL_INSTANCE(hcomp->Instance));
+
+    return((uint32_t)(hcomp->Instance->CSR & COMP_OUTPUTLEVEL_HIGH));
 }
 
 /**
@@ -662,9 +662,9 @@ uint32_t HAL_COMP_GetOutputLevel(COMP_HandleTypeDef *hcomp)
   */
 __weak void HAL_COMP_TriggerCallback(COMP_HandleTypeDef *hcomp)
 {
-  /* NOTE : This function should not be modified, when the callback is needed,
-            the HAL_COMP_TriggerCallback should be implemented in the user file
-   */
+    /* NOTE : This function should not be modified, when the callback is needed,
+              the HAL_COMP_TriggerCallback should be implemented in the user file
+     */
 }
 
 
@@ -672,13 +672,13 @@ __weak void HAL_COMP_TriggerCallback(COMP_HandleTypeDef *hcomp)
   * @}
   */
 
-/** @defgroup COMP_Exported_Functions_Group4 Peripheral State functions 
- *  @brief   Peripheral State functions. 
+/** @defgroup COMP_Exported_Functions_Group4 Peripheral State functions
+ *  @brief   Peripheral State functions.
  *
-@verbatim   
+@verbatim
  ===============================================================================
                       ##### Peripheral State functions #####
- ===============================================================================  
+ ===============================================================================
     [..]
     This subsection permits to get in run-time the status of the peripheral.
 
@@ -693,17 +693,17 @@ __weak void HAL_COMP_TriggerCallback(COMP_HandleTypeDef *hcomp)
   */
 HAL_COMP_StateTypeDef HAL_COMP_GetState(COMP_HandleTypeDef *hcomp)
 {
-  /* Check the COMP handle allocation */
-  if(hcomp == NULL)
-  {
-    return HAL_COMP_STATE_RESET;
-  }
+    /* Check the COMP handle allocation */
+    if(hcomp == NULL)
+    {
+        return HAL_COMP_STATE_RESET;
+    }
 
-  /* Check the parameter */
-  assert_param(IS_COMP_ALL_INSTANCE(hcomp->Instance));
+    /* Check the parameter */
+    assert_param(IS_COMP_ALL_INSTANCE(hcomp->Instance));
 
-  /* Return COMP handle state */
-  return hcomp->State;
+    /* Return COMP handle state */
+    return hcomp->State;
 }
 /**
   * @}

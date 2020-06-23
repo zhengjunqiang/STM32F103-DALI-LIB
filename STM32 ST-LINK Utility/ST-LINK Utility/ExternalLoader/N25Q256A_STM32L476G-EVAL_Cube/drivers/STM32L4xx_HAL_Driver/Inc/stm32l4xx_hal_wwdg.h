@@ -40,7 +40,7 @@
 #define __STM32L4xx_HAL_WWDG_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
@@ -65,43 +65,43 @@
   */
 typedef enum
 {
-  HAL_WWDG_STATE_RESET     = 0x00,  /*!< WWDG not yet initialized or disabled */
-  HAL_WWDG_STATE_READY     = 0x01,  /*!< WWDG initialized and ready for use   */
-  HAL_WWDG_STATE_BUSY      = 0x02,  /*!< WWDG internal process is ongoing     */
-  HAL_WWDG_STATE_TIMEOUT   = 0x03,  /*!< WWDG timeout state                   */
-  HAL_WWDG_STATE_ERROR     = 0x04   /*!< WWDG error state                     */
-}HAL_WWDG_StateTypeDef;
+    HAL_WWDG_STATE_RESET     = 0x00,  /*!< WWDG not yet initialized or disabled */
+    HAL_WWDG_STATE_READY     = 0x01,  /*!< WWDG initialized and ready for use   */
+    HAL_WWDG_STATE_BUSY      = 0x02,  /*!< WWDG internal process is ongoing     */
+    HAL_WWDG_STATE_TIMEOUT   = 0x03,  /*!< WWDG timeout state                   */
+    HAL_WWDG_STATE_ERROR     = 0x04   /*!< WWDG error state                     */
+} HAL_WWDG_StateTypeDef;
 
-/** 
+/**
   * @brief  WWDG Init structure definition
   */
 typedef struct
 {
-  uint32_t Prescaler;  /*!< Specifies the prescaler value of the WWDG.
+    uint32_t Prescaler;  /*!< Specifies the prescaler value of the WWDG.
                             This parameter can be a value of @ref WWDG_Prescaler */
 
-  uint32_t Window;     /*!< Specifies the WWDG window value to be compared to the downcounter.
+    uint32_t Window;     /*!< Specifies the WWDG window value to be compared to the downcounter.
                             This parameter must be a number lower than Max_Data = 0x80 */
 
-  uint32_t Counter;    /*!< Specifies the WWDG free-running downcounter  value.
+    uint32_t Counter;    /*!< Specifies the WWDG free-running downcounter  value.
                             This parameter must be a number between Min_Data = 0x40 and Max_Data = 0x7F */
 
-}WWDG_InitTypeDef;
+} WWDG_InitTypeDef;
 
 /**
   * @brief  WWDG handle Structure definition
   */
 typedef struct
 {
-  WWDG_TypeDef                 *Instance;  /*!< Register base address    */
+    WWDG_TypeDef                 *Instance;  /*!< Register base address    */
 
-  WWDG_InitTypeDef             Init;       /*!< WWDG required parameters */
+    WWDG_InitTypeDef             Init;       /*!< WWDG required parameters */
 
-  HAL_LockTypeDef              Lock;       /*!< WWDG locking object      */
+    HAL_LockTypeDef              Lock;       /*!< WWDG locking object      */
 
-  __IO HAL_WWDG_StateTypeDef   State;      /*!< WWDG communication state */
+    __IO HAL_WWDG_StateTypeDef   State;      /*!< WWDG communication state */
 
-}WWDG_HandleTypeDef;
+} WWDG_HandleTypeDef;
 /**
   * @}
   */
@@ -207,7 +207,7 @@ typedef struct
   * @param  __INTERRUPT__: specifies the interrupt to disable.
   *         This parameter can be one of the following values:
   *            @arg WWDG_IT_EWI: Early wakeup interrupt
-  * @note   WARNING: This is a dummy macro for HAL code alignment. 
+  * @note   WARNING: This is a dummy macro for HAL code alignment.
   *         Once enabled this interrupt cannot be disabled except by a system reset.
   * @retval None
   */

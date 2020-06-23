@@ -1,46 +1,46 @@
- /**
-  ******************************************************************************
-  * @file    stm32l476g_eval_idd.h
-  * @author  MCD Application Team
-  * @version V1.0.0
-  * @date    26-June-2015
-  * @brief   Header file for stm32l476g_eval_idd.c module.
-  ******************************************************************************
-  * @attention
-  *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
-  *
-  * Redistribution and use in source and binary forms, with or without modification,
-  * are permitted provided that the following conditions are met:
-  *   1. Redistributions of source code must retain the above copyright notice,
-  *      this list of conditions and the following disclaimer.
-  *   2. Redistributions in binary form must reproduce the above copyright notice,
-  *      this list of conditions and the following disclaimer in the documentation
-  *      and/or other materials provided with the distribution.
-  *   3. Neither the name of STMicroelectronics nor the names of its contributors
-  *      may be used to endorse or promote products derived from this software
-  *      without specific prior written permission.
-  *
-  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-  * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-  * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-  * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-  * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-  *
-  ******************************************************************************
-  */
+/**
+ ******************************************************************************
+ * @file    stm32l476g_eval_idd.h
+ * @author  MCD Application Team
+ * @version V1.0.0
+ * @date    26-June-2015
+ * @brief   Header file for stm32l476g_eval_idd.c module.
+ ******************************************************************************
+ * @attention
+ *
+ * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+ *
+ * Redistribution and use in source and binary forms, with or without modification,
+ * are permitted provided that the following conditions are met:
+ *   1. Redistributions of source code must retain the above copyright notice,
+ *      this list of conditions and the following disclaimer.
+ *   2. Redistributions in binary form must reproduce the above copyright notice,
+ *      this list of conditions and the following disclaimer in the documentation
+ *      and/or other materials provided with the distribution.
+ *   3. Neither the name of STMicroelectronics nor the names of its contributors
+ *      may be used to endorse or promote products derived from this software
+ *      without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ ******************************************************************************
+ */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __STM32L476G_EVAL_IDD_H
 #define __STM32L476G_EVAL_IDD_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
@@ -65,23 +65,23 @@
 /** @defgroup IDD_Config  IDD Config
   * @{
   */
-typedef enum 
+typedef enum
 {
-  BSP_IDD_OK = 0,
-  BSP_IDD_TIMEOUT = 1,
-  BSP_IDD_ERROR = 0xFF
-} 
+    BSP_IDD_OK = 0,
+    BSP_IDD_TIMEOUT = 1,
+    BSP_IDD_ERROR = 0xFF
+}
 IDD_StatusTypeDef;
 
 typedef enum
 {
-  BSP_IDD_MODE_CALIBRATION = 0, 
-  BSP_IDD_MODE_RUN,
-  BSP_IDD_MODE_SLEEP,
-  BSP_IDD_MODE_STOP,
-  BSP_IDD_MODE_STANDBY,
-  
-}IDD_ModeTypdef;
+    BSP_IDD_MODE_CALIBRATION = 0,
+    BSP_IDD_MODE_RUN,
+    BSP_IDD_MODE_SLEEP,
+    BSP_IDD_MODE_STOP,
+    BSP_IDD_MODE_STANDBY,
+
+} IDD_ModeTypdef;
 
 /**
   * @}
@@ -91,7 +91,7 @@ typedef enum
   * @}
   */
 
-/* Exported constants --------------------------------------------------------*/ 
+/* Exported constants --------------------------------------------------------*/
 /** @defgroup STM32L476G_EVAL_IDD_Exported_Constants Exported Constants
   * @{
   */
@@ -102,17 +102,17 @@ typedef enum
 #define EVAL_IDD_SHUNT1_VALUE                  ((uint16_t) 1)        /*!< value in ohm */
 
 /**
-  * @brief  IDD Ampli Gain on evaluation board 
+  * @brief  IDD Ampli Gain on evaluation board
   */
 #define EVAL_IDD_AMPLI_GAIN                    ((uint16_t) 50)      /*!< value is gain */
 
 /**
-  * @brief  IDD Full Scale Measure 
+  * @brief  IDD Full Scale Measure
   */
 #define EVAL_IDD_FULL_SCALE                    ((uint16_t) 4096)     /*!< value is adc max value */
 
 /**
-  * @brief  IDD Vdd Min on eval 
+  * @brief  IDD Vdd Min on eval
   */
 #define EVAL_IDD_VDD                           ((uint16_t) 3300)     /*!< value in millivolt */
 

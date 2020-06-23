@@ -16,8 +16,8 @@
   *
   *        http://www.st.com/software_license_agreement_liberty_v2
   *
-  * Unless required by applicable law or agreed to in writing, software 
-  * distributed under the License is distributed on an "AS IS" BASIS, 
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   * See the License for the specific language governing permissions and
   * limitations under the License.
@@ -40,15 +40,15 @@
 #include "usb_sil.h"
 
 #ifndef STM32F10X_CL
- #include "usb_mem.h"
- #include "usb_int.h"
+#include "usb_mem.h"
+#include "usb_int.h"
 #endif /* STM32F10X_CL */
 
 #ifdef STM32F10X_CL
- #include "otgd_fs_cal.h"
- #include "otgd_fs_pcd.h"
- #include "otgd_fs_dev.h"
- #include "otgd_fs_int.h"
+#include "otgd_fs_cal.h"
+#include "otgd_fs_pcd.h"
+#include "otgd_fs_dev.h"
+#include "otgd_fs_int.h"
 #endif /* STM32F10X_CL */
 
 
