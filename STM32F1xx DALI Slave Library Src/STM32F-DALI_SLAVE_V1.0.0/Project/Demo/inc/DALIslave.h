@@ -38,7 +38,7 @@
 #define DIVIDER      (CPU_CLK/(1<<PRESCALLER)/9600) //8 x 1200 DALI baudrate
 #define TICKS_PER_ONE_MS  (9600/1000)
 
-//US_PER_TICK 104 us
+//US_PER_TICK 104 us  典型值是104      1/4 bit 的时间
 #define US_PER_TICK       (1000000/(CPU_CLK/(1<<PRESCALLER)/DIVIDER))
 #define US_PER_MS         (1000000/1000)
 
